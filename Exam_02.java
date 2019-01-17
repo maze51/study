@@ -35,14 +35,14 @@ public class Exam_02 {
 		 오류가 있는 문장의 경우, 괄호 안에 ‘오류’라고 적으시오.
 			System.out.println(“1” + “2”) → (String + String => 12(문자열) )
 			System.out.println(true + “”) → (boolean + String => Sting + String => "true"+"" => (String)true)
-			System.out.println(‘A' + 'B') → (char + char => 각 문자에 해당하는 유니코드 값끼리 덧셈 연산. 각각이 2byte이므로 4byte int로 자동 형변환 => 65 + 66 => (int)131)
+			System.out.println(‘A' + 'B') → (char + char => 각 문자에 해당하는 유니코드 값끼리 덧셈 연산. 각각이 2byte이므로 4byte int로 자동 형변환 => 65 + 66 => (int)131) 이 때 한 쪽만 크다면 큰 쪽을 따라감.
 			System.out.println('1' + 2) → (char + int => int + int => '1'의 유니코드 값 + 2 => 49 + 2 => (int)51)
 			System.out.println('1' + '2') → (char + char => 각 문자에 해당하는 유니코드 값끼리 덧셈 연산. 각각이 2byte이므로 4byte int로 자동 형변환 => 49 + 50 => (int)99)
 			System.out.println('J' + “ava”) → (char + String => String + String => J + ava => (String)Java)
-			System.out.println(true + null) → (null은 클래스 상단에서 변수로 선언되지 않았고, 더블쿼테이션을 사용해 문자열로 지정되지도 않은 문자 => 오류)
+			System.out.println(true + null) → (null은 정체를 알 수 없는 문자 => 오류) 참고: 모든 참조형 변수의 기본값:null
 			
 		[2-6]	
-			키워드가 아닌 것: True(대문자), NULL(대문자), Class(대문자), System(대문자)
+			키워드가 아닌 것: True(대문자), NULL(대문자), Class(대문자), System(소문자여도 키워드가 아님)
 			키워드: if
 			
 		[2-7]
@@ -75,7 +75,7 @@ public class Exam_02 {
 			a. byte b = 256;		256은 byte가 저장할 수 있는 -2의 7승에서 2의 7승-1을 벗어남
 			b. char c = '';			char에는 단 하나의 문자만 저장할 수 있고, 아무 문자도 없는 것은 문자 하나가 아님
 			c. char answer = 'no';	char에는 단 하나의 문자만 저장할 수 있다.
-			d. float f = 3.14;		뒤에 L이 포함되지 않은 실수는 double타입. float타입에 그대로 초기화할 수 없다.
+			d. float f = 3.14		뒤에 L이 포함되지 않은 실수는 double타입. float타입에 그대로 초기화할 수 없다. 더불어 식 뒤에 세미콜론이 빠져 잘못된 초기화이다.
 			
 			변수를 잘 초기화 한 것
 			e. double d = 1.4e3f;	double은 float보다 큰 범위를 갖고 있어 초기화 가능하다
@@ -84,14 +84,13 @@ public class Exam_02 {
 			타입과 기본값이 잘못 연결된 것
 			c. float - 0.0		맞는 기본값은 0.0f
 			e. long - 0			맞는 기본값은 0L
-			f. String - ""		맞는 기본값은 null
+			f. String - ""		참조형 변수의 기본값은 null
 			
 			타입과 기본값이 잘 연결된 것
 			a. boolean - false
 			b. char - '\u0000'
 			d. int - 0
 		 */
-		
 	}
 
 }
