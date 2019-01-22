@@ -135,10 +135,7 @@ public class Sentence_01 {
 		//    단, case는 5개, default 1개로 구성하세요
 		
 		switch(score/10) {
-		case 10:
-			System.out.println("A");
-			break;
-		case 9:
+		case 10: case 9:			// 이렇게 함께 표현할 수도 있다
 			System.out.println("A");
 			break;
 		case 8:
@@ -154,11 +151,6 @@ public class Sentence_01 {
 			System.out.println("나가");
 				
 		}
-
-
-
-
-
 	}
 
 
