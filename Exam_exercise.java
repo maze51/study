@@ -3,6 +3,34 @@ public class Exam_exercise {
 	public static void main(String[] args) {
 
 
+//		[4-12]
+		
+		for(int gob=1;gob<4;gob++) {
+			for(int dan=2;dan<5;dan++) {
+				System.out.print(dan + "*" + gob + "=" + dan*gob);
+				System.out.print("\t");
+				}
+			System.out.println();
+			}
+		System.out.println();
+		for(int gob=1;gob<4;gob++) {
+			for(int dan=5;dan<8;dan++) {
+				System.out.print(dan + "*" + gob + "=" + dan*gob);
+				System.out.print("\t");
+				}
+			System.out.println();
+			}
+		System.out.println();
+		for(int gob=1;gob<4;gob++) {
+			for(int dan=8;dan<10;dan++) {
+				System.out.print(dan + "*" + gob + "=" + dan*gob);
+				System.out.print("\t");
+			}
+			System.out.println();
+		}
+	
+	
+	
 		//[4-2] 1부터 20까지의 정수 중에서 2 또는 3의 배수가 아닌 수의 총합을 구하시오.
 
 		//		1. 2 또는 3의 배수가 아닌 수를 구하기	i%2 != 0 && i%3 != 0)
@@ -33,22 +61,22 @@ public class Exam_exercise {
 		
 		// [4-4] 1+(-2)+3+(-4)+... 과 같은 식으로 계속 더해나갔을 때, 몇까지 더해야 총합이 100이상이 되는지 구하시오.
 		
-		int a = 0; // 시작값&증가시킬 값. 본 식에서는 1이지만 마지막에 1증가 현상을 방지하기 위해 0으로 설정한다
-		int b = 0; // 계속 더한 결과값
-		int c = -1; // 부호 바꾸기용
-		
-		while(b<100) {		// 합계값 b가 100이상이면 반복문을 중지한다
-			a++;			// 위로 보낸 이유? 마지막에 1증가 현상을 방지하기 위해
-			if(a%2==0) {
-				a *= c; 	// a가 2의 배수일 때 음수로 변환한다
-			}
-			b+=a;			// b에 a를 더해 준다 
-			
-			if(a < 0) {
-				a = -a;		// a의 절대값을 취한다. 그렇지 않으면 1 -2 3 -4와 같이 증가시킬 수 없다
-			}
-		}
-		System.out.println(a);
+//		int a = 0; // 시작값&증가시킬 값. 본 식에서는 1이지만 마지막에 1증가 현상을 방지하기 위해 0으로 설정한다
+//		int b = 0; // 계속 더한 결과값
+//		int c = -1; // 부호 바꾸기용
+//		
+//		while(b<100) {		// 합계값 b가 100이상이면 반복문을 중지한다
+//			a++;			// 위로 보낸 이유? 마지막에 1증가 현상을 방지하기 위해
+//			if(a%2==0) {
+//				a *= c; 	// a가 2의 배수일 때 음수로 변환한다
+//			}
+//			b+=a;			// b에 a를 더해 준다 
+//			
+//			if(a < 0) {
+//				a = -a;		// a의 절대값을 취한다. 그렇지 않으면 1 -2 3 -4와 같이 증가시킬 수 없다
+//			}
+//		}
+//		System.out.println(a);
 		
 		//[4-4] 다른 방법(미완)
 //		int num = 1;
@@ -62,20 +90,59 @@ public class Exam_exercise {
 //			} // end of if
 //		} // end of for
 //		System.out.println("횟수: "+num);
+
+////		[4-15]
+//		int number = 22321;
+//		int tmp = number;
+//		int result =0; // 변수 number를 거꾸로 변환해서 담을 변수
+//		while(tmp !=0) {
+//			result=(result*10)+(tmp%10);				// tmp의 각 자리수를 뽑아 자리수*10과 더한다
+//			tmp /= 10;
+//		}
+//		if(number == result)
+//			System.out.println( number + "는 회문수 입니다.");
+//		else
+//			System.out.println( number + "는 회문수가 아닙니다.");
 		
+		
+//		
+		
+		//		[4-14]
+//		int answer = (int)(Math.random()*100)+1;
+//		int input = 0; // 사용자입력을 저장할 공간
+//		int count = 0; // 시도횟수를 세기위한 변수
+//		// 화면으로 부터 사용자입력을 받기 위해서 Scanner클래스 사용
+//		java.util.Scanner s = new java.util.Scanner(System.in);
+//		do {
+//			count++;
+//			System.out.print("1과 100사이의 값을 입력하세요 :");
+//			input = s.nextInt(); // 입력받은 값을 변수 input에 저장한다.
+//			if(input>answer) {
+//				System.out.println("더 작은 수를 입력하세요.");
+//			} else if(input<answer) {
+//				System.out.println("더 큰 수를 입력하세요.");
+//			} else {
+//				System.out.println("맞췄습니다.");
+//				System.out.println("시도횟수는 "+count+"번입니다.");
+//				break;
+//			}
+//		} while(true);
+
+
 		
 //		[4-11]
 		// Fibonnaci 수열의 시작의 첫 두 숫자를 1, 1로 한다.
-				int num1 = 1;
-				int num2 = 1;
-				int num3 = 0; // 세번째 값
-				System.out.print(num1+","+num2);
-				for (int i = 0 ; i < 8 ; i++ ) {
-					
-					num3 = num1 + num2;
-					System.out.print(","+);
-				}
-		
+//				int num1 = 1;
+//				int num2 = 1;
+//				int num3 = 0; // 세번째 값
+//				System.out.print(num1+","+num2);
+//				for (int i = 0 ; i < 8 ; i++ ) {
+//					num3 = num1 + num2;
+//					System.out.print(","+num3);
+//					num1=num2;
+//					num2=num3;
+//				}
+//		
 //		[4-13]
 //		String value = "23o52";
 //		char ch = ' ';

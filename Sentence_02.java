@@ -1,5 +1,7 @@
 package c_sentence;
 
+import java.util.Scanner;			// java.util 은 패키지명 Scanner 는 클래스명. 이걸 갖다 쓰겠다. 이렇게 안 하면 매번 쓸 때마다 java.util.Scanner라고 넣어줘야 함.
+
 public class Sentence_02 {
 	public static void main(String[] args) {
 		/*
@@ -225,7 +227,50 @@ public class Sentence_02 {
 		}
 		System.out.println(ff);
 		
+		/*
+		 4. do-while
+		  - while문의 변형으로 기본 구조는 while문과 유사하나
+		    {}을 먼저 수행하고 조건식을 판단한다.
+		  - 기본구조
+		    do{
+		    	수행될 문장
+		    } while(조건식);
+		 
+		 */
 		
+//		Scanner sc = new Scanner(System.in);		// 참조형 변수		콘솔창에서 입력받을 수 있는 환경 구성. in이 받아들일 준비
+		
+//		System.out.println("문자를 입력해주세요");
+//		String str = sc.next();						// 콘솔창에 "문자열"을 받을 준비. 기다렸다 내가 친 문자열을 그대로 저장. 문자열 형태로만 저장됨.
+//		System.out.println(str);
+		
+		
+		// 문장을 입력 받아서 입력받은 문장을 출력		단 역슬러시(\)는 뒤가 특수문자라 인식불가
+		// 단, 입력받은 문장이 "x"이면 종료 
+//		String str = "";
+//		do{
+//			System.out.println("문자를 입력해주세요");
+//			str = sc.next();
+//			System.out.println(str);
+//		} while(!str.equals("x"));								//do {}블럭과 while()의 각 괄호 영역은 다른 영역임에 주의
+		
+//		int result5 = sc.nextInt();							// int값("정수값")만 받음. 문자가 입력되면 에러
+//		System.out.println(result5);
+		
+		for (int i = 0; i < 11; i++) {
+			if(i%2==1){
+				System.out.println(i);		// 둘 다 만족해야 수행
+			}
+		}
+											// 위 아래 식은 같은 식
+		for (int i = 0; i < 11; i++) {
+			if(i%2==0){
+				continue;					// if조건문이 false면 다음 문장 Sysout수행. true면 continue를 만나 아무것도 수행하지 않고 다음 단계로
+			}								// 짝수일 때는 진행해라. 뒷문장은 모조리 건너뛰고 반복문의 다음 단계(for문은 for문의 초기단계인 증감식)를 수행한다. 중첩 반복문일 경우는 가장 가까운 반복문으로 간다.
+			System.out.println(i);
+		}
+		
+//		while문의 초기단계는 조건식. 그러므로 continue를 만나면 조건식으로 간다.
 		
 		
 		

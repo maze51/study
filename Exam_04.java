@@ -21,13 +21,15 @@ public class Exam_04 {
 		8. 문자열 참조변수 str이 “yes”일 때 true인 조건식
 		
 		1. 10 < x && x < 20
-		2. !(ch == ' ' || ch == '	')
+		2. !(ch == ' ' || ch == '\t')
 		3. ch == 'x' || ch == 'X'
 		4. '0' <= ch && ch <= '9'
 		5. 'A' <= ch && ch <= 'Z' || 'a' <= ch && ch <= 'z'
 		6. year%400 == 0 || year%4 == 0 && year%100 != 0
 		7. powerOn == false
 		8. str.equals("yes")		// 문자열 간 비교는 ==연산자를 쓸 수 없다
+		
+		@@ 6. && 연산 전에 ||연산이 수행될 수 있도록 앞 ||연산에 괄호가 필요
 		
 		[4-2]
 		1부터 20까지의 정수 중에서 2 또는 3의 배수가 아닌 수의 총합을 구하시오.
@@ -44,6 +46,7 @@ public class Exam_04 {
 		}
 		System.out.println(sum);
 		
+		@@ '2 또는 3의 배수가 아닌 수'라고 제시되었으므로  !(i%2==0 || i%3==0)를 쓰는 것이 지문과 맞는다
 		
 		[4-3]
 		1+(1+2)+(1+2+3)+(1+2+3+4)+...+(1+2+3+...+10)의 결과를 계산하시오.
@@ -56,6 +59,19 @@ public class Exam_04 {
 		}
 		System.out.println("sum3: "+sum3);
 		
+		@@ 여러가지 방식이 있다.
+		방법2)처음에 1개, 두번째는 2개, 세번째는 3개,...
+		num = 1(개수를 저장. 처음은 1개)(1~1까지) 
+		num = 2(1~2까지)				num1은 블럭, num2는 그 안 숫자가 바뀌는것
+		num = 3(1~3까지)
+		이를 반복문으로? for(int num=1;num<11;num++) {
+		num이 한 번일때 더하기 횟수? 1 2번? 2,...
+		안쪽 for문		for(int num2=1;num2<num+1;num2++) {
+					sum+=num2;
+					
+		방법3) 1개수? 10개 2개수? 9개 ... 10개수? 1개
+		i = 1일 때 11-i는 10 이하반복
+		for(int i=1;i<11;i++){sum+=i*(11-i)}
 		
 		[4-4] 1+(-2)+3+(-4)+... 과 같은 식으로 계속 더해나갔을 때, 몇까지 더해야 총합이
 		100이상이 되는지 구하시오.
@@ -77,6 +93,25 @@ public class Exam_04 {
 		}
 		System.out.println(a);
 		
+		@@ for문으로도 바꿔 보자
+		
+		int i2 = 0;
+		int sum2 = 0;
+		
+		for(i2=0;;i2++) {
+		if(i2%2==0) {
+		sum2-= i2
+		}
+		else{
+		sum2+=i2
+		}
+		if(sum>=100){
+		break
+		}
+		}
+		
+		@@계속 더해가는 방식 / 더하고 빼고 더하고 빼고...
+		홀수일 때 더하고 짝수일 때 빼기. 100초과시 out
 		
 		[4-5] 다음의 for문을 while문으로 변경하시오.
 		
@@ -146,7 +181,7 @@ public class Exam_04 {
 		}
 		System.out.println("sum="+sum);
 		 
-		
+			
 		[4-10] int타입의 변수 num 이 있을 때, 각 자리의 합을 더한 결과를 출력하는 코드를		
 			완성하라. 만일 변수 num의 값이 12345라면, ‘1+2+3+4+5’의 결과인 15를 출력하라. (1)
 			에 알맞은 코드를 넣으시오.
@@ -154,11 +189,10 @@ public class Exam_04 {
 		int num = 12345;
 		int sum = 0;
 		while(num>0) {
-			sum+=num%10;				// num을 10으로 나눈 나머지는 5
+			sum+=num%10;				// num을 10으로 나눈 나머지는 5. 결과값을 sum에 더한다
 			num/=10;					// 다음 num을 10으로 나눠 소수점을 왼쪽으로 한 번 밀기
 		}
 		System.out.println("sum="+sum);		[실행결과] 15
-		
 		
 		[4-11]
 		피보나치(Fibonnaci) 수열(數列)은 앞을 두 수를 더해서 다음 수를 만들어 나가
@@ -172,16 +206,45 @@ public class Exam_04 {
 		int num3 = 0; // 세번째 값
 		System.out.print(num1+","+num2);
 		for (int i = 0 ; i < 8 ; i++ ) {
-		알맞은 코드를 넣어 완성하시오.
-		[실행결과] 1,1,2,3,5,8,13,21,34,55
+				num3 = num1 + num2;
+				System.out.print(","+num3);
+				num1=num2;
+				num2=num3;
+		}
 		
 		[4-12] 구구단의 일부분을 다음과 같이 출력하시오.
-		
+		// 한줄로 출력하기
 		for(int i=2;i<=9;i++) {					// 중첩 for문. 단은 2~9, 곱은 1~3
 			for(int j=1;j<=3;j++) {
 				System.out.println(i+"*"+j+"="+i*j);
 			}
 		}
+		// 실행결과처럼 출력하기
+		for(int gob=1;gob<4;gob++) {
+			for(int dan=2;dan<5;dan++) {
+				System.out.print(dan + "*" + gob + "=" + dan*gob);
+				System.out.print("\t");
+				}
+			System.out.println();
+			}
+		System.out.println();
+		for(int gob=1;gob<4;gob++) {
+			for(int dan=5;dan<8;dan++) {
+				System.out.print(dan + "*" + gob + "=" + dan*gob);
+				System.out.print("\t");
+				}
+			System.out.println();
+			}
+		System.out.println();
+		for(int gob=1;gob<4;gob++) {
+			for(int dan=8;dan<10;dan++) {
+				System.out.print(dan + "*" + gob + "=" + dan*gob);
+				System.out.print("\t");
+			}
+			System.out.println();
+		}
+		
+		@@ for문 3단계로도 가능(카운트하는 별도의 변수 하나 가지고. 증가하다 몇이 되면 다음으로 이동)
 		
 		[4-13] 다음은 주어진 문자열(value)이 숫자인지를 판별하는 프로그램이다. (1)에 알맞
 		은 코드를 넣어서 프로그램을 완성하시오.
@@ -214,7 +277,7 @@ public class Exam_04 {
 		로그램을 완성하시오.
 		
 		// 1~100사이의 임의의 값을 얻어서 answer에 저장한다.
-		int answer =          ;
+		int answer = (int)(Math.random()*100)+1;
 		int input = 0; // 사용자입력을 저장할 공간
 		int count = 0; // 시도횟수를 세기위한 변수
 		// 화면으로 부터 사용자입력을 받기 위해서 Scanner클래스 사용
@@ -223,14 +286,33 @@ public class Exam_04 {
 		count++;
 		System.out.print("1과 100사이의 값을 입력하세요 :");
 		input = s.nextInt(); // 입력받은 값을 변수 input에 저장한다.
-		알맞은 코드를 넣어 완성하시오.
-		
+		if(input>answer) {
+				System.out.println("더 작은 수를 입력하세요.");
+			} else if(input<answer) {
+				System.out.println("더 큰 수를 입력하세요.");
+			} else {
+				System.out.println("맞췄습니다.");
+				System.out.println("시도횟수는 "+count+"번입니다.");
+				break;
+			}
 		} while(true); // 무한반복문
 		
 		[4-15] 다음은 회문수를 구하는 프로그램이다. 회문수(palindrome)란, 숫자를 거꾸로 읽
 		어도 앞으로 읽는 것과 같은 수를 말한다. 예를 들면 ‘12321’이나 ‘13531’같은 수를 말한
 		다. (1)에 알맞은 코드를 넣어서 프로그램을 완성하시오.
 		[Hint] 나머지 연산자를 이용하시오.
+		
+		int number = 22321;
+		int tmp = number;
+		int result =0; // 변수 number를 거꾸로 변환해서 담을 변수
+		while(tmp !=0) {
+			result=(result*10)+(tmp%10);				// tmp 1의 자리부터 10, 100, 1000,....자리수를 뽑아 지금까지의 결과*10으로 새로 만들어진 1의 자리에 더한다
+			tmp /= 10;
+		}
+		if(number == result)
+			System.out.println( number + "는 회문수 입니다.");
+		else
+			System.out.println( number + "는 회문수가 아닙니다.");
 		
 		
 		 */
