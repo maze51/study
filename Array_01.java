@@ -1,5 +1,8 @@
 package d_array;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Array_01 {
 	public static void main(String[] args) {
 		
@@ -84,10 +87,7 @@ public class Array_01 {
 			score[i] = (int)(Math.random()*101);
 		}
 		
-		for(int i=0;i<score.length;i++){			// score[i]값 확인용
-			System.out.println(score[i]);
-		}
-		
+		System.out.println(Arrays.toString(score));
 		// 4. score 각 방 값의 합을 구해주세요
 		// 수작업
 //		int sum = 0;
@@ -101,13 +101,13 @@ public class Array_01 {
 		
 		// 5. score 모든 방의 평균을 구해주세요. 단, 소수점 셋째자리에서 반올림하여 둘째 자리까지 표현해주세요.
 		float avg = 0.0f;
-		avg = (int)((sum2 / (float)score.length)*100)/100f;
+		avg = (int)((sum2 / (float)score.length)*100 + 0.5)/100f;	//반올림 시 0.5더하기 주의!
 		System.out.println("평균: "+avg);
 		
 		// 6. (랜덤 범위에 관계없이) 최대값과 최소값 구하기
 		int max = score[0];
 		int min = score[0];
-		for(int i=0;i<score.length;i++){
+		for(int i=1;i<score.length;i++){		// score[0]은 이미 들어가 있으니 시작값을 1로 지정하는 편이 낫다
 			if(score[i]>max) {
 				max = score[i];
 			} //end of max
@@ -117,6 +117,75 @@ public class Array_01 {
 			} //end of min
 		}
 		System.out.println("최대값: "+max+"  최소값: "+min);
+		
+		// 1. 세 과목의 정수값을 저장할 수 있는 변수를 생성해주세요. 변수명은 threeSub
+		int[] threeSub = new int[3];
+		
+		// 2. 세 과목의 값을 사용자로부터 입력받으세요. + 넣기
+		for(int i=0;i<threeSub.length;i++){
+			System.out.print("점수를 입력해주세요.> ");
+			Scanner sc = new Scanner(System.in);
+			threeSub[i] =  sc.nextInt();
+		}
+
+		// 3. 세 과목의 합계를 구해주세요.
+		int sum6 = 0;
+		for(int i=0;i<threeSub.length;i++){
+			sum6+=threeSub[i];
+		}
+		System.out.println("합계: "+sum6);
+		
+		// 4. 세 과목의 평균을 구해주세요.
+		
+		float avg2 = 0.0f;
+		avg2 = (int)((float)sum6 / threeSub.length * 100 + 0.5)/100f;
+		System.out.println("평균: "+avg);
+		
+		
+		// 1. 정수 6개를 저장할 수 있는 변수 lotto를 선언 및 생성해주세요
+		int[] lotto = new int[6];
+		
+		// 2. 1~45사이의 랜덤한 정수값으로 lotto의 모든 방에 입력해주세요. 단, 정수값은 중복되면 안 된다
+		
+		for(int i=0;i<lotto.length;i++){
+			lotto[i] = (int)(Math.random()*45)+1;
+			
+//			for(int j=1;j<lotto.length;j++) {			// 비교할 횟수. 5번 돌아간다
+//				
+//				while(lotto[j]==lotto[j-1]){			// 바로 앞 번호와 비교해 같으면 새로 돌린다. 달라질 때 까지
+//					lotto[j]=(int)(Math.random()*45)+1;
+//				}
+//				while(lotto[j]==lotto[j-2]){			// 그 앞 번호와 비교해 같으면 새로 돌린다. 달라질 때 까지
+//					lotto[j]=(int)(Math.random()*45)+1;
+//				}
+//				
+//					
+//				}
+//			}
+//			
+//			
+			
+			
+				
+			
+			
+		}
+		System.out.println(Arrays.toString(lotto));		// 0번방은 0번 비교, 1번방은 0번방과 1번 비교, 2번방은 0, 1번방과 2번 비교, 3번방은 3번 비교, ...
+														// 같은 게 없을 때만 하나씩 추가. 같은 게 나오면 다시 처음으로. 이 때 그냥 두면 다음방이 돼버리는데, 지나가도 같은게 나온 방에 있게 하려면?
+														// 같은 게 있을때 증가하지 못하게 만드는 게 핵심 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 	}

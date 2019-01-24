@@ -1,33 +1,46 @@
+import java.util.Arrays;
+
 
 public class Exam_exercise {
 	public static void main(String[] args) {
-
-
-//		[4-12]
-		
-		for(int gob=1;gob<4;gob++) {
-			for(int dan=2;dan<5;dan++) {
-				System.out.print(dan + "*" + gob + "=" + dan*gob);
-				System.out.print("\t");
-				}
-			System.out.println();
-			}
-		System.out.println();
-		for(int gob=1;gob<4;gob++) {
-			for(int dan=5;dan<8;dan++) {
-				System.out.print(dan + "*" + gob + "=" + dan*gob);
-				System.out.print("\t");
-				}
-			System.out.println();
-			}
-		System.out.println();
-		for(int gob=1;gob<4;gob++) {
-			for(int dan=8;dan<10;dan++) {
-				System.out.print(dan + "*" + gob + "=" + dan*gob);
-				System.out.print("\t");
-			}
-			System.out.println();
+		int[] lotto = new int[6];
+		for(int i=0;i<lotto.length;i++){
+			lotto[i] = (int)(Math.random()*45)+1;
+			
 		}
+		System.out.println(Arrays.toString(lotto));
+//		int sum = 0;
+//		for(int i=1;i<11;i++){
+//			sum+=i*(11-i);
+//		}
+//		System.out.println(sum);
+		
+		
+//		[4-12]
+//		
+//		for(int gob=1;gob<4;gob++) {
+//			for(int dan=2;dan<5;dan++) {
+//				System.out.print(dan + "*" + gob + "=" + dan*gob);
+//				System.out.print("\t");
+//				}
+//			System.out.println();
+//			}
+//		System.out.println();
+//		for(int gob=1;gob<4;gob++) {
+//			for(int dan=5;dan<8;dan++) {
+//				System.out.print(dan + "*" + gob + "=" + dan*gob);
+//				System.out.print("\t");
+//				}
+//			System.out.println();
+//			}
+//		System.out.println();
+//		for(int gob=1;gob<4;gob++) {
+//			for(int dan=8;dan<10;dan++) {
+//				System.out.print(dan + "*" + gob + "=" + dan*gob);
+//				System.out.print("\t");
+//			}
+//			System.out.println();
+//		}
 	
 	
 	
@@ -301,4 +314,4 @@ public class Exam_exercise {
 
 	}
 
-}
+	}
