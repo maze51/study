@@ -9,6 +9,8 @@ public class Exam_exercise {
 			
 		}
 		System.out.println(Arrays.toString(lotto));
+		
+		
 //		int sum = 0;
 //		for(int i=1;i<11;i++){
 //			sum+=i*(11-i);

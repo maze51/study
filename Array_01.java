@@ -122,11 +122,11 @@ public class Array_01 {
 		int[] threeSub = new int[3];
 		
 		// 2. 세 과목의 값을 사용자로부터 입력받으세요. + 넣기
-		for(int i=0;i<threeSub.length;i++){
-			System.out.print("점수를 입력해주세요.> ");
-			Scanner sc = new Scanner(System.in);
-			threeSub[i] =  sc.nextInt();
-		}
+//		for(int i=0;i<threeSub.length;i++){
+//			System.out.print("점수를 입력해주세요.> ");
+//			Scanner sc = new Scanner(System.in);
+//			threeSub[i] =  sc.nextInt();
+//		}
 
 		// 3. 세 과목의 합계를 구해주세요.
 		int sum6 = 0;
@@ -149,27 +149,31 @@ public class Array_01 {
 		
 		for(int i=0;i<lotto.length;i++){
 			lotto[i] = (int)(Math.random()*45)+1;
-			
-//			for(int j=1;j<lotto.length;j++) {			// 비교할 횟수. 5번 돌아간다
-//				
-//				while(lotto[j]==lotto[j-1]){			// 바로 앞 번호와 비교해 같으면 새로 돌린다. 달라질 때 까지
-//					lotto[j]=(int)(Math.random()*45)+1;
-//				}
-//				while(lotto[j]==lotto[j-2]){			// 그 앞 번호와 비교해 같으면 새로 돌린다. 달라질 때 까지
-//					lotto[j]=(int)(Math.random()*45)+1;
-//				}
-//				
-//					
-//				}
-//			}
-//			
-//			
+		}
+			for(int j=1;j<lotto.length;j++) {			// 비교할 횟수. 5번 돌아간다
+				
+				
+				
+//			1번자리는 while문 한번, 2번자리는 두번,...
+				for(int k=0;k<j;k++){
+
+					while(lotto[j]==lotto[j-k]){			// 바로 앞 번호와 비교해 같으면 새로 돌린다. 달라질 때 까지
+						lotto[j]=(int)(Math.random()*45)+1;
+						if(lotto[k-1]==lotto[0]){
+							break;
+						}
+					}
+					//				
+				}
+			}
+			//			
+			//			
 			
 			
 				
 			
 			
-		}
+		
 		System.out.println(Arrays.toString(lotto));		// 0번방은 0번 비교, 1번방은 0번방과 1번 비교, 2번방은 0, 1번방과 2번 비교, 3번방은 3번 비교, ...
 														// 같은 게 없을 때만 하나씩 추가. 같은 게 나오면 다시 처음으로. 이 때 그냥 두면 다음방이 돼버리는데, 지나가도 같은게 나온 방에 있게 하려면?
 														// 같은 게 있을때 증가하지 못하게 만드는 게 핵심 
