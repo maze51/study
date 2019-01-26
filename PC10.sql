@@ -42,24 +42,36 @@ ADD(
     BUYER_CHARGER VARCHAR2(20),
     BUYER_TELEXT VARCHAR2(2)
     );
+--BUYER 테이블에 컬럼을 추가한다
 
 COMMENT ON COLUMN BUYER.BUYER_MAIL IS 'E-MAIL';
+--BUYER 테이블 BUYER_MAIL 옆에 주석이 추가됨
 
 DESC BUYER;
 
 ALTER TABLE BUYER
 MODIFY (BUYER_NAME VARCHAR2(60));
+--ppt 145p 교재중간 10-11p BUYER_NAME 크기를 60바이트로 수정
+--이처럼 ALTER는 구조 변경에 사용됨
 
-DESC BUYER;
+DESC BUYER; -- 묘사하다(DESCRIBE), 설명하다. 실행하면 해당 테이블 출력
 
 --기본키 조건 : NO DUPLICATE, NOT NULL(중복불가 널값불허)
 ALTER TABLE BUYER
 ADD(CONSTRAINT PK_BUYER PRIMARY KEY(BUYER_ID));
+--PPT 145p
+--제약사항	테이블을 지목 	BUYER_ID를 기본키로 잡겠다
+--기본키는 테이블마다 있다. 그런데 이름이 없다면? 어느게 어느건지 애매하다.
+--이름을 붙여 다른 기본키와 구분하기 위해 제약사항 앞부분에 이름이 붙는것.
+--NOT NULL도 CONSTRAINT(제약사항). 필수(mandatory)
 
 ALTER TABLE BUYER
 ADD(CONSTRAINT FR_BUYER_LPROD FOREIGN KEY(BUYER_LGU)
                         REFERENCES LPROD(LPROD_GU)
     );
+--buyer 자식의 buyer_lgu가 lprod 부모의 기본키를 참조한다
+--lprod부모의 기본키가 buyer 자식의 buyer_lgu로 전이된다
+--ERwin에서 까마귀발로 이어주기(1대다 관계라면 1부터)
 
 CREATE TABLE PROD
 (
@@ -86,8 +98,10 @@ PROD_MILEAGE        NUMBER(10),
 Constraint pk_prod Primary Key (prod_id),
 Constraint fr_prod_lprod Foreign Key (prod_lgu)
                                     References lprod(lprod_gu),
+--prod_lgu가 lprod_gu를 참조한다		LPROD 1 : 다 PROD	LPROD 부모 - 자식 PROD
 Constraint fr_prod_buyer Foreign Key (prod_buyer)
                                     References buyer(buyer_id)
+--prod_buyer가 buyer_id를 참조한다	BUYER 1 : 다 PROD	BUYER 부모 - 자식 PROD
 );
 
 CREATE TABLE BUYPROD
@@ -97,7 +111,9 @@ BUY_PROD        VARCHAR2(10)    NOT NULL,
 BUY_QTY         NUMBER(10)      NOT NULL,
 BUY_COST        NUMBER(10)      NOT NULL,
 Constraint pk_buyprod Primary Key (buy_date,buy_prod),
+--buy_date, buy_prod는 식별영역, 기준키
 Constraint fr_buyprod_prod Foreign Key (buy_prod) References prod(prod_id)
+--buy_prod컬럼이 참조한다. prod테이블의 prod_id컬럼을.   buyprod는 자식, prod는 부모
 );
 
 CREATE TABLE MEMBER
@@ -122,6 +138,7 @@ MEM_MEMORIALDAY DATE,
 MEM_MILEAGE     NUMBER(10),
 MEM_DELETE      VARCHAR2(1),
 Constraint pk_member Primary Key (mem_id)
+--member테이블은 부모. 외래키가 없다(이 구조에서는). 그래서 primary key만 설정했다
 );
 
 CREATE TABLE CART
@@ -130,11 +147,13 @@ CART_MEMBER         VARCHAR2(15)        NOT NULL,
 CART_NO             CHAR(13)            NOT NULL,
 CART_PROD           VARCHAR2(10)        NOT NULL,
 CART_QTY            NUMBER(8)           NOT NULL,
-Constraint pk_cart Primary Key (cart_no,cart_prod),
+Constraint pk_cart Primary Key (cart_no,cart_prod), -- 기본키
 Constraint fr_cart_member Foreign Key (cart_member)
                                         References member(mem_id),
+--cart_member는 외래키. mem_id를 참조한다.
 Constraint fr_cart_prod Foreign Key (cart_prod)
                                         References prod(prod_id)
+--cart_prod는 외래키. prod_id를 참조한다.
 );
 
 CREATE TABLE ZIPTB
@@ -161,10 +180,15 @@ INSERT INTO LPROD (LPROD_ID,LPROD_GU,LPROD_NM) VALUES (7, 'P401', '음반/CD');
 INSERT INTO LPROD (LPROD_ID,LPROD_GU,LPROD_NM) VALUES (8, 'P402', '도서');
 INSERT INTO LPROD (LPROD_ID,LPROD_GU,LPROD_NM) VALUES (9, 'P403', '문구류');
 
-SELECT * FROM LPROD;
+--이 때 실행시킬 곳 전체를 블럭잡고 실행할 것
+
+SELECT * FROM LPROD; --전부 출력하기
 
 --ROLLBACK;       --위에서 INSERT한 데이터가 날아간다. 돌아간 상태에서 트랜잭션 종료
 COMMIT;           --메모리에 있던 데이터가 HDD로 들어감. 저장.
+
+--SELECT - FROM - WHERE는 한덩어리 구문(WHERE는 생략가능)
+--UPDATE - SET - WHERE도 한덩어리 구문(WHERE 꼭 써주기)
 
 SELECT LPROD_ID
      , LPROD_GU
@@ -202,10 +226,13 @@ ROLLBACK;
 
 SELECT * FROM LPROD;
 
+
 --LPROD 테이블을 LPROD2 테이블로 복사(이동이 아님)
+--이 때 PK, FK는 복제되지 않는다
 CREATE TABLE LPROD2
 AS
 SELECT * FROM LPROD;
+
 
 --LPROD2 테이블의 LPROD_GU가 P202인 LPROD-NM을
 --남성 캐쥬얼에서 도서류로 UPDATE하세요
@@ -227,15 +254,18 @@ UPDATE LPROD2
 SET LPROD_GU = 'P303'
 WHERE LPROD_ID = '7';
 
---LPROD2 테이블에서 
---데이터를 삭제하시오.(row가 삭제됨)
+
+--LPROD2 테이블에서 데이터를 삭제하시오.(레코드(행, 로, 튜플) 단위로 삭제됨)
 SELECT *
 FROM    LPROD2
 WHERE   LPROD_NM = '화장품';
+--여기까지는 검증 과정.
+--삭제OR업데이트 전에는 SELECT FROM WHERE로 반드시 검증부터
 
---등푸른생선 주세여 로 외우기
-DELETE FROM LPROD2
+DELETE FROM LPROD2          -- FROM이 있다는 것을 꼭 기억하기
 WHERE LPROD_NM = '화장품';
+--등푸른생선 주세여 로 외우기
+
 
 --테이블의 모든 row와 colomn을 검색
 select * from LPROD;
@@ -315,6 +345,14 @@ SELECT PROD_ID      상품코드
     , PROD_BUYER    거래처코드
 FROM PROD;
 
+--<컬럼 alias(별칭, 별명)>
+--컬럼 헤딩(heading)에는 기본적으로 컬럼 이름이 그대로 출력된다.
+--바꾸려면 AS "상품 코드"		AS는 alias의 약자.
+--또는 "상품 코드"
+--또는 상품코드
+--이 때 alias에 띄어쓰기를 넣고 싶으면 더블쿼트로 감싸야 한다
+
+
 SELECT PROD_LGU     상품분류
 FROM PROD;
 --위에서 중복 ROW의 제거. SELECT결과값의 중복을 없애고 UNIQUE하게 검색
@@ -324,8 +362,16 @@ FROM PROD;
 --상품 테이블의 거래처코드를 중복되지 않게 검색하시오(Alias는 거래처)
 SELECT DISTINCT PROD_BUYER  거래처
 FROM PROD;
---회원테이블에서 ID, 회원명, 생일, 마일리지 검색
+
+
+--<컬럼 정렬(ORDER BY)>
 --ASC(오름차순) : ASCENDING, DESC(내림차순) : DESCENDING
+--Aㅏㅍ으로 정렬	/ Dㅟ로 정렬 로 외우기
+--기본값은 오름차순(ASC). 때문에 입력 시 ASC는 생략 가능
+--ORDER BY로 정렬할 때 활용할 수 있는것(컬럼명, alias, 컬럼순서)
+--결과창에서 헤딩을 더블클릭하면 오름차순으로 정렬되기도 함
+
+--회원테이블에서 ID, 회원명, 생일, 마일리지 검색
 SELECT MEM_ID       회원ID
      , MEM_NAME     성명
      , MEM_BIR      생일
@@ -350,7 +396,7 @@ FROM MEMBER
 ORDER BY MEM_MILEAGE, 1 ASC;
 --그냥 MILEAGE로만 정렬할 때 같은 값은?
 --컬럼순서를 지정해 (여기서는 1번:MEM_ID)2차정렬 기준을 부여할 수 있다.
---뒤 ASC는 생략가능(ASC가 기본값). 이 때 MEM_ID의 알파벳과 001은 분리된 것이 아닌 하나의 데이터. 숫자순으로는 정렬할 수 없다
+--이 때 MEM_ID의 알파벳과 001은 분리된 것이 아닌 하나의 데이터. 숫자순으로는 정렬할 수 없다
 
 SELECT DISTINCT CART_MEMBER     회원ID
     , CART_PROD 상품코드
@@ -550,7 +596,7 @@ FROM PROD
 WHERE (PROD_COST BETWEEN 300000 AND 1500000)
 AND (PROD_SALE BETWEEN 800000 AND 2000000);
 
---LIKE 
+--LIKE (책 중간 22p. 중요!)
 --와일드 카드 사용('_' : 한 글자, '%' : 여러 글자)
 
 SELECT PROD_ID      상품코드
