@@ -60,7 +60,24 @@ public class Exam_03 {
 				=> 위 식에서 c값이 다시 1 증가되었으므로 'B'가 아닌 'C'가 출력됨.
 				결과는 C
 		 		
+		*/
+		int x = 2;
+		int y = 5;
+		char c = 'A'; // 'A'의 문자코드는 65
 		
+		System.out.println(1 + x << 33);
+		System.out.println(y >= 5 || x < 0 && x > 2);
+		System.out.println(y += 10 - x++);
+		System.out.println(x+=2);
+		System.out.println( !('A' <= c && c <='Z') );
+		System.out.println('C'-c);
+		System.out.println('5'-'0');
+		System.out.println(c+1);
+		System.out.println(++c);
+		System.out.println(c++);
+		System.out.println(c);
+		
+		/*
 				[3-2]
 				사과가 120개라면 바구니 12개가 필요. 121개는 13개, 129개도 13개. 결론적으로 1의 자리에서 올림하면 해결.
 				numOfApples를 sizeOfBucket으로 나누면서 double로 형변환. 그 값에 0.9를 더하고 int로 재변환.
@@ -74,15 +91,21 @@ public class Exam_03 {
 				System.out.println("필요한 바구니의 수 :"+numOfBucket);
 				
 				@@ 바구니가 담을 수 있는 숫자가 바뀌어도 적용할 수 있는 식인가? 위 식은 10개일 때만 가능하므로
-				공용으로 사용할 수 없다. 올림 수치가 계속 바뀌게 됨.
+				범용으로 사용할 수 없다. 올림 수치가 계속 바뀌게 됨.
 				
-				다른 풀이
+				맞는 풀이
 				사과 개수가 10의 배수라면 사과/바구니=필요한 수
 				하지만 10의 배수가 아니라면 하나 더 많아야 함
 				int numOfBucket = numOfApples%10 == 0 ? numOfApples/sizeOfBucket : numOfApples/sizeOfBucket + 1;
 				
 				@@ 여기서 numOfApples%10 보다는 numOfApples%sizeOfBucket이 적합!
-				
+		*/
+		int numOfApples = 123; // 사과의 개수
+		int sizeOfBucket = 10; // ( ) 바구니의 크기 바구니에 담을 수 있는 사과의 개수
+		int numOfBucket = numOfApples%sizeOfBucket == 0 ? numOfApples/sizeOfBucket : numOfApples/sizeOfBucket + 1; // 모든 사과를 담는데 필요한 바구니의 수
+		System.out.println("필요한 바구니의 수 :"+numOfBucket);
+		
+		/*
 				[3-3]
 				양수일 때 '양수'를 출력
 				num > 0 ? "'양수'"
@@ -93,7 +116,11 @@ public class Exam_03 {
 				System.out.println(num > 0 ? "양수" : num < 0 ? "음수" : 0);
 				
 				@@ 마지막 0일때 출력되는 0은 타입을 맞춰 "0"으로 하는 것이 올바르다
-				
+		*/
+		int num = 10;
+		System.out.println(num > 0 ? "양수" : num < 0 ? "음수" : "0");
+		
+		/*
 				[3-4]
 				1. 100으로 나눠 십, 일의 자리를 없앤다. 여기서 소수점 아래로 들어가는 십, 일의 자리는
 				활용하지 않고 버릴 값이므로 굳이 형변환 과정을 거치지 않아도 무방하다. 
@@ -107,7 +134,11 @@ public class Exam_03 {
 				@@ 다른 풀이
 				100의자리 아래 수를 모두 빼는 방법
 				num2-num%100 = 400
+		*/
+		int num2 = 456;
+		System.out.println(num2/100*100);
 				
+		/*
 				[3-5] 
 				1. num3을 10으로 나눠 일의 자리를 버림 처리한다.
 				num3/10 => 33(.3은 버림)
@@ -120,7 +151,11 @@ public class Exam_03 {
 				 
 				int num3 = 333;
 				System.out.println(num3 >=0 ? num3/10*10+1 : num3/10*10-1);
-				
+		*/
+		int num3 = 333;
+		System.out.println(num3 >=0 ? num3/10*10+1 : num3/10*10-1);
+		
+		/*
 				[3-6]
 				결과값은 num4%10과 더하면 항상 10이 나오게 됨
 				왜? 크면서도 가장 가까운 10의 배수-num4 값이므로
@@ -131,7 +166,11 @@ public class Exam_03 {
 				
 				@@ 다른 방법 (num4/10+1)*10 - num4
 				
-				
+		*/
+		int num4 = 24;
+		System.out.println(10-num4%10);
+		
+		/*
 				[3-7]
 				int fahrenheit = 100;
 				float celcius =      ;
@@ -143,19 +182,23 @@ public class Exam_03 {
 				1-2 소수점 값을 올바르게 구하기 위해 5f/9*(fahrenheit-32)로 표현
 				
 				2. 결과값을 소수점 셋째자리에서 반올림하기
-				2-1 c*100						결과값 c가 이미 float이므로 float*int는 float*float으로 자동 형변환됨. 굳이 100f로 쓸 필요 없음.
+				2-1 c*100
 				2-2 (c*100+0.5)
-				2-3 (int)(c*100+0.5) 
+				2-3 (int)(c*100+0.5)
 				2-4 (int)(c*100+0.5)/100f
 				
 				 
 				float celcius = (int)(5f/9*(fahrenheit-32)*100+0.5)/100f;
 				
-				
-				
-				
+		*/
+		int fahrenheit = 100;
+		float celcius = (int)(5f/9*(fahrenheit-32)*100+0.5)/100f;
+		System.out.println("Fahrenheit:"+fahrenheit);
+		System.out.println("Celcius:"+celcius);		
+		
+		/*		
 				  [3-8]
-				  */
+				  
 				byte a = 10;
 				byte b = 20;
 				byte c = (byte)(a + b);
@@ -177,7 +220,7 @@ public class Exam_03 {
 				System.out.println("l="+l);
 				System.out.println("result="+result);
 				
-				 /*
+				 
 				   문제점1: 4바이트보다 작은 변수형끼리의 계산은 int로 자동 형변환되어 계산
 				  byte + byte => int + int = int
 				  int를 byte에 그대로 저장할 수 없어 오류 발생
@@ -212,30 +255,57 @@ public class Exam_03 {
 				  float f2 = 0.5f;
 				  double d = 0.5;
 				   출력값은 true
-				  
-				  @@ 다른 방법: double타입 쪽에 (float)을 붙여도 true
-				  boolean result = d!=f2; 로 바꿔준다
-				  boolean result = !(d==f2); 로 바꿔준다
-				  sysout "result="+!result 로 바꿔준다
-				  
-				  
+				   
 				   변수값을 수정하지 않고 true값을 얻고자 한다면 boolean result에서 d를 float으로 형변환한다.
 				   그러면 0.1f ==0.1f가 되어 true값이 나온다
 				   단 f2에 (double)을 붙여 0.1d == 0.1d처럼 만들면 false가 된다.
 				  0.5f를 double로 형변환해도 0.5d와 다른 값이기 때문이다.  
 				  
-				   
+				  @@ 다른 방법1: double타입 쪽에 (float)을 붙여도 true
+				  2: boolean result = d!=f2; 로 바꿔준다
+				  3: boolean result = !(d==f2); 로 바꿔준다
+				  4: sysout "result="+!result 로 바꿔준다
+				  
+		*/
+		byte a = 10;
+		byte b = 20;
+		byte cc = (byte)(a + b);
+		
+		char ch = 'A';
+		ch = (char)(ch + 2);
+		
+		float f = 3f / 2;
+		long l = 3000L * 3000 * 3000;
+		
+		float f2 = 0.1f;
+		double d = 0.1;
+		
+		boolean result = (float)d==f2;
+		
+		System.out.println("c="+cc);
+		System.out.println("ch="+ch);
+		System.out.println("f="+f);
+		System.out.println("l="+l);
+		System.out.println("result="+result);
+		
+		/*
 				[3-9]
 				영문 대문자+소문자+숫자일 때 true
 				영문 대문자 조건식 =>	'A' <= ch1 && ch1 <= 'Z'
 				영문 소문자 조건식 =>	'a' <= ch1 && ch1 <='z'
 				숫자 조건식 =>			'0' <= ch1 && ch1 <='9'
 				  
-				char ch1 = 'z';
+				char ch2 = 'z';
 				boolean b2 = 'A' <= ch1 && ch1 <= 'Z' || 'a' <= ch1 && ch1 <='z' || '0' <= ch1 && ch1 <='9';
 				 
 				@@ 삼항 연산자를 세 번 중첩해서 쓰는 방법도 있음
-				
+		*/
+		char ch2 = 'z';
+		boolean b2 = ('A' <= ch2 && ch2 <= 'Z' || 'a' <= ch2 && ch2 <='z' || '0' <= ch2 && ch2 <='9');
+		
+		System.out.println(b2);
+		
+		/*
 				[3-10]
 				대문자->소문자	ch가 대문자일 때만 소문자로	코드는 32차이
 				char lowerCase = ( 1 ) ? ( 2 ) : ch;
@@ -246,14 +316,11 @@ public class Exam_03 {
 				char lowerCase = ('A' <= ch7 && ch7 <= 'Z') ? (char)(ch7 + 32) : ch7;
 				System.out.println("ch:"+ch7);
 				System.out.println("ch to lowerCase:"+lowerCase);
-				  */
-				
-				
-		
-		
-
-
-		
+		*/
+		char ch7 = 'A';
+		char lowerCase = ('A' <= ch7 && ch7 <= 'Z') ? (char)(ch7 + 32) : ch7;
+		System.out.println("ch:"+ch7);
+		System.out.println("ch to lowerCase:"+lowerCase);		
 	}
 
 }

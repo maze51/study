@@ -206,6 +206,7 @@ select * from all_users; -- 모든 사용자 정보 출력
     --4. 지속성: 커밋 이후에(정상적으로 수행된 경우) 영구적으로 그대로 남는다
 
 ----------------------------------------------- DB 설계 및 구현
+
 --1. 요구사항 분석(슬라이드 87p 책50p)
 --조사범위 결정-요구사항 수집-요구사항 검토/승인
 
@@ -246,7 +247,15 @@ select * from all_users; -- 모든 사용자 정보 출력
     --이 때의 개체-관계를 액션 엔티티, 교차 엔티티라고 부름       @@이해가 잘? @@
     
 --3. 테이블 설계
---ERD 제작 순서: 용어사전/단어사전/자료사전 -> 테이블 명세서 -> ERD만들기
+--ERD 제작 순서
+--단어사전: 영문명을 정하고 그에 맞는 영문약어도 정한다
+--용어사전: 단어사전에 등록된 단어를 참조/조합해 영문 full명을 정하고 설명을 덧붙인다
+--자료사전: 단어사전을 바탕으로 표준영문명을 정하고 타입(데이터 타입, 자료형), 길이, 설명(공통분모 찾기)
+        --이 때 테이블명의 기본값은 VARCHAR2
+--테이블 명세서: 자료사전 등을 참고해 개체별 테이블 명세서를 만든다.
+        --이 때 컬럼ID 앞에는 테이블ID의 약어(EMP라면 E, SI라면 S)를 넣어준다.
+        --NOT NULL은 N.N, NULL은 공백으로 표기, KEY란의 기본키는 P.K로 표기한다.
+        --외래키(F.K)를 넣어줄 때 N.N은 써도 되고 안 써도 된다. 외래키는 NULL일 수 있기 때문
 
 --4. ER-win을 이용한 모델링
 --ERD작성 시 개체는 네모, 속성은 동그라미, 관계는 마름모로 나타냄
@@ -256,6 +265,9 @@ select * from all_users; -- 모든 사용자 정보 출력
     --메뉴-Model-Model properties-Notation(표기법)에서 IE로 수정
     --물리설계로 전환하면 Database메뉴가 새로 생김
     --처음에 format-table display-column datatype에 체크하면 화면에 데이터타입을 함께 띄워줌
+    --네모칸 위는 개체명, 네모칸 상단 영역은 식별영역, 네모칸 하단 영역은 비식별영역(속성)
+    --1:N을 이어줄 때는 1쪽부터 클릭-N쪽 클릭
+    --까마귀발로 이어줄 때 O제거하기: 선을 더블클릭해서 one or more로 바꾸기. Nulls Allowed -> No Nulls 필요시 여기서 바꿀 수 있음
     --ERwin에서 ERD 만들고 체크포인트
         --1. VARCHAR2가 4000byte를 초과했는가? 넘으면 안 됨. VARCHAR2 최대 크기가 4000byte임
         --2. NUMBER가 38자를 넘었는가? 넘으면 안 됨
@@ -277,6 +289,7 @@ select * from all_users; -- 모든 사용자 정보 출력
     -- ERwin에서 new model생성(논리/물리) -> physical클릭->db메뉴의db connection클릭
     -- ->pw누르고 커넥트->tools메뉴의 reverse engineer->logical/physical선택하고
     -- currnet user->pw누르코 커넥트->db스키마가 erwin으로 들어옴
+
 ----------------------------------------------- 기타
 
 --SQL구문
@@ -320,10 +333,3 @@ select * from all_users; -- 모든 사용자 정보 출력
 --n분 전 시점으로 돌아가기(커밋/드랍 이전으로 되돌리려고 할 때) - flashback 검색
 --flashback table MEMBER to timestamp sysdate 1/24/60*10;
 --alter table MEMBER enable row movement;
-
-
-
-
-
---빠진 부분
---ERD제작 순서

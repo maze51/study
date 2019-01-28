@@ -2,7 +2,18 @@ import java.util.Arrays;
 
 
 public class Exam_exercise {
-	public static void main(String[] args) {
+	public static void main(String[] args) {		// String타입의 배열
+		
+		System.out.println(args.length);
+		
+		for(int i=0;i<args.length;i++){
+			System.out.println(args[i]);
+		}
+		
+		
+		
+		
+		
 		int[] lotto = new int[6];
 		for(int i=0;i<lotto.length;i++){
 			lotto[i] = (int)(Math.random()*45)+1;

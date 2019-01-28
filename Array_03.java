@@ -140,73 +140,19 @@ public class Array_03 {
 		}
 		
 		//석차
-		// 모든 사람의 석차를 낼 때, 시작할 때는 1등. 0등은 없다. 나보다 큰놈 없으면 내 등수가 올라간다
-		// 한 명 씩의 석차부터 구해보기. 비교해 보니까 나보다 큰 놈이 3명. 그럼 나는? 4등
+		
 		
 		int[] rank = new int[name.length];
-		int countt = name.length;			// 6부터 시작해서 내가 더 높으면 그때마다 -1
-		// 비교대상 = sump[0~5]
 		
-		for(int i=0;i<1;i++){				// sump[0]일 때
-			if(sump[i]>sump[i+1]){
-				countt--;
+		for(int i=0;i<name.length;i++){		// 사람수 만큼 돌리기
+			rank[i] = 1;					// rank배열 각각의 값을 1로 생성하고 시작(1등부터 시작해서 낮으면 밀리는 식)
+			for(int j=0;j<name.length;j++){ // 석차는 모두와 한 번씩 비교해 봐야 나옴
+				if(sump[i]<sump[j]){		// 여기서 처음부터 끝까지 다 비교하고
+											// (sump[i]는 모두와 비교할 동안 고정되므로 굳이 별도의 변수를 선언할 필요는 없음)
+					rank[i]++;				// 석차가 밀린다면 등수에 1 추가
+				}
 			}
-			if(sump[i]>sump[i+2]){
-				countt--;
-			}
-			if(sump[i]>sump[i+3]){
-				countt--;
-			}
-			if(sump[i]>sump[i+4]){
-				countt--;
-			}
-			if(sump[i]>sump[i+5]){
-				countt--;
-			}
-			
 		}
-		System.out.println(countt);
-		
-		countt = name.length;
-		for(int i=1;i<2;i++){				// sump[1]일 때
-			if(sump[i]>sump[i-1]){
-				countt--;
-			}
-			if(sump[i]>sump[i+1]){
-				countt--;
-			}
-			if(sump[i]>sump[i+2]){
-				countt--;
-			}
-			if(sump[i]>sump[i+3]){
-				countt--;
-			}
-			if(sump[i]>sump[i+4]){
-				countt--;
-			}
-			
-		}
-		System.out.println(countt);
-		countt = name.length;
-		for(int i=2;i<3;i++){				// sump[2]일 때
-			if(sump[i]>sump[i-2]){
-				countt--;
-			}
-			if(sump[i]>sump[i-1]){
-				countt--;
-			}
-			if(sump[i]>sump[i+1]){
-				countt--;
-			}
-			if(sump[i]>sump[i+2]){
-				countt--;
-			}
-			if(sump[i]>sump[i+3]){
-				countt--;
-			}
-			
-		}
-		System.out.println(countt);
 		
 		
 		
@@ -227,7 +173,8 @@ public class Array_03 {
 			System.out.print("\t" + studyc[i]);
 		}
 		System.out.print("\t" + "합계");
-		System.out.println("\t" + "평균");
+		System.out.print("\t" + "평균");
+		System.out.println("\t" + "석차");
 		System.out.println();
 		for(int i=0;i<score.length;i++){				// 여섯 명
 			System.out.print(name[i] + ":   ");
@@ -235,7 +182,8 @@ public class Array_03 {
 				System.out.print(score[i][j]+"\t");
 			}
 			System.out.print(sump[i]+"\t");
-			System.out.print(avgp[i]);
+			System.out.print(avgp[i]+"\t");
+			System.out.print(rank[i]);
 			System.out.println();
 		}
 		System.out.print("과목합계: ");
@@ -255,6 +203,9 @@ public class Array_03 {
 		// 6명의 합계를 구할거 선언 생성 출력부 맨오른쪽에 합계 찍어주기 - 평균 소수점 둘째자리까지 같은 방식 표현
 		// 6. 과목별 합계 평균 구하고 아래에 찍기
 		// 석차
+		// 모든 사람의 석차를 낼 때, 시작할 때는 1등. 0등은 없다. 나보다 큰놈 없으면 내 등수가 올라간다
+		// 한 명 씩의 석차부터 구해보기. 비교해 보니까 나보다 큰 놈이 3명. 그럼 나는? 4등
+		// 비교대상 = sump[0~5]
 		
 		// 소트시 처음에는 점수만 빼고 합계 평균 석차 이름을 소트하는 걸로 하기
 		// 합계 평균 석차는 어차피 같이감. 그런데 이름은 안 바꿈. 합계와 이름부터 바꿔보기

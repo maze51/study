@@ -447,7 +447,7 @@ ORDER BY MEM_MEMORIAL DESC;
 SELECT * FROM PROD
 ORDER BY PROD_SALE DESC, PROD_LGU, PROD_NAME;
 
---비교연산(WHERE 절)
+--      <비교연산>(WHERE 절)
 --같다를 표시할 때 자바는 ==지만 오라클은 =다
 --생소한 표현? A <> B 는 A != B 와 같다
 
@@ -490,7 +490,7 @@ WHERE MEM_REGNO1 >= '760101';       --''쓴 이유? MEM_REGNO1이 문자형(CHAR)이기 �
 --안 써도 되긴 되는 이유? 문자와 숫자가 만나면 우선순위가 있는데,
 --숫자가 우선이라 문자가 숫자로 자동 형변환된다. 그래서 숫자-숫자간 비교해서 같은 결과가 나옴.
 
---논리연산
+--      <논리연산>
 --NOT(조건1): 조건1이 아닌 경우 참
 --우선순위: (), NOT, AND, OR    낫앤더워로 외우기
 
@@ -546,7 +546,7 @@ WHERE MEM_BIR BETWEEN '75/01/01' AND '76/12/31';    --이 때도 자동 형변환.
 DESC MEMBER;        --MEMBER테이블의 데이터형 조회
 
 --WHERE절 기타 연산자
---IN(찾을 대상 중 포함하는 것. 여러 개)
+--      <IN>(찾을 대상 중 포함하는 것. 여러 개)
 
 --22P 상품 중 판매가가 150,000원 또는 170,000원 또는 330,000원인 상품 조회
 SELECT PROD_NAME    상품명
@@ -596,8 +596,8 @@ FROM PROD
 WHERE (PROD_COST BETWEEN 300000 AND 1500000)
 AND (PROD_SALE BETWEEN 800000 AND 2000000);
 
---LIKE (책 중간 22p. 중요!)
---와일드 카드 사용('_' : 한 글자, '%' : 여러 글자)
+--      <LIKE> (책 중간 22p. 중요!)
+--와일드카드 사용('_' : 한 문자, '%' : 여러 문자) 
 
 SELECT PROD_ID      상품코드
      , PROD_NAME    상품명
@@ -617,3 +617,157 @@ SELECT PROD_ID      상품코드
      , PROD_NAME    상품명
 FROM PROD
 WHERE PROD_NAME LIKE '%치';
+
+--'여름'이라는 단어가 포함된 모든 상품 정보를 검색
+SELECT PROD_ID      상품코드
+     , PROD_NAME    상품명
+FROM PROD
+WHERE PROD_NAME LIKE '%여름%';       --앞뒤는 뭐가 나와도 되고, 아무것도 없어도 된다
+
+--23P 회원테이블에서 김씨 성을 가진 회원을 검색(ALIAS는 회원ID, 성명)
+SELECT MEM_ID       회원ID
+     , MEM_NAME     성명
+FROM MEMBER
+WHERE MEM_NAME LIKE '김%';
+
+--23P 회원테이블의 주민등록번호 앞자리를 검색하여 1975년생을 제외한 회원을 검색
+--(ALIAS는 회원ID, 성명, 주민등록번호)
+SELECT MEM_ID       회원ID
+     , MEM_NAME     성명
+     , MEM_REGNO1   주민등록번호
+FROM MEMBER
+WHERE NOT MEM_REGNO1 LIKE '75%';    --NOT은 LIKE앞에 넣어도 되고 WHERE뒤에 넣어도 됨
+
+--가격은 100만원 미만, 삼성 제품, 가격이 내림차순으로 정렬된 리스트
+--(ALIAS는 상품ID, 상품명, 판매가, 제품설명글)
+
+SELECT PROD_ID      상품ID
+     , PROD_NAME    상품명
+     , PROD_SALE    판매가
+     , PROD_DETAIL  제품설명글
+FROM PROD
+WHERE PROD_SALE<1000000
+AND PROD_NAME LIKE '%삼성%'
+ORDER BY PROD_SALE DESC;
+
+
+
+INSERT INTO LPROD(LPROD_ID, LPROD_GU, LPROD_NM)
+VALUES (10, 'P501','홍길동%');
+
+INSERT INTO LPROD(LPROD_ID, LPROD_GU, LPROD_NM)
+VALUES (11, 'P502','홍길동% 달성');
+
+COMMIT;
+SELECT * FROM LPROD;
+
+--상품분류테이블에서 상품분류명이 '홍길동%'인 데이터를 검색해보기 .단, LIKE사용
+--(ALIAS: 상품분류코드, 상품분류명)
+
+SELECT LPROD_GU 상품분류코드
+     , LPROD_NM 상품분류명
+FROM LPROD
+WHERE LPROD_NM LIKE '홍길동\%' ESCAPE '\';
+--  LIKE '홍길동\%'만 넣었을 때 LIKE지우고 '=' 쓰면 정확히 나오긴 함.
+--LIKE를 쓰려면? 와일드카드의 기능을 없애면 됨.
+--위처럼 ESCAPE를 넣어주면 해당 기호를 앞에서 찾아 와일드카드의 특수기능을 ESCAPE(제거)함. 많이 사용되진 않음.
+
+
+--      <함수> (23P)
+-- 함수는? 어떤 통이 있다고 하자. 통 안에는 규칙(X+7)이 있다. 어떤 값(10)이 들어오면? 처리해서 반환(17)한다.
+-- 이 때 들어가는 값은 파라미터, 인수 / 반환하는 값은 리턴값
+
+-- || (파이프라인) 둘 이상의 문자열을 연결     CONCAT 두 문자열을 연결하여 반환
+
+SELECT 'a'||'bcde' FROM DUAL;
+SELECT MEM_ID||'name is '||MEM_NAME FROM MEMBER;
+
+SELECT CONCAT('My Name is', MEM_NAME) FROM MEMBER;
+
+SELECT CHR(65) "CHR", ASCII('ABC') "ASCII" FROM DUAL;
+SELECT ASCII( CHR(65) ) RESULT FROM DUAL;
+SELECT CHR(75) "CHR", ASCII('K') "ASCII" FROM DUAL;
+
+-- 회원테이블의 회원ID Colomn의 ASCII값을 검색하시오
+SELECT MEM_ID               "회원 ID"
+     , ASCII(MEM_ID)        "회원 ASCII"
+     , CHR(ASCII(MEM_ID))   "회원 CHR"
+FROM MEMBER;
+
+SELECT LOWER('DATA manipulation Language')      AS "LOWER"
+     , UPPER('DATA manipulation Language')      AS "UPPER"
+     , INITCAP('DATA manipulation Language')      AS "INITCAP"
+FROM DUAL;
+
+--24P 회원테이블의 회원ID를 대문자로 변환하여 검색하시오
+--(ALIAS명은 변환전ID, 변환후ID)
+
+SELECT MEM_ID AS 변환전ID, UPPER(MEM_ID)  AS 변환후ID
+FROM MEMBER;
+
+SELECT LPAD('Java', 10) "LPAD"      --10은 크기(바이트) 수
+     , RPAD('Java', 10) "RPAD"
+FROM   DUAL;                        --DUAL은 가상 테이블
+
+SELECT LPAD('*',1, '*') FROM DUAL;  --왼쪽에 여백, 총 1바이트
+SELECT LPAD('*',2, '*') FROM DUAL;
+SELECT LPAD('*',3, '*') FROM DUAL;
+SELECT LPAD('*',4, '*') FROM DUAL;
+SELECT LPAD('*',5, '*') FROM DUAL;  --왼쪽에 여백, 총 5바이트, 마지막 '*'는 빈 공백을 *로 채우라는 뜻
+
+SELECT LPAD ('Java', 10, '*') "LPAD" --총 10바이트, 왼쪽에 여백, 오른쪽 네 칸에 Java들어감, 빈 공간은 *로 채워라
+     , RPAD ('Flex', 12, '^') "RPAD" --총 12바이트, 오른쪽에 여백, 왼쪽 네 칸에 Flex들어감, 빈 공간은 ^로 채워라
+FROM   SYS.DUAL;                     --DUAL은 관리자 계정에서 준 가상의 테이블. 여기에 MEMBER를 쓴다면 MEMBER의 행 개수만큼 출력됨
+
+--24P 상품테이블의 소비자가격과 소비자가격을 치환하여 다음과 같이 출력되게 하시오
+--ALIAS: PROD_PRICE, PROD_RESULT
+SELECT PROD_PRICE                 AS PROD_PRICE
+      ,LPAD (PROD_PRICE, 10, '*') AS PROD_RESULT
+FROM   PROD;
+
+--25P TRIM
+SELECT '<' || LTRIM('      AAA      ') || '>' "LTRIM1"                      --왼쪽에서 제거
+     , '<' || LTRIM('Hello World', 'He') || '>' "LTRIM2"                    --(이처럼 문자를 지정한 경우)왼쪽에서 일치하는 문자를 제거
+     , '<' || LTRIM('llo World', 'He') || '>' "LTRIM3"                      --일치하는 문자가 없어 그대로
+     , '<' || LTRIM('Hello He World', 'He') || '>' "LTRIM4"                 --있으니까 제거
+     , '<' || LTRIM('HeHello HeWorld', 'He') || '>' "LTRIM5"                --왼쪽에서 일치하는 문자를 제거(여러개라도 전부)
+FROM DUAL;
+
+SELECT '<' || RTRIM('      AAA      ') || '>' "RTRIM1"                      --오른쪽에서 제거
+     , '<' || RTRIM('Hello World', 'ld') || '>' "RTRIM2"                    --일치하는 문자를 오른쪽에서 제거
+FROM DUAL;
+
+SELECT '<' || TRIM('      AAA      ') || '>' "TRIM1"                        --왼, 오른쪽에서 제거
+     , '<' || TRIM(LEADING 'a' FROM TRIM('     aaAaBaAaa')) || '>' "TRIM2"  --왼쪽에서 제거
+     , '<' || TRIM('a' FROM 'aaAaBaAaa') || '>' "TRIM3"                     --왼, 오른쪽에서 제거(생략과 BOTH는 동일)
+     , '<' || TRIM(BOTH 'a' FROM 'aaAaBaAaa') || '>' "TRIM4"                --역시 양쪽에서 제거
+     , '<' || TRIM(TRAILING 'a' FROM 'aaAaBaAaa') || '>' "TRIM5"            --오른쪽에서 제거
+FROM SYS.DUAL;
+
+--책25P SUBSTR
+SELECT SUBSTR('SQL PROJECT', 1, 3)  RESULT1
+     , SUBSTR('SQL PROJECT', 5)     RESULT2         -- 글자수 없으면 끝까지. (...,5,7)과 의미가 같음
+     , SUBSTR('SQL PROJECT', -7, 3) RESULT3         -- 음수를 넣으면 오른쪽부터 찾는다. 여기서는 P 위치. 거기부터 세 글자
+FROM DUAL;
+
+--회원테이블의 성씨 조회
+SELECT MEM_ID       회원ID
+     , MEM_NAME
+     , SUBSTR(MEM_NAME,1,1) 성씨
+FROM MEMBER;
+
+--25P 상품테이블의 상품명의...
+SELECT PROD_ID             상품코드
+     , PROD_NAME           상품명
+FROM   PROD
+WHERE SUBSTR(PROD_NAME,4,2)='칼라';           -- WHERE 자리에 조건식을 써야 한다
+--WHERE  PROD_NAME LIKE '___칼라%';            --이런 방법도 가능
+
+--장바구니 테이블(CART)에서 장바구니 번호(CART_NO)중에 04월에 해당하는 데이터만 출력하기
+--ALIAS : CART_NO, CART_PROD
+
+SELECT CART_NO
+     , CART_PROD
+FROM CART
+WHERE SUBSTR(CART_NO,5,2)='04';
+
