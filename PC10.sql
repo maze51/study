@@ -344,13 +344,19 @@ SELECT PROD_ID      상품코드
     , PROD_NAME     상품명
     , PROD_BUYER    거래처코드
 FROM PROD;
-
---<컬럼 alias(별칭, 별명)>
---컬럼 헤딩(heading)에는 기본적으로 컬럼 이름이 그대로 출력된다.
---바꾸려면 AS "상품 코드"		AS는 alias의 약자.
---또는 "상품 코드"
---또는 상품코드
---이 때 alias에 띄어쓰기를 넣고 싶으면 더블쿼트로 감싸야 한다
+/*
+<컬럼 alias(별칭, 별명)>
+컬럼 헤딩(heading)에는 기본적으로 컬럼 이름이 그대로 출력된다.
+바꾸려면 AS "상품 코드"		AS는 alias의 약자.
+또는 "상품 코드"
+또는 상품코드
+이 때 alias에 띄어쓰기를 넣고 싶으면 더블쿼트로 감싸야 한다
+ALIAS 작성규칙
+    숫자로 시작할 수 없다
+    30바이트를 넘을 수 없다
+    $, #, _만 사용할 수 있다(#_$)
+    시작은 문자만 가능하다
+*/
 
 
 SELECT PROD_LGU     상품분류
@@ -744,7 +750,7 @@ SELECT '<' || TRIM('      AAA      ') || '>' "TRIM1"                        --왼
      , '<' || TRIM(TRAILING 'a' FROM 'aaAaBaAaa') || '>' "TRIM5"            --오른쪽에서 제거
 FROM SYS.DUAL;
 
---책25P SUBSTR
+--책25P      SUBSTR
 SELECT SUBSTR('SQL PROJECT', 1, 3)  RESULT1
      , SUBSTR('SQL PROJECT', 5)     RESULT2         -- 글자수 없으면 끝까지. (...,5,7)과 의미가 같음
      , SUBSTR('SQL PROJECT', -7, 3) RESULT3         -- 음수를 넣으면 오른쪽부터 찾는다. 여기서는 P 위치. 거기부터 세 글자
@@ -769,5 +775,230 @@ WHERE SUBSTR(PROD_NAME,4,2)='칼라';           -- WHERE 자리에 조건식을 써야 한다
 SELECT CART_NO
      , CART_PROD
 FROM CART
-WHERE SUBSTR(CART_NO,5,2)='04';
+WHERE SUBSTR(CART_NO,5,2)='04';         -- 5번째에서 시작해서 두 글자
 
+--P.25
+--상품테이블의 상품코드(PROD_ID)에서 왼쪽 4자리, 오른쪽 6자리를 검색하시오
+--ALIAS명은 상품코드, 대분류, 순번
+SELECT PROD_ID  상품코드
+     , SUBSTR(PROD_ID,1,4) 대분류
+     , SUBSTR(PROD_ID,5)  순번 -- 글자수 없으면 끝까지
+--     , SUBSTR(PROD_ID,5,6)  순번 -- 이렇게 써도 같음
+FROM PROD;
+
+--회원ID를 다음과 같이 출력하기
+--ALIAS: 회원ID, 앞1자, 나머지
+--예시: a001, a, 001
+
+SELECT MEM_ID               회원ID
+     , SUBSTR(MEM_ID,1,1)   앞1자
+     , SUBSTR(MEM_ID,2)     나머지
+FROM MEMBER;
+
+--26P       REPLACE
+SELECT REPLACE('SQL Project', 'SQL', 'SSQQLL')  문자치환1   --1번 문자열에서 2번 문자열을 찾아 3번으로 대체
+     , REPLACE('Java Flex Via', 'a')            문자치환2   --1번 문자열에서 2번 문자열을 찾아 삭제
+     , RTRIM('Java Flex Via', 'a')              문자치환3   --일치하는 문자를 오른쪽에서 제거
+FROM DUAL;
+
+--거래처 테이블의 거래처명 중 '삼' -> '육'으로 치환
+SELECT BUYER_NAME
+     , REPLACE(BUYER_NAME,'삼','육') 치환
+FROM BUYER;
+
+--회원테이블의 회원성명 중 '이'->'리'로 치환해 검색
+--ALIAS: 회원명, 회원명치환
+SELECT MEM_NAME                     회원명
+     , REPLACE(MEM_NAME,'이','리')  회원명치환
+FROM MEMBER;
+
+--26P       INSTR: 위치를 리턴한다.
+SELECT INSTR('hello heidi', 'he')       RESULT1     --앞에서부터 찾아 결과는 1
+     , INSTR('hello heidi', 'he', 3)    RESULT2     --마지막 3은 시작점 지정. 시작점부터 가장 가깝게 일치하는 대상의 위치 리턴
+     , INSTR('hello heidi', 'he', 1, 2)    RESULT3  --마지막 2는 번째. 첫자리부터 시작해서 두 번째 맞는 대상의 위치 리턴
+FROM DUAL;
+
+--문제: I have a hat.
+--위 문장에서 첫번째 ha의 위치 출력
+--위 문장에서 두번째 ha의 위치 출력
+--alias: 첫번째위치, 두번째위치
+SELECT INSTR('I have a hat.','ha')            첫번째위치
+     , INSTR('I have a hat.','ha', 1, 2)      두번째위치
+FROM DUAL;
+
+--mepch@test.com  상위 문자에서 @를 기준으로 다음과 같이 출력하기
+--아이디 | 도메인         mepch | test.com
+SELECT SUBSTR('mepch@test.com',1,INSTR('mepch@test.com','@')-1)     아이디    --처음부터 @위치까지
+     , SUBSTR('mepch@test.com',INSTR('mepch@test.com','@')+1)       도메인    --@위치부터 끝까지
+FROM DUAL;
+
+SELECT SUBSTR(MEM_MAIL,1,INSTR(MEM_MAIL,'@')-1)   아이디                    --이런 방식으로 메일의 아이디와 도메인을 분리할 수 있다
+     , SUBSTR(MEM_MAIL,INSTR(MEM_MAIL,'@')+1)     도메인
+FROM MEMBER;
+
+--26P       LENGTH
+SELECT LENGTH('SQL 프로젝트')   LENGTH          --글자 단위 길이(어떤 글자든 상관없이)
+     , LENGTHB('SQL 프로젝트')   LENGTHB        --바이트 단위 길이(알파벳, 숫자, 공백 등은 1바이트, 한글, 한자 등은 3바이트)
+FROM DUAL;
+
+SELECT BUYER_ID                 거래처코드
+     , LENGTH(BUYER_ID)         거래처코드길이
+     , BUYER_NAME               거래처명
+     , LENGTH(BUYER_NAME)       거래처명길이
+     , LENGTHB(BUYER_NAME)      거래처명byte수
+FROM BUYER;
+
+SELECT ABS(-365) FROM DUAL;     -- 절대값
+
+SELECT SIGN(12), SIGN(0), SIGN(-55) FROM DUAL;      --양수, 음수, 0을 판단해 1, -1, 0을 리턴
+
+SELECT POWER(3, 2), POWER(2, 10) FROM DUAL;     --승수 값(a의 b승)
+
+SELECT SQRT(2), SQRT(9) FROM DUAL;      --n의 제곱근
+
+--27P       GREATEST, LEAST
+--비교해서 큰/작은 값을 리턴한다
+--숫자보다 문자가 크다 / ㄱ보다 ㅅ이 크다
+SELECT GREATEST(10, 20, 30)     큰값
+     , LEAST(10, 20, 30)        작은값
+FROM DUAL;
+
+SELECT ASCII('ㄱ') FROM DUAL;        --ㄱ에 해당하는 ASCII코드 리턴
+SELECT CHR(14910641) FROM DUAL;      --ASCII코드에 해당하는 값 리턴
+
+SELECT GREATEST('강아지', 256, '송아지')      큰값
+     , LEAST('강아지', 256, '송아지')         작은값
+FROM DUAL;
+
+SELECT GREATEST('龜', 4728903572398572925) FROM DUAL;
+
+--27P 회원 테이블에서 회원이름, 마일리지를 출력하시오
+--단 마일리지가 1000보다 작은 경우 1000으로 변경
+SELECT MEM_NAME     회원명
+     , MEM_MILEAGE  마일리지
+     , GREATEST(MEM_MILEAGE, 1000)  변경마일리지
+FROM MEMBER;
+
+--27P       ROUND           TRUNC
+--지정된 자릿수 밑에서 반올림       버림
+SELECT ROUND(345.123, -2) 결과 FROM DUAL;
+SELECT ROUND(345.123, -1) 결과 FROM DUAL;
+SELECT ROUND(345.123, 0) 결과 FROM DUAL;
+SELECT ROUND(345.123, 1) 결과 FROM DUAL;
+SELECT ROUND(345.123, 2) 결과 FROM DUAL;
+
+SELECT TRUNC(345.123, 2) 결과 FROM DUAL;
+SELECT TRUNC(345.123, 1) 결과 FROM DUAL;
+SELECT TRUNC(345.123, 0) 결과 FROM DUAL;
+SELECT TRUNC(345.123, -1) 결과 FROM DUAL;
+SELECT TRUNC(345.123, -2) 결과 FROM DUAL;
+
+--회원 테이블의 마일리지를 12로 나눈 값을 검색(소수2째자리 살리기 반올림, 절삭)
+
+SELECT MEM_MILEAGE                  마일리지
+     , ROUND(MEM_MILEAGE/12, 2)     반올림
+     , TRUNC(MEM_MILEAGE/12, 2)     버림
+FROM MEMBER;
+
+--ROUND('191.666666',2) 결과는?
+--여기에서 ",2"라는 것은 소수점 2째자리까지 살아남는다는 것임
+--따라서 191.66이 살아남는데 그 다음 3번째 자리가 6이므로 191.67이 나옴
+
+SELECT 191.222
+     , ROUND(191.222 + 0.05,1)  올림 -- 올림하려면 해당 자리값에 5 더해주기
+FROM SYS.DUAL;
+
+/*
+상품테이블의 상품명, 원가율(매입가/판매가)을 비율(%)로
+반올림 없는 것과 소수 첫째자리 살리기 반올림 비교) 검색하시오
+ALIAS는 상품명, 원가율1, 원가율2
+비율(%)은 비율에 100을 곱한 값임
+소수점 첫째자리를 살리는 반올림 - ROUND((PROD_COST / PROD_SALE)*100,1) 여기서 ",1"의미는 소수점 첫째자리를 살린다(둘째 자리에서 반올림한다)는 의미
+*/
+
+SELECT PROD_NAME                            상품명
+     ,(PROD_COST/PROD_SALE)*100             원가율1
+     , ROUND((PROD_COST/PROD_SALE)*100, 1)  원가율2
+FROM PROD;
+
+--28P       MOD
+--나머지를 구하는 함수. JAVA의 %역할
+SELECT MOD(10,3) FROM DUAL; -- 나머지 1이 출력됨
+
+
+--28P   FLOOR 내림(바닥으로) CEIL 올림(천장으로)
+--결과는 반드시 정수가 된다
+SELECT FLOOR(1332.69), CEIL(1332.69) FROM DUAL;
+SELECT FLOOR(-1332.69), CEIL(-1332.69) FROM DUAL;
+SELECT FLOOR(2.69), CEIL(2.69) FROM DUAL;
+SELECT FLOOR(-2.69), CEIL(-2.69) FROM DUAL;
+
+-- -3.141592의 내림(FLOOR)과 올림(CEIL)을 구하시오
+--ALIAS: 원본, 내림, 올림
+SELECT -3.141592         원본
+     , FLOOR(-3.141592)  내림
+     , CEIL(-3.141592)   올림
+FROM SYS.DUAL;
+                        --이 때 DUAL과 SYS.DUAL은 같다. SYS는 관리자 계정명을 의미. SELECT * FROM PC10.MEMBER처럼 사용도 가능
+
+--28P       SYSDATE
+--현재 날짜와 시간 값.
+--날짜형 데이터는 +, -연산이 가능하다(날짜/시각에 더하거나 빼기). *, /는 불가능
+SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MI:SS')  현재시간
+     , SYSDATE - 1      "어제 이시간"
+     , SYSDATE + 1      "내일 이시간"
+     , TO_CHAR(SYSDATE + 1/24,'YYYY-MM-DD HH:MI:SS')        "1시간 후"
+FROM DUAL;
+
+--TO_CHAR(): 문자로 형변환하는 함수. 이 때 형식을 지정해줄 수 있음
+
+
+--28P 회원테이블의 생일과 12000일째 되는 날을 검색하시오
+--ALIAS는 회원명, 생일, 12000일째
+--12000일째 되는 날을 구하는 문제이므로 날짜형 데이터에 12000을 더해주면 된다
+
+SELECT MEM_NAME          회원명
+     , MEM_BIR           생일
+     , MEM_BIR+12000     "12000일째"
+    --, '1995-01-01' + 12000         --이러면 에러. 문자와 숫자가 만나면 숫자가 우선. 문자는 자동 형변환됨. 그런데 이 때 중간에 '-'이 있어 자동 형변환 불가.
+     , TO_DATE('1995-01-01') + 12000 --이렇게 해결
+FROM MEMBER;
+/*
+문제: 나는 몇 일을 살았는가? TO_DATE()함수 이용
+단, 밥은 하루에 3번. 소수점 2째자리까지 표현
+ALIAS: 내생일, 산 일수, 밥먹은수
+밥먹은 비용은 3000원으로 처리
+*/
+
+SELECT TO_DATE('1986-03-30')                            내생일
+     , ROUND(SYSDATE - TO_DATE('1986-03-30'), 2)          산일수
+     , ROUND((SYSDATE - TO_DATE('1986-03-30'))*3, 2)      밥먹은수
+     , ROUND((SYSDATE - TO_DATE('1986-03-30'))*9000, 2)   밥먹은비용
+FROM DUAL;
+
+--28P       ADD_MONTHS(월을 더함)  NEXT_DAY(해당 날짜 이후 가장 빠른 요일의 날짜)  LAST_DAY
+SELECT ADD_MONTHS(SYSDATE, 5) FROM DUAL;
+
+SELECT NEXT_DAT(SYSDATE, '월요일')     --오늘부터 다가오는 월요일이 몇일인가?
+     , LAST_DAY(SYSDATE)              --이번달 마지막 날은 언제인가?
+FROM DUAL;     
+
+--이번달이 며칠 남았나 검색
+--ALIAS: 오늘날짜, 이달마지막날짜, 이번달에남은날짜
+SELECT SYSDATE                          오늘날짜
+     , LAST_DAY(SYSDATE)                이달마지막날짜
+     , LAST_DAY(SYSDATE) - SYSDATE      이번달에남은날짜
+FROM DUAL;
+
+--29P     날짜의 ROUND, TRUNC
+SELECT ROUND(SYSDATE,'MM')
+     , TRUNC(SYSDATE,'MM')
+FROM DUAL;
+
+SELECT ROUND(SYSDATE,'YEAR')
+     , TRUNC(SYSDATE,'YEAR')
+FROM DUAL;
+
+--날짜 사이의 달수(MONTHS_BETWEEN)
+SELECT MONTHS_BETWEEN(SYSDATE, '2000-01-01')
+FROM DUAL;
