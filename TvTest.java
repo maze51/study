@@ -40,11 +40,11 @@ class Tv{
 		color = "yellow";
 	}
 	
-	void power(){ // 전원
+	void power(){ // 전원		인스턴스메서드
 		power=!power; // 꺼져있으면 켜지게, 켜져있으면 꺼지게
 	}
 	
-	void channelUp(){ // 이처럼 메서드로 계속 조작
+	void channelUp(){ // 인스턴스메서드. 이처럼 메서드로 계속 조작
 		channel++;
 	}
 	

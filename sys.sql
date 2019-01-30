@@ -1,335 +1,333 @@
------------------------------------------------ cmd Ã¢¿¡¼­ ¼öÇàÇÑ ÀÛ¾÷µé
--- 1. cmdÃ¢¿¡¼­ db °ü¸®ÇÏ±â
+----------------------------------------------- cmd ì°½ì—ì„œ ìˆ˜í–‰í•œ ìž‘ì—…ë“¤
+-- 1. cmdì°½ì—ì„œ db ê´€ë¦¬í•˜ê¸°
 
 --sqlplus sys/java@localhost:1521 as sysdba
 
---cmdÃ¢¿¡¼­ °ü¸®ÀÚ°èÁ¤(sys)À¸·Î ³×Æ®¿öÅ©»ó ³» ÄÄÇ»ÅÍ(localhost)¿¡ Á¢¼Ó
---java´Â ¼³Á¤ÇÑ ºñ¹Ð¹øÈ£. Æ÷Æ® No´Â 1521(¿À¶óÅ¬). as sysdba´Â °ü¸®ÀÚ·Î¼­ ·Î±×ÀÎÇß´Ù´Â ÀÇ¹Ì
---ÀÌ¸¦ ½ÇÇàÇÏ¸é pc°¡ db server°¡ µÊ
+--cmdì°½ì—ì„œ ê´€ë¦¬ìžê³„ì •(sys)ìœ¼ë¡œ ë„¤íŠ¸ì›Œí¬ìƒ ë‚´ ì»´í“¨í„°(localhost)ì— ì ‘ì†
+--javaëŠ” ì„¤ì •í•œ ë¹„ë°€ë²ˆí˜¸. í¬íŠ¸ NoëŠ” 1521(ì˜¤ë¼í´). as sysdbaëŠ” ê´€ë¦¬ìžë¡œì„œ ë¡œê·¸ì¸í–ˆë‹¤ëŠ” ì˜ë¯¸
+--ì´ë¥¼ ì‹¤í–‰í•˜ë©´ pcê°€ db serverê°€ ë¨
 
---Âü°í: conn sys /as sysdba
---SQL CommandlineÃ¢¿¡¼­ ÀÔ·Â ÈÄ ÆÐ½º¿öµå ÀÔ·ÂÇÏ¸é Á¢¼ÓµÊ. connÀº connect¸¦ ÀÇ¹Ì
+--ì°¸ê³ : conn sys /as sysdba
+--SQL Commandlineì°½ì—ì„œ ìž…ë ¥ í›„ íŒ¨ìŠ¤ì›Œë“œ ìž…ë ¥í•˜ë©´ ì ‘ì†ë¨. connì€ connectë¥¼ ì˜ë¯¸
 
--- 2. cmdÃ¢¿¡¼­ »ç¿ëÀÚ »ý¼º
+-- 2. cmdì°½ì—ì„œ ì‚¬ìš©ìž ìƒì„±
 --create user test identified by java(pw);
---test´Â »ç¿ëÀÚ¸í identified by java´Â java¶ó´Â pw¿¡ ÀÇÇØ ½Äº°ÇÏ°Ú´Ù´Â ÀÇ¹Ì.
+--testëŠ” ì‚¬ìš©ìžëª… identified by javaëŠ” javaë¼ëŠ” pwì— ì˜í•´ ì‹ë³„í•˜ê² ë‹¤ëŠ” ì˜ë¯¸.
 
--- 2-1 »ý¼ºµÈ »ç¿ëÀÚ È®ÀÎ
-select * from all_users; -- ¸ðµç »ç¿ëÀÚ Á¤º¸ Ãâ·Â
+-- 2-1 ìƒì„±ëœ ì‚¬ìš©ìž í™•ì¸
+select * from all_users; -- ëª¨ë“  ì‚¬ìš©ìž ì •ë³´ ì¶œë ¥
 
--- 2-2 »ç¿ëÀÚ »ý¼º°ú ÇÔ²² »ç¿ëÇÒ Å×ÀÌºí½ºÆäÀÌ½º ÁöÁ¤ÇÏ±â
---create user sjg identified by java (¼¼¹ÌÄÝ·Ðx - ¸¶Áö¸· Çà on tmpµÚ¿¡ µé¾î°¡´Ï±î)
---default(±âº»À¸·Î »ç¿ëÇÒ) tablespace tmp(¿©±â¼­ tmp´Â Å×ÀÌºí½ºÆäÀÌ½ºÀÇ ÀÌ¸§)
---quota(¿ë·®, »ç¿ëÇÑµµ) unlimited(¹«Á¦ÇÑ: Å×ÀÌºí½ºÆäÀÌ½º¿¡ ¼³Á¤µÈ ÃÖ´ë ¿ë·®±îÁö) on tmp;
+-- 2-2 ì‚¬ìš©ìž ìƒì„±ê³¼ í•¨ê»˜ ì‚¬ìš©í•  í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ ì§€ì •í•˜ê¸°
+--create user sjg identified by java (ì„¸ë¯¸ì½œë¡ x - ë§ˆì§€ë§‰ í–‰ on tmpë’¤ì— ë“¤ì–´ê°€ë‹ˆê¹Œ)
+--default(ê¸°ë³¸ìœ¼ë¡œ ì‚¬ìš©í• ) tablespace tmp(ì—¬ê¸°ì„œ tmpëŠ” í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ì˜ ì´ë¦„)
+--quota(ìš©ëŸ‰, ì‚¬ìš©í•œë„) unlimited(ë¬´ì œí•œ: í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ì— ì„¤ì •ëœ ìµœëŒ€ ìš©ëŸ‰ê¹Œì§€) on tmp;
 
--- 3. cmdÃ¢¿¡¼­ ±ÇÇÑ(¼¼¼Ç) ºÎ¿©
---grant connect, resource to test(À¯Àú¸í);
---connect: test¿¡°Ô Á¢¼Ó, Á¢¼ÓÇÒ ±ÇÇÑ ºÎ¿©
---resource: ±âº»ÀûÀÎ °´Ã¼(table,trigger,index,cluster,sequenceµî)¸¦ drop,alter,create
---±×¸®°í ÄÃ·³À» insert,update,delete ÇÒ ¼ö ÀÖ´Â ±ÇÇÑÀ» ¸ð¾Æ³õÀº role
---±ÇÇÑ(¼¼¼Ç)ÀÌ¶õ? ³îÀÌµ¿»ê ÀÔÀå±Ç ÆÈÂî°°Àº °³³ä. ¼­¹ö°¡ Å¬¶óÀÌ¾ðÆ®¿¡ ºÎ¿©ÇÔ.
+-- 3. cmdì°½ì—ì„œ ê¶Œí•œ(ì„¸ì…˜) ë¶€ì—¬
+--grant connect, resource to test(ìœ ì €ëª…);
+--connect: testì—ê²Œ ì ‘ì†, ì ‘ì†í•  ê¶Œí•œ ë¶€ì—¬
+--resource: ê¸°ë³¸ì ì¸ ê°ì²´(table,trigger,index,cluster,sequenceë“±)ë¥¼ drop,alter,create
+--ê·¸ë¦¬ê³  ì»¬ëŸ¼ì„ insert,update,delete í•  ìˆ˜ ìžˆëŠ” ê¶Œí•œì„ ëª¨ì•„ë†“ì€ role
+--ê¶Œí•œ(ì„¸ì…˜)ì´ëž€? ë†€ì´ë™ì‚° ìž…ìž¥ê¶Œ íŒ”ì°Œê°™ì€ ê°œë…. ì„œë²„ê°€ í´ë¼ì´ì–¸íŠ¸ì— ë¶€ì—¬í•¨.
 
--- 4. cmdÃ¢¿¡¼­ »ç¿ëÀÚ °èÁ¤À¸·Î ·Î±×ÀÎ
+-- 4. cmdì°½ì—ì„œ ì‚¬ìš©ìž ê³„ì •ìœ¼ë¡œ ë¡œê·¸ì¸
 --sqlplus test/java@localhost:1521
---°ü¸®ÀÚ·Î¼­ ·Î±×ÀÎÇÏ´Â °ÍÀÌ ¾Æ´Ï¹Ç·Î as sysdba´Â ºÙÀÌÁö ¾ÊÀ½
---±ÇÇÑÀÌ ºÎ¿©µÇÁö ¾Ê¾ÒÀ» °æ¿ì ¼¼¼Ç ºÎÁ· ¿¡·¯¹ß»ý. 3¹ø¿¡¼­ ±ÇÇÑ ºÎ¿©ÇÏ¸é °¡´É.
+--ê´€ë¦¬ìžë¡œì„œ ë¡œê·¸ì¸í•˜ëŠ” ê²ƒì´ ì•„ë‹ˆë¯€ë¡œ as sysdbaëŠ” ë¶™ì´ì§€ ì•ŠìŒ
+--ê¶Œí•œì´ ë¶€ì—¬ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° ì„¸ì…˜ ë¶€ì¡± ì—ëŸ¬ë°œìƒ. 3ë²ˆì—ì„œ ê¶Œí•œ ë¶€ì—¬í•˜ë©´ ê°€ëŠ¥.
 
--- 5. cmdÃ¢¿¡¼­ ´Ù¸¥ »ç¶÷ÀÇ oracle¼­¹ö¿¡ Á¢¼ÓÇÏ±â
--- cmdÃ¢¿¡¼­ °ü¸®ÀÚ ·Î±×ÀÎ-½ÃÀÛ¹öÆ°¿¡¼­ ³» pc¹øÈ£ È®ÀÎ-create user pc(¹øÈ£) identified by java;
--- connect, resource ±ÇÇÑ ºÎ¿©
--- Á¢¼ÓÇÒ °÷ÀÇ IPÁÖ¼Ò È®ÀÎ(cmdÃ¢¿¡¼­ ipconfig ÈÄ ipv4°¡ ³» IPÁÖ¼Ò)
--- Á¢¼ÓÇÒ PC ¹æÈ­º® ÇØÁ¦(Á¦¾îÆÇ-½Ã½ºÅÛ ¹× º¸¾È-windows¹æÈ­º®-¹æÈ­º® ÇØÁ¦)
--- Á¢¼Ó sqlplus pc(¹øÈ£)/java@(IPÁÖ¼Ò):1521
--- ÀÌ ¶§ À§¿¡¼­ º»ÀÎ PC¿¡ Á¢¼ÓÇÒ »ç¶÷ÀÇ °èÁ¤ »ý¼º/±ÇÇÑ ºÎ¿©°¡ ¿Ï·áµÇ¾ú´Ù¸é, ´Ù¸¥ »ç¶÷ÀÌ Á¢¼ÓÇÒ ¼ö ÀÖÀ½
+-- 5. cmdì°½ì—ì„œ ë‹¤ë¥¸ ì‚¬ëžŒì˜ oracleì„œë²„ì— ì ‘ì†í•˜ê¸°
+-- cmdì°½ì—ì„œ ê´€ë¦¬ìž ë¡œê·¸ì¸-ì‹œìž‘ë²„íŠ¼ì—ì„œ ë‚´ pcë²ˆí˜¸ í™•ì¸-create user pc(ë²ˆí˜¸) identified by java;
+-- connect, resource ê¶Œí•œ ë¶€ì—¬
+-- ì ‘ì†í•  ê³³ì˜ IPì£¼ì†Œ í™•ì¸(cmdì°½ì—ì„œ ipconfig í›„ ipv4ê°€ ë‚´ IPì£¼ì†Œ)
+-- ì ‘ì†í•  PC ë°©í™”ë²½ í•´ì œ(ì œì–´íŒ-ì‹œìŠ¤í…œ ë° ë³´ì•ˆ-windowsë°©í™”ë²½-ë°©í™”ë²½ í•´ì œ)
+-- ì ‘ì† sqlplus pc(ë²ˆí˜¸)/java@(IPì£¼ì†Œ):1521
+-- ì´ ë•Œ ìœ„ì—ì„œ ë³¸ì¸ PCì— ì ‘ì†í•  ì‚¬ëžŒì˜ ê³„ì • ìƒì„±/ê¶Œí•œ ë¶€ì—¬ê°€ ì™„ë£Œë˜ì—ˆë‹¤ë©´, ë‹¤ë¥¸ ì‚¬ëžŒì´ ì ‘ì†í•  ìˆ˜ ìžˆìŒ
 
--- 6. cmdÃ¢¿¡¼­ Å×ÀÌºí½ºÆäÀÌ½º ¸¸µé±â
---Å×ÀÌºí½ºÆäÀÌ½º¶õ? Å×ÀÌºí(=ÆÄÀÏ, ¸±·¹ÀÌ¼Ç)ÀÌ °ü¸®ÇÏ´Â µ¥ÀÌÅÍ°¡ µé¾î°£ °Í(*.dbfÆÄÀÏ ÇüÅÂ)
---°ø°£À» ¾²±â À§ÇØ (À§Ä¡)ÁÖ¼Ò+¸íÄª+»ç¶÷(´©°¡ ¾µ °ÍÀÎ°¡)ÀÌ ÇÊ¿äÇÏ´Ù.
---¿©±â¼­ ÁÖ¼Ò: c:\oraclexe... ¸íÄª(Å×ÀÌºí½ºÆäÀÌ½º¸í) »ç¶÷: °èÁ¤¸í
+-- 6. cmdì°½ì—ì„œ í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ ë§Œë“¤ê¸°
+--í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ëž€? í…Œì´ë¸”(=íŒŒì¼, ë¦´ë ˆì´ì…˜)ì´ ê´€ë¦¬í•˜ëŠ” ë°ì´í„°ê°€ ë“¤ì–´ê°„ ê²ƒ(*.dbfíŒŒì¼ í˜•íƒœ)
+--ê³µê°„ì„ ì“°ê¸° ìœ„í•´ (ìœ„ì¹˜)ì£¼ì†Œ+ëª…ì¹­+ì‚¬ëžŒ(ëˆ„ê°€ ì“¸ ê²ƒì¸ê°€)ì´ í•„ìš”í•˜ë‹¤.
+--ì—¬ê¸°ì„œ ì£¼ì†Œ: c:\oraclexe... ëª…ì¹­(í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ëª…) ì‚¬ëžŒ: ê³„ì •ëª…
 
 --create tablespace tmp
---datafile 'C:\oraclexe\app\oracle\oradata\XE\tmp.dbf(Å×ÀÌºí½ºÆäÀÌ½ºÀÇ °æ·Î)' size 30M;
---¹°¸®Àû À§Ä¡¸¦ ÁöÁ¤ÇÏ°í('C:\oraclexe\app\oracle\oradata\XE\tmp.dbf')
---Å©±â¸¦ ÁöÁ¤ÇÑ´Ù(size 30M).
+--datafile 'C:\oraclexe\app\oracle\oradata\XE\tmp.dbf(í…Œì´ë¸”ìŠ¤íŽ˜ì´ìŠ¤ì˜ ê²½ë¡œ)' size 30M;
+--ë¬¼ë¦¬ì  ìœ„ì¹˜ë¥¼ ì§€ì •í•˜ê³ ('C:\oraclexe\app\oracle\oradata\XE\tmp.dbf')
+--í¬ê¸°ë¥¼ ì§€ì •í•œë‹¤(size 30M).
 
------------------------------------------------ ±âº» °³³ä
+----------------------------------------------- ê¸°ë³¸ ê°œë…
 
---<µ¥ÀÌÅÍ¿Í Á¤º¸>
---µ¥ÀÌÅÍ´Â? Çö½Ç ¼¼°è·ÎºÎÅÍ °üÂûÀÌ³ª ÃøÁ¤ µîÀÇ ¼ö´ÜÀ» ÅëÇØ ¼öÁýÇÑ »ç½ÇÀÌ³ª °ª(ÀÇ¹Ì°¡ ºÎ¿©µÇÁö ¾ÊÀº)
+--<ë°ì´í„°ì™€ ì •ë³´>
+--ë°ì´í„°ëŠ”? í˜„ì‹¤ ì„¸ê³„ë¡œë¶€í„° ê´€ì°°ì´ë‚˜ ì¸¡ì • ë“±ì˜ ìˆ˜ë‹¨ì„ í†µí•´ ìˆ˜ì§‘í•œ ì‚¬ì‹¤ì´ë‚˜ ê°’(ì˜ë¯¸ê°€ ë¶€ì—¬ë˜ì§€ ì•Šì€)
 
---Á¤º¸(Information)´Â? Æ¯Á¤ »óÈ²¿¡ ´ëÇÑ ÀÇ»ç°áÁ¤À» ³»¸± ¼ö ÀÖ´Â À¯¿ëÇÑ ÇØ¼®ÀÌ³ª µ¥ÀÌÅÍ »óÈ£ °£ÀÇ °ü°è
---µ¥ÀÌÅÍ¸¦ °¡°øÇÑ °ª(ÀÇ¹ÌÀÖ´Â, È¤Àº ³ª¿¡°Ô ÀÇ¹ÌÀÖ°Ô ¸¸µç)
+--ì •ë³´(Information)ëŠ”? íŠ¹ì • ìƒí™©ì— ëŒ€í•œ ì˜ì‚¬ê²°ì •ì„ ë‚´ë¦´ ìˆ˜ ìžˆëŠ” ìœ ìš©í•œ í•´ì„ì´ë‚˜ ë°ì´í„° ìƒí˜¸ ê°„ì˜ ê´€ê³„
+--ë°ì´í„°ë¥¼ ê°€ê³µí•œ ê°’(ì˜ë¯¸ìžˆëŠ”, í˜¹ì€ ë‚˜ì—ê²Œ ì˜ë¯¸ìžˆê²Œ ë§Œë“ )
 
---µ¥ÀÌÅÍ¸¦ °¡°øÇÏ¿© Á¤º¸¸¦ ÃßÃâÇÏ´Â °úÁ¤(½½¶óÀÌµå 5p)
---ÀÚµ¿Â÷È¸»ç °í°´Á¤º¸ µ¥ÀÌÅÍº£ÀÌ½º°¡ ÀÖ´Ù°í ÇÒ ¶§, ÆÇÃË¹°À» ¹«ÀÛÁ¤ ¸ðµÎ¿¡°Ô º¸³½´Ù¸é ¸·´ëÇÑ ºñÈ¿À² ¹ß»ý
---->ÀÌ¸¦ ÁÙÀÌ±â À§ÇØ 1Â÷ Á¤º¸È­ °úÁ¤: ¿¬½ÄÀ¸·Î ÇÊÅÍ¸µ(5³â ÀÌ»ó) & 2Â÷ Á¤º¸È­ °úÁ¤: Áö¿ªÀ¸·Î ÇÊÅÍ¸µ(¼­¿ï)
---ÀÌ¿Í °°Àº Á¤º¸È­ °úÁ¤À» ÅëÇØ ¿¹»êÀ» ÁÙÀÏ ¼ö ÀÖ°í, ÀÌ´Â ÀÇ¹ÌÀÖ´Â ÇàÀ§ÀÌ´Ù. ¶§¹®¿¡ °á°ú¹°À» Á¤º¸¶ó ºÎ¸¦ ¼ö ÀÖ´Ù.
+--ë°ì´í„°ë¥¼ ê°€ê³µí•˜ì—¬ ì •ë³´ë¥¼ ì¶”ì¶œí•˜ëŠ” ê³¼ì •(ìŠ¬ë¼ì´ë“œ 5p)
+--ìžë™ì°¨íšŒì‚¬ ê³ ê°ì •ë³´ ë°ì´í„°ë² ì´ìŠ¤ê°€ ìžˆë‹¤ê³  í•  ë•Œ, íŒì´‰ë¬¼ì„ ë¬´ìž‘ì • ëª¨ë‘ì—ê²Œ ë³´ë‚¸ë‹¤ë©´ ë§‰ëŒ€í•œ ë¹„íš¨ìœ¨ ë°œìƒ
+--->ì´ë¥¼ ì¤„ì´ê¸° ìœ„í•´ 1ì°¨ ì •ë³´í™” ê³¼ì •: ì—°ì‹ìœ¼ë¡œ í•„í„°ë§(5ë…„ ì´ìƒ) & 2ì°¨ ì •ë³´í™” ê³¼ì •: ì§€ì—­ìœ¼ë¡œ í•„í„°ë§(ì„œìš¸)
+--ì´ì™€ ê°™ì€ ì •ë³´í™” ê³¼ì •ì„ í†µí•´ ì˜ˆì‚°ì„ ì¤„ì¼ ìˆ˜ ìžˆê³ , ì´ëŠ” ì˜ë¯¸ìžˆëŠ” í–‰ìœ„ì´ë‹¤. ë•Œë¬¸ì— ê²°ê³¼ë¬¼ì„ ì •ë³´ë¼ ë¶€ë¥¼ ìˆ˜ ìžˆë‹¤.
 
---¸ÞÅ¸µ¥ÀÌÅÍ¶õ(½½¶óÀÌµå 6p)? µ¥ÀÌÅÍÀÇ ±¸Á¶(Structure)³ª Á¦¾à»çÇ×(Constraints)°ú °°Àº
---¼Ó¼º(Properties)ÀÌ³ª Æ¯¼ºÀ» ±â¼úÇÏ´Â °Í.
+--ë©”íƒ€ë°ì´í„°ëž€(ìŠ¬ë¼ì´ë“œ 6p)? ë°ì´í„°ì˜ êµ¬ì¡°(Structure)ë‚˜ ì œì•½ì‚¬í•­(Constraints)ê³¼ ê°™ì€
+--ì†ì„±(Properties)ì´ë‚˜ íŠ¹ì„±ì„ ê¸°ìˆ í•˜ëŠ” ê²ƒ.
 
---µ¥ÀÌÅÍ(±è±æµ¿, ÀÌ¼ö±Ù, ¼Ò³ªÅ¸, 2005³â½Ä, ¼­¿ï½Ã µî ´«¿¡ º¸ÀÌ´Â µ¥ÀÌÅÍ)¿¡ ´ëÇÑ 
---µ¥ÀÌÅÍ(¹®ÀÚÇü, ¼ýÀÚÇü µî ´«¿¡ º¸ÀÌÁö ¾Ê´Â µ¥ÀÌÅÍ)
+--ë°ì´í„°(ê¹€ê¸¸ë™, ì´ìˆ˜ê·¼, ì†Œë‚˜íƒ€, 2005ë…„ì‹, ì„œìš¸ì‹œ ë“± ëˆˆì— ë³´ì´ëŠ” ë°ì´í„°)ì— ëŒ€í•œ 
+--ë°ì´í„°(ë¬¸ìží˜•, ìˆ«ìží˜• ë“± ëˆˆì— ë³´ì´ì§€ ì•ŠëŠ” ë°ì´í„°)
 
 
---<µ¥ÀÌÅÍº£ÀÌ½º(Database, DB)>¶õ?
---Æ¯Á¤ Á¶Á÷ ³»¿¡¼­ ´Ù¼öÀÇ »ç¿ëÀÚµéÀÌ °øÀ¯(share)ÇÒ ¼ö ÀÖµµ·Ï ÅëÇÕ(integrate)½ÃÅ°°í 
---ÄÄÇ»ÅÍ ÀúÀå ÀåÄ¡¿¡ ÀúÀå(store)½ÃÅ² ¿î¿µ(operation)µ¥ÀÌÅÍÀÇ ÁýÇÕÀÌ´Ù.
+--<ë°ì´í„°ë² ì´ìŠ¤(Database, DB)>ëž€?
+--íŠ¹ì • ì¡°ì§ ë‚´ì—ì„œ ë‹¤ìˆ˜ì˜ ì‚¬ìš©ìžë“¤ì´ ê³µìœ (share)í•  ìˆ˜ ìžˆë„ë¡ í†µí•©(integrate)ì‹œí‚¤ê³  
+--ì»´í“¨í„° ì €ìž¥ ìž¥ì¹˜ì— ì €ìž¥(store)ì‹œí‚¨ ìš´ì˜(operation)ë°ì´í„°ì˜ ì§‘í•©ì´ë‹¤.
 
---µ¥ÀÌÅÍº£ÀÌ½ºÀÇ Æ¯¼º
-    --1. ½Ç½Ã°£ Á¢±Ù(real-time accessibility)
-    --¾ðÁ¦µç »ç¿ëÇÒ ¼ö ÀÖ°Ô ÇÏ´Â °Í. °¡¿ë¼º. ¼ö½ÃÀûÀÌ°í ºñÁ¤ÇüÀûÀÎ ÁúÀÇ(Á¶È¸)¿¡ ´ëÇØ ½Ç½Ã°£
-    --Ã³¸®¿¡ ÀÇÇÑ ÀÀ´äÀÌ °¡´ÉÇØ¾ß ÇÑ´Ù.
-    --2. °è¼ÓÀûÀÎ º¯È­(continuous evolution)
-    --dbÀÇ »óÅÂ´Â µ¿ÀûÀÌ´Ù. »õ·Î¿î µ¥ÀÌÅÍÀÇ »ðÀÔ, »èÁ¦, °»½ÅÀ¸·Î Ç×»ó ÃÖ½ÅÀÇ µ¥ÀÌÅÍ¸¦ À¯ÁöÇÑ´Ù
-    --¿¹) ÁÂ¼®¿¹¸Å ½Ã ÀÚ¸®°¡ °©ÀÚ±â »ç¶óÁö´Â °Í
-    --3. µ¿½Ã °øÀ¯(concurrent sharing)
-    --db´Â ¼­·Î ´Ù¸¥ ¸ñÀûÀ» °¡Áø ¿©·¯ ÀÌ¿ëÀÚµéÀ» À§ÇÑ °ÍÀÌ¹Ç·Î ´Ù¼öÀÇ »ç¿ëÀÚ°¡ µ¿½Ã¿¡ °°Àº µ¥ÀÌÅÍ¸¦
-    --ÀÌ¿ëÇÒ ¼ö ÀÖ¾î¾ß ÇÑ´Ù.´Ü ÀÌ´Â Á¦ÇÑÀÌ »ý±è. ´©°¡ Á¢±ÙÁßÀÏ ¶§ Å¸ÀÎÀ» ¸·´Â °Í
-    --4. ³»¿ë¿¡ ÀÇÇÑ ÂüÁ¶(content reference)
-    --db¿¡ ÀÖ´Â µ¥ÀÌÅÍ¸¦ ÂüÁ¶ÇÒ ¶§ ·¹ÄÚµåÀÇ ÁÖ¼Ò/À§Ä¡¿¡ ÀÇÇØ¼­°¡ ¾Æ´Ï¶ó
-    --»ç¿ëÀÚ°¡ ¿ä±¸ÇÏ´Â µ¥ÀÌÅÍ ³»¿ëÀ¸·Î µ¥ÀÌÅÍ¸¦ Ã£´Â´Ù
-    --³»°¡ µî·ÏÇØ ³õÀº µ¥ÀÌÅÍ Áß À¯»çÇÑ °ÍÀ» Á¦½ÃÇÏ´Â °Í
-    --(¿¹: °Ë»ö »çÀÌÆ®ÀÇ ÀÚµ¿¿Ï¼º, ÁÖ¼Ò·Ï ÀÚµ¿¿Ï¼º µî)
+--ë°ì´í„°ë² ì´ìŠ¤ì˜ íŠ¹ì„±
+    --1. ì‹¤ì‹œê°„ ì ‘ê·¼(real-time accessibility)
+    --ì–¸ì œë“  ì‚¬ìš©í•  ìˆ˜ ìžˆê²Œ í•˜ëŠ” ê²ƒ. ê°€ìš©ì„±. ìˆ˜ì‹œì ì´ê³  ë¹„ì •í˜•ì ì¸ ì§ˆì˜(ì¡°íšŒ)ì— ëŒ€í•´ ì‹¤ì‹œê°„
+    --ì²˜ë¦¬ì— ì˜í•œ ì‘ë‹µì´ ê°€ëŠ¥í•´ì•¼ í•œë‹¤.
+    --2. ê³„ì†ì ì¸ ë³€í™”(continuous evolution)
+    --dbì˜ ìƒíƒœëŠ” ë™ì ì´ë‹¤. ìƒˆë¡œìš´ ë°ì´í„°ì˜ ì‚½ìž…, ì‚­ì œ, ê°±ì‹ ìœ¼ë¡œ í•­ìƒ ìµœì‹ ì˜ ë°ì´í„°ë¥¼ ìœ ì§€í•œë‹¤
+    --ì˜ˆ) ì¢Œì„ì˜ˆë§¤ ì‹œ ìžë¦¬ê°€ ê°‘ìžê¸° ì‚¬ë¼ì§€ëŠ” ê²ƒ
+    --3. ë™ì‹œ ê³µìœ (concurrent sharing)
+    --dbëŠ” ì„œë¡œ ë‹¤ë¥¸ ëª©ì ì„ ê°€ì§„ ì—¬ëŸ¬ ì´ìš©ìžë“¤ì„ ìœ„í•œ ê²ƒì´ë¯€ë¡œ ë‹¤ìˆ˜ì˜ ì‚¬ìš©ìžê°€ ë™ì‹œì— ê°™ì€ ë°ì´í„°ë¥¼
+    --ì´ìš©í•  ìˆ˜ ìžˆì–´ì•¼ í•œë‹¤.ë‹¨ ì´ëŠ” ì œí•œì´ ìƒê¹€. ëˆ„ê°€ ì ‘ê·¼ì¤‘ì¼ ë•Œ íƒ€ì¸ì„ ë§‰ëŠ” ê²ƒ
+    --4. ë‚´ìš©ì— ì˜í•œ ì°¸ì¡°(content reference)
+    --dbì— ìžˆëŠ” ë°ì´í„°ë¥¼ ì°¸ì¡°í•  ë•Œ ë ˆì½”ë“œì˜ ì£¼ì†Œ/ìœ„ì¹˜ì— ì˜í•´ì„œê°€ ì•„ë‹ˆë¼
+    --ì‚¬ìš©ìžê°€ ìš”êµ¬í•˜ëŠ” ë°ì´í„° ë‚´ìš©ìœ¼ë¡œ ë°ì´í„°ë¥¼ ì°¾ëŠ”ë‹¤
+    --ë‚´ê°€ ë“±ë¡í•´ ë†“ì€ ë°ì´í„° ì¤‘ ìœ ì‚¬í•œ ê²ƒì„ ì œì‹œí•˜ëŠ” ê²ƒ
+    --(ì˜ˆ: ê²€ìƒ‰ ì‚¬ì´íŠ¸ì˜ ìžë™ì™„ì„±, ì£¼ì†Œë¡ ìžë™ì™„ì„± ë“±)
 
 --<SQL> : Structed Query Language
 
---³»°¡ ¾î¶² »çÀÌÆ®¿¡ ·Î±×ÀÎÇÏ´Â °úÁ¤À» »ý°¢ÇÒ ¶§,
---Å¬¶óÀÌ¾ðÆ®(¿äÃ»ÀÚ)´Â ¼­¹ö(ÀÀ´äÀÚ)¿¡ ·Î±×ÀÎ ¿äÃ»(request)À» º¸³½´Ù
---ÀÌ¶§ ¼­¹ö´Â Å¬¶óÀÌ¾ðÆ®¿¡ Çã¿ë ¶Ç´Â °ÅºÎ¶ó´Â ÀÀ´ä(response)À» º¸³½´Ù
---ÀÌ °úÁ¤¿¡¼­ Å¬¶óÀÌ¾ðÆ®ÃøÀÇ ¿äÃ» ÅøÀÌ cmd, SQL commandline, SQL Developer µîÀÌ´Ù
+--ë‚´ê°€ ì–´ë–¤ ì‚¬ì´íŠ¸ì— ë¡œê·¸ì¸í•˜ëŠ” ê³¼ì •ì„ ìƒê°í•  ë•Œ,
+--í´ë¼ì´ì–¸íŠ¸(ìš”ì²­ìž)ëŠ” ì„œë²„(ì‘ë‹µìž)ì— ë¡œê·¸ì¸ ìš”ì²­(request)ì„ ë³´ë‚¸ë‹¤
+--ì´ë•Œ ì„œë²„ëŠ” í´ë¼ì´ì–¸íŠ¸ì— í—ˆìš© ë˜ëŠ” ê±°ë¶€ë¼ëŠ” ì‘ë‹µ(response)ì„ ë³´ë‚¸ë‹¤
+--ì´ ê³¼ì •ì—ì„œ í´ë¼ì´ì–¸íŠ¸ì¸¡ì˜ ìš”ì²­ íˆ´ì´ cmd, SQL commandline, SQL Developer ë“±ì´ë‹¤
 
---ÆÄÀÏ °ü¸® ½Ã½ºÅÛ(½½¶óÀÌµå 12p)
---Áßº¹/ºÒÀÏÄ¡°¡ °¡Àå ½É°¢ÇÑ ¹®Á¦ -> ÇØ°áÀ» À§ÇØ ÅëÇÕÀûÀ¸·Î °ü¸®ÇÏ´Â µ¥ÀÌÅÍº£ÀÌ½º °ü¸® ½Ã½ºÅÛ(dbms)À» µµÀÔÇÏ°Ô µÊ
+--íŒŒì¼ ê´€ë¦¬ ì‹œìŠ¤í…œ(ìŠ¬ë¼ì´ë“œ 12p)
+--ì¤‘ë³µ/ë¶ˆì¼ì¹˜ê°€ ê°€ìž¥ ì‹¬ê°í•œ ë¬¸ì œ -> í•´ê²°ì„ ìœ„í•´ í†µí•©ì ìœ¼ë¡œ ê´€ë¦¬í•˜ëŠ” ë°ì´í„°ë² ì´ìŠ¤ ê´€ë¦¬ ì‹œìŠ¤í…œ(dbms)ì„ ë„ìž…í•˜ê²Œ ë¨
 
---°ü°èÇü µ¥ÀÌÅÍº£ÀÌ½º ¸ðµ¨(RDBMS)(½½¶óÀÌµå 24p)
---ÇöÀç °¡Àå ¸¹ÀÌ »ç¿ëµÇ´Â db¸ðµ¨. ÀÚ¿¬¾î¿¡ °¡±î¿î ¹®¹ý
---ÀÚ¿¬¾î¶õ? »ç¶÷ÀÌ ÀÌÇØÇÏ±â ½¬¿î ¾ð¾î - ¶§¹®¿¡ ¹è¿ì±â ½±´Ù
---µ¥ÀÌÅÍ¸¦ ¾î¶»°Ô(HOW) °¡Á®¿Ã °ÍÀÎ°¡ ´ë½Å ¾î¶²(WHAT) µ¥ÀÌÅÍ¸¦ ¿øÇÏ´ÂÁö¸¸ ±â¼ú
---µ¥ÀÌÅÍ HOW? ¸î¹ß °É¾î°¡¼­ ¹®°í¸®¸¦ ¾î¶»°Ô µ¹¸®°í....
---µ¥ÀÌÅÍ WHAT? ¹¹ ¹¹ ¹¹ °¡Á®¿Í¶ó. ¾î¶»°Ô´Â ¾Ë¾Æ¼­ ÇÏ°í. - »ç¿ëÀÚ/°³¹ßÀÚ ÀÔÀå¿¡¼­ ´Ü¼øÇØÁü
--- +¸í·É¾î³ª ¹®¹ýÀÌ Ç¥ÁØÈ­µÇ¾î ´ëºÎºÐÀÇ ¸í·É¾î´Â ¸ðµç RDBMS¿¡¼­ »ç¿ë °¡´É
---(½½¶óÀÌµå 25p) ´ëÇ¥ÀûÀÎ SQL
---¿µ¾÷ºÎ : Á¶°Ç / SELECT ¿­¹æÇâ ÇÊÅÍ¸µ WHERE Çà¹æÇâ ÇÊÅÍ¸µ
+--ê´€ê³„í˜• ë°ì´í„°ë² ì´ìŠ¤ ëª¨ë¸(RDBMS)(ìŠ¬ë¼ì´ë“œ 24p)
+--í˜„ìž¬ ê°€ìž¥ ë§Žì´ ì‚¬ìš©ë˜ëŠ” dbëª¨ë¸. ìžì—°ì–´ì— ê°€ê¹Œìš´ ë¬¸ë²•
+--ìžì—°ì–´ëž€? ì‚¬ëžŒì´ ì´í•´í•˜ê¸° ì‰¬ìš´ ì–¸ì–´ - ë•Œë¬¸ì— ë°°ìš°ê¸° ì‰½ë‹¤
+--ë°ì´í„°ë¥¼ ì–´ë–»ê²Œ(HOW) ê°€ì ¸ì˜¬ ê²ƒì¸ê°€ ëŒ€ì‹  ì–´ë–¤(WHAT) ë°ì´í„°ë¥¼ ì›í•˜ëŠ”ì§€ë§Œ ê¸°ìˆ 
+--ë°ì´í„° HOW? ëª‡ë°œ ê±¸ì–´ê°€ì„œ ë¬¸ê³ ë¦¬ë¥¼ ì–´ë–»ê²Œ ëŒë¦¬ê³ ....
+--ë°ì´í„° WHAT? ë­ ë­ ë­ ê°€ì ¸ì™€ë¼. ì–´ë–»ê²ŒëŠ” ì•Œì•„ì„œ í•˜ê³ . - ì‚¬ìš©ìž/ê°œë°œìž ìž…ìž¥ì—ì„œ ë‹¨ìˆœí•´ì§
+-- +ëª…ë ¹ì–´ë‚˜ ë¬¸ë²•ì´ í‘œì¤€í™”ë˜ì–´ ëŒ€ë¶€ë¶„ì˜ ëª…ë ¹ì–´ëŠ” ëª¨ë“  RDBMSì—ì„œ ì‚¬ìš© ê°€ëŠ¥
+--(ìŠ¬ë¼ì´ë“œ 25p) ëŒ€í‘œì ì¸ SQL
+--ì˜ì—…ë¶€ : ì¡°ê±´ / SELECT ì—´ë°©í–¥ í•„í„°ë§ WHERE í–‰ë°©í–¥ í•„í„°ë§
 
---@@ Å×ÀÌºí ,¿­, Çà, Å°, CONSTRAINT ÀÌÇØÇÏ±â
---±³Àç29P ¸±·¹ÀÌ¼Ç(RELATION) = Å×ÀÌºí
---Å×ÀÌºí: 2Â÷¿ø ¹è¿­
---Constraint: ÇÑÁ¤(Á¦¾à)ÇÏ´Ù. ¿À¶óÅ¬°úÀÇ ¾à¼Ó.
+--@@ í…Œì´ë¸” ,ì—´, í–‰, í‚¤, CONSTRAINT ì´í•´í•˜ê¸°
+--êµìž¬29P ë¦´ë ˆì´ì…˜(RELATION) = í…Œì´ë¸”
+--í…Œì´ë¸”: 2ì°¨ì› ë°°ì—´
+--Constraint: í•œì •(ì œì•½)í•˜ë‹¤. ì˜¤ë¼í´ê³¼ì˜ ì•½ì†.
 
---¼­·Î ºñ½ÁÇÑ °³³ä. ¼÷Áö ÇÊ¿ä
---¸±·¹ÀÌ¼Ç       ÆÄÀÏ       Å×ÀÌºí
---¼Ó¼º          ÇÊµå        ¿­, ÄÃ·³
---Æ©ÇÃ          ·¹ÄÚµå      Çà
+--ì„œë¡œ ë¹„ìŠ·í•œ ê°œë…. ìˆ™ì§€ í•„ìš”
+--ë¦´ë ˆì´ì…˜       íŒŒì¼       í…Œì´ë¸”
+--ì†ì„±          í•„ë“œ        ì—´, ì»¬ëŸ¼
+--íŠœí”Œ          ë ˆì½”ë“œ      í–‰
 
---±³Àç30p
---Áßº¹ Æ©ÇÃÀÌ µé¾î°¡´Â °ÍÀ» ¸·±â À§ÇØ ¾î¶»°Ô ÇØ¾ß ÇÏ´Â°¡?
---¸ðµç ¼Ó¼ºº°·Î °°Àº °ªÀÌ ÀÖ³ª ¸ðµÎ Ã¼Å©: '°°Àº °ªÀÌ x°³ ÀÌ»óÀÌ¸é µ¿ÀÏ ÀÎ¹°ÀÌ´Ù'¶ó´Â ±ÔÄ¢À» Á¤Çß´Ù¸é Ã¼Å© °¡´É
---ÇÏÁö¸¸ Æ©ÇÃÀÌ Ãµ¸¸°³¶ó¸é? Ã³¸® ¼Óµµ ÀúÇÏ.
+--êµìž¬30p
+--ì¤‘ë³µ íŠœí”Œì´ ë“¤ì–´ê°€ëŠ” ê²ƒì„ ë§‰ê¸° ìœ„í•´ ì–´ë–»ê²Œ í•´ì•¼ í•˜ëŠ”ê°€?
+--ëª¨ë“  ì†ì„±ë³„ë¡œ ê°™ì€ ê°’ì´ ìžˆë‚˜ ëª¨ë‘ ì²´í¬: 'ê°™ì€ ê°’ì´ xê°œ ì´ìƒì´ë©´ ë™ì¼ ì¸ë¬¼ì´ë‹¤'ë¼ëŠ” ê·œì¹™ì„ ì •í–ˆë‹¤ë©´ ì²´í¬ ê°€ëŠ¥
+--í•˜ì§€ë§Œ íŠœí”Œì´ ì²œë§Œê°œë¼ë©´? ì²˜ë¦¬ ì†ë„ ì €í•˜.
 
---±³Àç 30p, ½½¶óÀÌµå 34p
---ÈÄº¸Å°¿Í ±âº»Å°, ´ëÃ¼Å°, º¹ÇÕÅ° °³³ä
---ÀÌ Áß ÈÄº¸Å°¿Í ±âº»Å°´Â NOT NULL, NO DUPLICATE
---ÈÄº¸Å°ÀÇ ÃÖ¼Ò¼º: ÄÃ·³À» ºÙÀÌ°í ºÙÀÌ¸é ´õ À¯ÀÏÇØÁø´Ù. ÇÏÁö¸¸ ±æ¾îÁü. 
---±âº»Å°¿ªÇÒÀ» ÇÒ ÄÃ·³ÀÌ ÀÖ´Ù¸é ±×°Í¸¸ ¾²¸é µÊ
+--êµìž¬ 30p, ìŠ¬ë¼ì´ë“œ 34p
+--í›„ë³´í‚¤ì™€ ê¸°ë³¸í‚¤, ëŒ€ì²´í‚¤, ë³µí•©í‚¤ ê°œë…
+--ì´ ì¤‘ í›„ë³´í‚¤ì™€ ê¸°ë³¸í‚¤ëŠ” NOT NULL, NO DUPLICATE
+--í›„ë³´í‚¤ì˜ ìµœì†Œì„±: ì»¬ëŸ¼ì„ ë¶™ì´ê³  ë¶™ì´ë©´ ë” ìœ ì¼í•´ì§„ë‹¤. í•˜ì§€ë§Œ ê¸¸ì–´ì§. 
+--ê¸°ë³¸í‚¤ì—­í• ì„ í•  ì»¬ëŸ¼ì´ ìžˆë‹¤ë©´ ê·¸ê²ƒë§Œ ì“°ë©´ ë¨
 
---±³Àç 32p
---ÀÚ½Ä Å×ÀÌºíÀÇ ¿Ü·¡Å°°¡ ºÎ¸ð Å×ÀÌºíÀÇ ±âº»Å°¸¦ ÂüÁ¶ÇÑ´Ù.
---ºÎ¸ð Å×ÀÌºíÀÇ ±âº»Å°°¡ ÀÚ½Ä Å×ÀÌºíÀÇ ¿Ü·¡Å°·Î ÀüÀÌµÈ´Ù.
+--êµìž¬ 32p
+--ìžì‹ í…Œì´ë¸”ì˜ ì™¸ëž˜í‚¤ê°€ ë¶€ëª¨ í…Œì´ë¸”ì˜ ê¸°ë³¸í‚¤ë¥¼ ì°¸ì¡°í•œë‹¤.
+--ë¶€ëª¨ í…Œì´ë¸”ì˜ ê¸°ë³¸í‚¤ê°€ ìžì‹ í…Œì´ë¸”ì˜ ì™¸ëž˜í‚¤ë¡œ ì „ì´ëœë‹¤.
 
---(Âü°í) ÄÃ·³¸íÀº ¸íÈ®ÇÏ°Ô Àâ±â
---ÀüÈ­¹øÈ£¸é ±×³É ÀüÈ­¹øÈ£¶ó ÇÏÁö ¸»°í, »ç¿øÈÞ´ëÀüÈ­¹øÈ£, »ç¾÷ÀåÀüÈ­¹øÈ£ µîµî
---´Ü ³Ê¹« ±æ¾îµµ ÁÁÁö ¾ÊÀ½
+--(ì°¸ê³ ) ì»¬ëŸ¼ëª…ì€ ëª…í™•í•˜ê²Œ ìž¡ê¸°
+--ì „í™”ë²ˆí˜¸ë©´ ê·¸ëƒ¥ ì „í™”ë²ˆí˜¸ë¼ í•˜ì§€ ë§ê³ , ì‚¬ì›íœ´ëŒ€ì „í™”ë²ˆí˜¸, ì‚¬ì—…ìž¥ì „í™”ë²ˆí˜¸ ë“±ë“±
+--ë‹¨ ë„ˆë¬´ ê¸¸ì–´ë„ ì¢‹ì§€ ì•ŠìŒ
 
---VARCHAR2´Â Å×ÀÌºí¸íÀÇ ±âº»°ª
+--VARCHAR2ëŠ” í…Œì´ë¸”ëª…ì˜ ê¸°ë³¸ê°’
 --VARCHAR2(7)
---¿©±â¼­ VARCHAR2´Â ÀÚ·áÇü(µ¥ÀÌÅÍ Å¸ÀÔ), (7)Àº Å©±â(7byte¶ó´Â ¶æ)
---VAR:Variable(º¯¼ö) CHAR:Character(¹®ÀÚ)	=> °¡º¯±æÀÌ ¹®ÀÚÇü(Ã¤¿ì°í ³²À¸¸é ¹Ý³³ÇÔ)
---varchar2(10 char) ÀÌ ¶§ char´Â ±ÛÀÚ(¾ËÆÄºª/ÇÑ±Û/ÀÏº»¾î ÁË´Ù 10ÀÚ)
---CHAR(7): °íÁ¤±æÀÌ ¹®ÀÚÇü (³²¾Æµµ ¹Ý³³ÇÏÁö ¾ÊÀ½)
---Å¸ÀÔÀÇ ±æÀÌ¸¦ Á¤ÇÒ ¶§ ÇÑ±ÛÀº 1°³´ç 3¹ÙÀÌÆ®
+--ì—¬ê¸°ì„œ VARCHAR2ëŠ” ìžë£Œí˜•(ë°ì´í„° íƒ€ìž…), (7)ì€ í¬ê¸°(7byteë¼ëŠ” ëœ»)
+--VAR:Variable(ë³€ìˆ˜) CHAR:Character(ë¬¸ìž)	=> ê°€ë³€ê¸¸ì´ ë¬¸ìží˜•(ì±„ìš°ê³  ë‚¨ìœ¼ë©´ ë°˜ë‚©í•¨)
+--varchar2(10 char) ì´ ë•Œ charëŠ” ê¸€ìž(ì•ŒíŒŒë²³/í•œê¸€/ì¼ë³¸ì–´ ì£„ë‹¤ 10ìž)
+--CHAR(7): ê³ ì •ê¸¸ì´ ë¬¸ìží˜• (ë‚¨ì•„ë„ ë°˜ë‚©í•˜ì§€ ì•ŠìŒ)
+--íƒ€ìž…ì˜ ê¸¸ì´ë¥¼ ì •í•  ë•Œ í•œê¸€ì€ 1ê°œë‹¹ 3ë°”ì´íŠ¸
 
--- °íÁ¤±æÀÌ, °¡º¯±æÀÌÀÇ Â÷ÀÌ
--- char(6) 'a'  where ?? = 'a     '	a¿¡ °ø¹é5°³¸¦ Á¤È®È÷ ³Ö¾î¾ß µ¥ÀÌÅÍ°¡ Ã£¾ÆÁü. ±æÀÌ°¡ °íÁ¤µÇ¾î ÀÖÀ» ¶§ »ç¿ëÇÒ °Í
--- varchar2(6) 'a' where ?? = 'a'	°ø¹é±îÁö Á¤È®È÷ ³ÖÁö ¾Ê¾Æµµ µ¥ÀÌÅÍ°¡ Ã£¾ÆÁü.
+-- ê³ ì •ê¸¸ì´, ê°€ë³€ê¸¸ì´ì˜ ì°¨ì´
+-- char(6) 'a'  where ?? = 'a     '	aì— ê³µë°±5ê°œë¥¼ ì •í™•ížˆ ë„£ì–´ì•¼ ë°ì´í„°ê°€ ì°¾ì•„ì§. ê¸¸ì´ê°€ ê³ ì •ë˜ì–´ ìžˆì„ ë•Œ ì‚¬ìš©í•  ê²ƒ
+-- varchar2(6) 'a' where ?? = 'a'	ê³µë°±ê¹Œì§€ ì •í™•ížˆ ë„£ì§€ ì•Šì•„ë„ ë°ì´í„°ê°€ ì°¾ì•„ì§.
 
 
---NUMBER(5): ¿©±â 5 ´Â ÀÚ¸®¼ö. 99999~-99999±îÁö Ä¿¹ö °¡´É
---NUMBER(8,2): ¼Ò¼öÁ¡ ÀÚ¸® Æ÷ÇÔÇØ¼­ 8ÀÚ¸®. 2´Â ¼Ò¼öºÎ 56789.12
---DATE´Â ±æÀÌ(¶Ç´Â Å©±â¶ó ºÎ¸§)°¡ ¾øÀ½
+--NUMBER(5): ì—¬ê¸° 5 ëŠ” ìžë¦¬ìˆ˜. 99999~-99999ê¹Œì§€ ì»¤ë²„ ê°€ëŠ¥
+--NUMBER(8,2): ì†Œìˆ˜ì  ìžë¦¬ í¬í•¨í•´ì„œ 8ìžë¦¬. 2ëŠ” ì†Œìˆ˜ë¶€ 56789.12
+--DATEëŠ” ê¸¸ì´(ë˜ëŠ” í¬ê¸°ë¼ ë¶€ë¦„)ê°€ ì—†ìŒ
 
---null°ú not nullÀÇ Â÷ÀÌ
---ÁöÇÏÃ¶ ¿­Â÷ Ãâ¹ß°ú ¹®ÀÇ °ü°è: ÇÊ¼öÀûÀÎ °ü°è = mandatory = not null ¹«Á¶°Ç ´ÝÇô¾ß(ÀÖ¾î¾ß) ÇÑ´Ù
---ÁöÇÏÃ¶ ¿­Â÷ Ãâ¹ß°ú ¾È³»¹æ¼ÛÀÇ °ü°è: ¼±ÅÃÀÇ °ü°è = optional = null ²À ÇÏÁö ¾Ê¾Æµµ Ãâ¹ßÇÑ´Ù
---È¸¿ø°¡ÀÔ Æû¿¡¼­ º°Ç¥(*): ÇÊ¼ö(mandatory, not null)
---º°Ç¥ ¾ø´Â Ç×¸ñ: ¼±ÅÃ(optional, null)
+--nullê³¼ not nullì˜ ì°¨ì´
+--ì§€í•˜ì²  ì—´ì°¨ ì¶œë°œê³¼ ë¬¸ì˜ ê´€ê³„: í•„ìˆ˜ì ì¸ ê´€ê³„ = mandatory = not null ë¬´ì¡°ê±´ ë‹«í˜€ì•¼(ìžˆì–´ì•¼) í•œë‹¤
+--ì§€í•˜ì²  ì—´ì°¨ ì¶œë°œê³¼ ì•ˆë‚´ë°©ì†¡ì˜ ê´€ê³„: ì„ íƒì˜ ê´€ê³„ = optional = null ê¼­ í•˜ì§€ ì•Šì•„ë„ ì¶œë°œí•œë‹¤
+--íšŒì›ê°€ìž… í¼ì—ì„œ ë³„í‘œ(*): í•„ìˆ˜(mandatory, not null)
+--ë³„í‘œ ì—†ëŠ” í•­ëª©: ì„ íƒ(optional, null)
 
---±âº»Å°´Â ¹Ýµå½Ã Not NullÀÌ´Ù. ÇÏÁö¸¸ ¿Ü·¡Å°´Â NullÀÏ ¼ö ÀÖ´Ù.
+--ê¸°ë³¸í‚¤ëŠ” ë°˜ë“œì‹œ Not Nullì´ë‹¤. í•˜ì§€ë§Œ ì™¸ëž˜í‚¤ëŠ” Nullì¼ ìˆ˜ ìžˆë‹¤.
 
---<ÀÌ»óÇö»ó(anomaly)>
---¿øÀÎÀº ¼³°è ¿À·ù. ÇØ°áÀ» À§ÇØ Á¤±ÔÈ­°¡ ÇÊ¿ä.
-    --1. »ðÀÔÀÌ»ó: ·¹ÄÚµå¸¦ ³ÖÀ¸·Á ÇÏ´Â µ¥ ÀÌ»óÇÑ Çö»óÀÌ ¹ß»ýÇÏ´Â °Í.
-    --¿¹) PKÀÎ ¼ö°­°ú¸ñÄÚµå°¡ ¾ø´Â ·¹ÄÚµå¸¦ Ãß°¡ÇÏ·Á°í ÇÒ ¶§(¼ö°­ Àü ÇÐ»ýÀ» Ãß°¡ÇÏ·Á°í ÇÒ ¶§) ¹ß»ýÇÏ´Â ¿À·ù
-    --2. ¼öÁ¤ÀÌ»ó: µ¥ÀÌÅÍ ºÒÀÏÄ¡. µ¿ÀÏÇÑ µ¥ÀÌÅÍ¸¦ °øÀ¯ÇØ¼­ ¾²Áö ¾Ê°í ºÐ¸®µÇ¾î ÀÖÀ» ¶§ ÁÖ·Î ¹ß»ý.
-    --3. »èÁ¦ÀÌ»ó: ÇÑ °¡Áö ¼Ó¼º¸¸ »èÁ¦ÇÏ·Á´Âµ¥ ·¹ÄÚµå ÀüÃ¼°¡ »èÁ¦µÇ´Â Çö»ó.
+--<ì´ìƒí˜„ìƒ(anomaly)>
+--ì›ì¸ì€ ì„¤ê³„ ì˜¤ë¥˜. í•´ê²°ì„ ìœ„í•´ ì •ê·œí™”ê°€ í•„ìš”.
+    --1. ì‚½ìž…ì´ìƒ: ë ˆì½”ë“œë¥¼ ë„£ìœ¼ë ¤ í•˜ëŠ” ë° ì´ìƒí•œ í˜„ìƒì´ ë°œìƒí•˜ëŠ” ê²ƒ.
+    --ì˜ˆ) PKì¸ ìˆ˜ê°•ê³¼ëª©ì½”ë“œê°€ ì—†ëŠ” ë ˆì½”ë“œë¥¼ ì¶”ê°€í•˜ë ¤ê³  í•  ë•Œ(ìˆ˜ê°• ì „ í•™ìƒì„ ì¶”ê°€í•˜ë ¤ê³  í•  ë•Œ) ë°œìƒí•˜ëŠ” ì˜¤ë¥˜
+    --2. ìˆ˜ì •ì´ìƒ: ë°ì´í„° ë¶ˆì¼ì¹˜. ë™ì¼í•œ ë°ì´í„°ë¥¼ ê³µìœ í•´ì„œ ì“°ì§€ ì•Šê³  ë¶„ë¦¬ë˜ì–´ ìžˆì„ ë•Œ ì£¼ë¡œ ë°œìƒ.
+    --3. ì‚­ì œì´ìƒ: í•œ ê°€ì§€ ì†ì„±ë§Œ ì‚­ì œí•˜ë ¤ëŠ”ë° ë ˆì½”ë“œ ì „ì²´ê°€ ì‚­ì œë˜ëŠ” í˜„ìƒ.
 
---SQL(Structed Query Language. ±¸Á¶È­µÈ ÁúÀÇ ¾ð¾î)ÀÇ Á¾·ù	<Áß¿ä>
---1. DDL(Date Definition Language): µ¥ÀÌÅÍ Á¤ÀÇ¾î(DB ±¸Á¶ ¶Ç´Â ½ºÅ°¸¶ Á¤ÀÇ)
-    -- 1) CREATE(°³Ã¼ »ý¼º)
-    -- 2) ALTER(°³Ã¼ º¯°æ)
-    -- 3) DROP(°³Ã¼ »èÁ¦)
---2. DML(Data Manipulation Language): µ¥ÀÌÅÍ Á¶ÀÛ¾î
-    -- 1) INSERT(µ¥ÀÌÅÍ ÀÔ·Â)
-    -- 2) UPDATE(µ¥ÀÌÅÍ ¼öÁ¤)
-    -- 3) DELETE(µ¥ÀÌÅÍ »èÁ¦)
-    -- 4) SELECT(µ¥ÀÌÅÍ °Ë»ö)
---3. DCL(Date Control Language): µ¥ÀÌÅÍ Á¦¾î¾î
-    -- 1) GRANT(±ÇÇÑºÎ¿©)
-    -- 2) REVOKE(±ÇÇÑÈ¸¼ö)
---4. TCL(Transaction Control Language): Æ®·£Àè¼Ç Á¦¾î¾î
-    -- 1) COMMIT(Æ®·£Àè¼Ç Àû¿ë)				Ä¿¹ÔÀº Á¾·á, ·Ñ¹éÀº Ã³À½À¸·Î µ¹¾Æ°£´Ù. Ä¿¹Ô ¼öÇà ½Ã DBFÆÄÀÏ¿¡ ÀúÀåµÊ
-    -- 2) ROLLBACK(¸¶Áö¸· COMMIT½ÃÁ¡À¸·Î È¸±Í)
-    -- 3) SAVEPOINT(ÀÓ½ÃÀúÀå)
+--SQL(Structed Query Language. êµ¬ì¡°í™”ëœ ì§ˆì˜ ì–¸ì–´)ì˜ ì¢…ë¥˜	<ì¤‘ìš”>
+--1. DDL(Date Definition Language): ë°ì´í„° ì •ì˜ì–´(DB êµ¬ì¡° ë˜ëŠ” ìŠ¤í‚¤ë§ˆ ì •ì˜)
+    -- 1) CREATE(ê°œì²´ ìƒì„±)
+    -- 2) ALTER(ê°œì²´ ë³€ê²½)
+    -- 3) DROP(ê°œì²´ ì‚­ì œ)
+--2. DML(Data Manipulation Language): ë°ì´í„° ì¡°ìž‘ì–´
+    -- 1) INSERT(ë°ì´í„° ìž…ë ¥)
+    -- 2) UPDATE(ë°ì´í„° ìˆ˜ì •)
+    -- 3) DELETE(ë°ì´í„° ì‚­ì œ)
+    -- 4) SELECT(ë°ì´í„° ê²€ìƒ‰)
+--3. DCL(Date Control Language): ë°ì´í„° ì œì–´ì–´
+    -- 1) GRANT(ê¶Œí•œë¶€ì—¬)
+    -- 2) REVOKE(ê¶Œí•œíšŒìˆ˜)
+--4. TCL(Transaction Control Language): íŠ¸ëžœìž­ì…˜ ì œì–´ì–´
+    -- 1) COMMIT(íŠ¸ëžœìž­ì…˜ ì ìš©)				ì»¤ë°‹ì€ ì¢…ë£Œ, ë¡¤ë°±ì€ ì²˜ìŒìœ¼ë¡œ ëŒì•„ê°„ë‹¤. ì»¤ë°‹ ìˆ˜í–‰ ì‹œ DBFíŒŒì¼ì— ì €ìž¥ë¨
+    -- 2) ROLLBACK(ë§ˆì§€ë§‰ COMMITì‹œì ìœ¼ë¡œ íšŒê·€)
+    -- 3) SAVEPOINT(ìž„ì‹œì €ìž¥)
 
---Æ®·£Àè¼ÇÀÇ Á¤ÀÇ¿Í Æ¯Â¡(PPT 17p Ã¥ Áß°£ 37p 40pµµ Âü°í)
---<Æ®·£Àè¼Ç> db¸¦ ¼öÁ¤(º¯°æ)ÇÏ±â À§ÇØ¼­ ¼öÇàµÇ¾î¾ß ÇÒ '³í¸®ÀûÀÎ ÇÏ³ªÀÇ ´ÜÀ§'. ¿©·¯°³ÀÇ SQL·Î ±¸¼ºµÇ¾î ÀÖ´Ù
---ATM¿¡ Ä«µå ³Ö°í ÀÛµ¿->³×Æ®¿öÅ©¸¦ Å¸°í ¿Â °èÁÂ Á¤º¸¿Í db¿¡ ÀÖ´Â °èÁÂ Á¤º¸°¡ ÀÏÄ¡ÇÏ´Â Áö È®ÀÎ
----> ¸Â´Ù´Â ½ÂÀÎ -> ¸®ÅÏ -> ÀÎÃâ±Ý¾× ÀÔ·Â -> ºñ¹Ð¹øÈ£ ÀÔ·Â -> ºñ¹Ð¹øÈ£°¡ ¸Â´Â°¡ Ã¼Å©
---->ÀÜ¾× ¾÷µ¥ÀÌÆ®->ÀÎÃâ±Ý¾× ³»º¸³»±â
---ÀÌ¶§, dbÀÜ¾×Àº ¾÷µ¥ÀÌÆ®µÇ°í ±Ý¾×ÀÌ ³ª¿À±â Àü¿¡ Á¤ÀüµÈ´Ù¸é?  Ã³À½À¸·Î µÇµ¹¾Æ°¨(Nothing)
+--íŠ¸ëžœìž­ì…˜ì˜ ì •ì˜ì™€ íŠ¹ì§•(PPT 17p ì±… ì¤‘ê°„ 37p 40pë„ ì°¸ê³ )
+--<íŠ¸ëžœìž­ì…˜> dbë¥¼ ìˆ˜ì •(ë³€ê²½)í•˜ê¸° ìœ„í•´ì„œ ìˆ˜í–‰ë˜ì–´ì•¼ í•  'ë…¼ë¦¬ì ì¸ í•˜ë‚˜ì˜ ë‹¨ìœ„'. ì—¬ëŸ¬ê°œì˜ SQLë¡œ êµ¬ì„±ë˜ì–´ ìžˆë‹¤
+--ATMì— ì¹´ë“œ ë„£ê³  ìž‘ë™->ë„¤íŠ¸ì›Œí¬ë¥¼ íƒ€ê³  ì˜¨ ê³„ì¢Œ ì •ë³´ì™€ dbì— ìžˆëŠ” ê³„ì¢Œ ì •ë³´ê°€ ì¼ì¹˜í•˜ëŠ” ì§€ í™•ì¸
+---> ë§žë‹¤ëŠ” ìŠ¹ì¸ -> ë¦¬í„´ -> ì¸ì¶œê¸ˆì•¡ ìž…ë ¥ -> ë¹„ë°€ë²ˆí˜¸ ìž…ë ¥ -> ë¹„ë°€ë²ˆí˜¸ê°€ ë§žëŠ”ê°€ ì²´í¬
+--->ìž”ì•¡ ì—…ë°ì´íŠ¸->ì¸ì¶œê¸ˆì•¡ ë‚´ë³´ë‚´ê¸°
+--ì´ë•Œ, dbìž”ì•¡ì€ ì—…ë°ì´íŠ¸ë˜ê³  ê¸ˆì•¡ì´ ë‚˜ì˜¤ê¸° ì „ì— ì •ì „ëœë‹¤ë©´?  ì²˜ìŒìœ¼ë¡œ ë˜ëŒì•„ê°(Nothing)
 
---<Æ®·£Àè¼ÇÀÇ Æ¯Â¡ 4°¡Áö>		'¿øÀÏ°íÁö'
-    --1. ¿øÀÚ¼º: Àß ¼öÇàµÇ¸é All, Áß°£¿¡ Á¶±ÝÀÌ¶óµµ ¹®Á¦°¡ »ý±â¸é Ã³À½À¸·Î µ¹¾Æ°£´Ù.
-    --ÀüÇô ÀÌ·ç¾îÁöÁö ¾ÊÀº °Í°ú °°´Ù(Nothing) - All or Nothing (¿©±â¼­ AllÀº commit°³³ä°ú À¯»ç)
-    --2. ÀÏ°ü¼º: Æ®·£Àè¼Ç°£ ¿µÇâÀº ÇÑ ¹æÇâÀ¸·Î¸¸ Àü´ÞµÈ´Ù(ATM¼ø¼­´Â ¾ðÁ¦³ª µ¿ÀÏÇÏ´Ù)
-    --3. °í¸³¼º: È­Àå½Ç °°Àº °Í. ÇÏ³ªÀÇ Æ®·£Àè¼ÇÀÌ ½ÇÇàÀ» ¼±Á¡ÇÏ¸é ´Ù¸¥ °ÍÀº Ä§¹üÇÒ ¼ö ¾ø°í ¼öÁ¤/»èÁ¦µµ ÇÒ ¼ö ¾ø´Ù.
-    --4. Áö¼Ó¼º: Ä¿¹Ô ÀÌÈÄ¿¡(Á¤»óÀûÀ¸·Î ¼öÇàµÈ °æ¿ì) ¿µ±¸ÀûÀ¸·Î ±×´ë·Î ³²´Â´Ù
+--<íŠ¸ëžœìž­ì…˜ì˜ íŠ¹ì§• 4ê°€ì§€>		'ì›ì¼ê³ ì§€'
+    --1. ì›ìžì„±: ìž˜ ìˆ˜í–‰ë˜ë©´ All, ì¤‘ê°„ì— ì¡°ê¸ˆì´ë¼ë„ ë¬¸ì œê°€ ìƒê¸°ë©´ ì²˜ìŒìœ¼ë¡œ ëŒì•„ê°„ë‹¤.
+    --ì „í˜€ ì´ë£¨ì–´ì§€ì§€ ì•Šì€ ê²ƒê³¼ ê°™ë‹¤(Nothing) - All or Nothing (ì—¬ê¸°ì„œ Allì€ commitê°œë…ê³¼ ìœ ì‚¬)
+    --2. ì¼ê´€ì„±: íŠ¸ëžœìž­ì…˜ê°„ ì˜í–¥ì€ í•œ ë°©í–¥ìœ¼ë¡œë§Œ ì „ë‹¬ëœë‹¤(ATMìˆœì„œëŠ” ì–¸ì œë‚˜ ë™ì¼í•˜ë‹¤)
+    --3. ê³ ë¦½ì„±: í™”ìž¥ì‹¤ ê°™ì€ ê²ƒ. í•˜ë‚˜ì˜ íŠ¸ëžœìž­ì…˜ì´ ì‹¤í–‰ì„ ì„ ì í•˜ë©´ ë‹¤ë¥¸ ê²ƒì€ ì¹¨ë²”í•  ìˆ˜ ì—†ê³  ìˆ˜ì •/ì‚­ì œë„ í•  ìˆ˜ ì—†ë‹¤.
+    --4. ì§€ì†ì„±: ì»¤ë°‹ ì´í›„ì—(ì •ìƒì ìœ¼ë¡œ ìˆ˜í–‰ëœ ê²½ìš°) ì˜êµ¬ì ìœ¼ë¡œ ê·¸ëŒ€ë¡œ ë‚¨ëŠ”ë‹¤
 
------------------------------------------------ DB ¼³°è ¹× ±¸Çö
+----------------------------------------------- DB ì„¤ê³„ ë° êµ¬í˜„
 
---1. ¿ä±¸»çÇ× ºÐ¼®(½½¶óÀÌµå 87p Ã¥50p)
---Á¶»ç¹üÀ§ °áÁ¤-¿ä±¸»çÇ× ¼öÁý-¿ä±¸»çÇ× °ËÅä/½ÂÀÎ
+--1. ìš”êµ¬ì‚¬í•­ ë¶„ì„(ìŠ¬ë¼ì´ë“œ 87p ì±…50p)
+--ì¡°ì‚¬ë²”ìœ„ ê²°ì •-ìš”êµ¬ì‚¬í•­ ìˆ˜ì§‘-ìš”êµ¬ì‚¬í•­ ê²€í† /ìŠ¹ì¸
 
---¿ä±¸»çÇ× ºÐ¼® °úÁ¤¿¡¼­ °³Ã¼ Ã£±â
---¹®Àå¿¡¼­ ¸í»ç¸¦ Ã£´Â´Ù-¸í»çµé Áß ¹üÀ§¸¦ ÇÑÁ¤ÇÒ ¼ö ÀÖ´Â °ÍÀ» Ãß¸°´Ù
+--ìš”êµ¬ì‚¬í•­ ë¶„ì„ ê³¼ì •ì—ì„œ ê°œì²´ ì°¾ê¸°
+--ë¬¸ìž¥ì—ì„œ ëª…ì‚¬ë¥¼ ì°¾ëŠ”ë‹¤-ëª…ì‚¬ë“¤ ì¤‘ ë²”ìœ„ë¥¼ í•œì •í•  ìˆ˜ ìžˆëŠ” ê²ƒì„ ì¶”ë¦°ë‹¤
 
-    --¿ä±¸»çÇ× ºÐ¼® ½Ã ²ôÁý¾î³»¾ß ÇÒ ¼¼ °¡Áö
-    --1) °³Ã¼(Entity): ÇÐ»ý, ±³»ç, ¼ö¾÷°ú¸ñ µî Çö½Ç¼¼°è¿¡¼­ ¸í»ç·Î ÀÌ·ç¾îÁø °Íµé. (°´Ã¼¿Í´Â ´Ù¸£´Ù)
-    --°³Ã¼º° ±¸¼º ¿ä¼Ò´Â 2°³ ÀÌ»óÀ¸·Î ÀÌ·ç¾îÁ® ÀÖÀ½. 
-    --°è¼Ó °ü½ÉÀ» °®°í ¾÷µ¥ÀÌÆ®ÇØ¾ß ÇÔ. Çö½Ç ¼¼°è¸¦ ´ëÇ¥ÇÏ´Â Áß¿äÇÑ °³³ä. 
-    --¼­·Î ±¸º° °¡´É. ¹üÀ§°¡ ¸íÈ®. (http://www.dbguide.net/db.db?cmd=view&boardUid=12843&boardConfigUid=9&categoryUid=216&boardIdx=31&boardStep=1 ÂüÁ¶)
+    --ìš”êµ¬ì‚¬í•­ ë¶„ì„ ì‹œ ë„ì§‘ì–´ë‚´ì•¼ í•  ì„¸ ê°€ì§€
+    --1) ê°œì²´(Entity): í•™ìƒ, êµì‚¬, ìˆ˜ì—…ê³¼ëª© ë“± í˜„ì‹¤ì„¸ê³„ì—ì„œ ëª…ì‚¬ë¡œ ì´ë£¨ì–´ì§„ ê²ƒë“¤. (ê°ì²´ì™€ëŠ” ë‹¤ë¥´ë‹¤)
+    --ê°œì²´ë³„ êµ¬ì„± ìš”ì†ŒëŠ” 2ê°œ ì´ìƒìœ¼ë¡œ ì´ë£¨ì–´ì ¸ ìžˆìŒ. 
+    --ê³„ì† ê´€ì‹¬ì„ ê°–ê³  ì—…ë°ì´íŠ¸í•´ì•¼ í•¨. í˜„ì‹¤ ì„¸ê³„ë¥¼ ëŒ€í‘œí•˜ëŠ” ì¤‘ìš”í•œ ê°œë…. 
+    --ì„œë¡œ êµ¬ë³„ ê°€ëŠ¥. ë²”ìœ„ê°€ ëª…í™•. (http://www.dbguide.net/db.db?cmd=view&boardUid=12843&boardConfigUid=9&categoryUid=216&boardIdx=31&boardStep=1 ì°¸ì¡°)
     
-    --2) °ü°è(Relationship): °³Ã¼¿Í °³Ã¼°£ÀÇ ¿¬°ü¼º
-    --(¿¹: ÇÐ»ý°ú ±³»çÀÇ °ü°è-°¡¸£Ä¡°í °¡¸£Ä§À» ¹Þ´Â´Ù(±³À°)-±³À°ÀÌ¶ó´Â °ü°è°¡ ÀÖÀ½).
-    --ÁÖ·Î µ¿»ç·Î ÀÌ·ç¾îÁ® ÀÖÀ½. (°ú¸ñ°ú ÇÐ»ýÀº? ÇÐ»ýÀº °ú¸ñÀ» ¼ö°­ÇÏ°í °ú¸ñÀº ÇÐ»ý¿¡ ÀÇÇØ ¼ö°­µÈ´Ù)
+    --2) ê´€ê³„(Relationship): ê°œì²´ì™€ ê°œì²´ê°„ì˜ ì—°ê´€ì„±
+    --(ì˜ˆ: í•™ìƒê³¼ êµì‚¬ì˜ ê´€ê³„-ê°€ë¥´ì¹˜ê³  ê°€ë¥´ì¹¨ì„ ë°›ëŠ”ë‹¤(êµìœ¡)-êµìœ¡ì´ë¼ëŠ” ê´€ê³„ê°€ ìžˆìŒ).
+    --ì£¼ë¡œ ë™ì‚¬ë¡œ ì´ë£¨ì–´ì ¸ ìžˆìŒ. (ê³¼ëª©ê³¼ í•™ìƒì€? í•™ìƒì€ ê³¼ëª©ì„ ìˆ˜ê°•í•˜ê³  ê³¼ëª©ì€ í•™ìƒì— ì˜í•´ ìˆ˜ê°•ëœë‹¤)
     
-    --3) ¼Ó¼º(Attribute): °³Ã¼°¡ °øÅëÀûÀ¸·Î °®°í ÀÖ´Â ¼ºÁú. 
-    --°³Ã¼ ÁýÇÕ=±¸¼º¿ø=ÀÎ½ºÅÏ½º(¿©±â¿¡¼­ ÀÎ½ºÅÏ½º´Â °³Ã¼¸¦ ±¸¼ºÇÏ´Â ÇÏ³ª ÇÏ³ªÀÇ ¿ä¼ÒÀÓ)
-    --(ÇÐ»ý °³Ã¼¶ó¸é ÀÌ¸§, ³ªÀÌ, Å°, ¼ºº° µî °ú¸ñ °³Ã¼¶ó¸é °ú¸ñ¸í, ½Ã¼ö, ´ã´ç±³»ç)
+    --3) ì†ì„±(Attribute): ê°œì²´ê°€ ê³µí†µì ìœ¼ë¡œ ê°–ê³  ìžˆëŠ” ì„±ì§ˆ. 
+    --ê°œì²´ ì§‘í•©=êµ¬ì„±ì›=ì¸ìŠ¤í„´ìŠ¤(ì—¬ê¸°ì—ì„œ ì¸ìŠ¤í„´ìŠ¤ëŠ” ê°œì²´ë¥¼ êµ¬ì„±í•˜ëŠ” í•˜ë‚˜ í•˜ë‚˜ì˜ ìš”ì†Œìž„)
+    --(í•™ìƒ ê°œì²´ë¼ë©´ ì´ë¦„, ë‚˜ì´, í‚¤, ì„±ë³„ ë“± ê³¼ëª© ê°œì²´ë¼ë©´ ê³¼ëª©ëª…, ì‹œìˆ˜, ë‹´ë‹¹êµì‚¬)
 
---2. µ¥ÀÌÅÍ ¸ðµ¨¸µ(¼³°è) ´Ü°è(½½¶óÀÌµå 92p Ã¥ 52p)
-    --1) °³³ä¼³°è: °³Ã¼, °ü°è¸¦ Àâ¾Æ³»´Â °Í. ERDÀÛ¼º
-    --ERD?(Entity Relationship Diagram: °³Ã¼¿Í °ü°è¸¦ ±×¸° ±×¸²)
+--2. ë°ì´í„° ëª¨ë¸ë§(ì„¤ê³„) ë‹¨ê³„(ìŠ¬ë¼ì´ë“œ 92p ì±… 52p)
+    --1) ê°œë…ì„¤ê³„: ê°œì²´, ê´€ê³„ë¥¼ ìž¡ì•„ë‚´ëŠ” ê²ƒ. ERDìž‘ì„±
+    --ERD?(Entity Relationship Diagram: ê°œì²´ì™€ ê´€ê³„ë¥¼ ê·¸ë¦° ê·¸ë¦¼)
         
-    --2) ³í¸®¼³°è: ¼Ó¼ºÀ» Ã£¾Æ³»°í ½Äº°ÀÚ¸¦ Á¤ÇÏ°í Á¤±ÔÈ­¿Í °°Àº »ó¼¼È­ °úÁ¤ ¼öÇà
-    --º¸Åë ³í¸®¼³°è±îÁö ³¡³ª¸é ¼³°è°¡ ³¡³µ´Ù°í º½
-    --½Äº°ÀÚ¶õ? À¯´ÏÅ©ÇÑ(NULL°ªÀÌ ¾ø´Â). ERD¿¡¼­ ¹ØÁÙÀ» ±×¾î ±¸ºÐ
+    --2) ë…¼ë¦¬ì„¤ê³„: ì†ì„±ì„ ì°¾ì•„ë‚´ê³  ì‹ë³„ìžë¥¼ ì •í•˜ê³  ì •ê·œí™”ì™€ ê°™ì€ ìƒì„¸í™” ê³¼ì • ìˆ˜í–‰
+    --ë³´í†µ ë…¼ë¦¬ì„¤ê³„ê¹Œì§€ ëë‚˜ë©´ ì„¤ê³„ê°€ ëë‚¬ë‹¤ê³  ë´„
+    --ì‹ë³„ìžëž€? ìœ ë‹ˆí¬í•œ(NULLê°’ì´ ì—†ëŠ”). ERDì—ì„œ ë°‘ì¤„ì„ ê·¸ì–´ êµ¬ë¶„
     
-    --3) ¹°¸®¼³°è: ½ºÅ°¸¶(µ¥ÀÌÅÍ ±¸Á¶)¸¦ ÀÏÁ¤ÇÑ ±âÁØ°ú ±ÔÄ¢¿¡ ÀÇÇØ µµÃâ.
-    --Ä®·³ÀÇ µ¥ÀÌÅÍ Å¸ÀÔ°ú Å©±â °áÁ¤(¹®ÀÚ³Ä? ¸î¹ÙÀÌÆ®³Ä?)
+    --3) ë¬¼ë¦¬ì„¤ê³„: ìŠ¤í‚¤ë§ˆ(ë°ì´í„° êµ¬ì¡°)ë¥¼ ì¼ì •í•œ ê¸°ì¤€ê³¼ ê·œì¹™ì— ì˜í•´ ë„ì¶œ.
+    --ì¹¼ëŸ¼ì˜ ë°ì´í„° íƒ€ìž…ê³¼ í¬ê¸° ê²°ì •(ë¬¸ìžëƒ? ëª‡ë°”ì´íŠ¸ëƒ?)
     
-    --(Âü°í)¿Ö ´Ù´ë´Ù °ü°è¸¦ DB¿¡¼­ Ã³¸®ÇÒ ¼ö ¾ø´Â°¡?(±³Àç 53P)
-    --ÇÑ »ç¿øÀÌ ¿©·¯ »ç¾÷ÀåÀ» µ¹¾Æ´Ù´Ò ¼ö ÀÖ°í, »ç¾÷Àå ÇÏ³ª¿¡ ¿©·¯ »ç¿øÀÌ ±Ù¹«ÇÒ ¼ö ÀÖ´Ù. - ´Ù´ë´Ù °ü°è
-    --µ¥ÀÌÅÍ Áßº¹ µîÀÇ ¹®Á¦°¡ ¹ß»ý -> ÀÌ ¶§ ±Ù¹«¶ó´Â °ü°è¸¦ ÀÌ¿ë.
-    --½Ã°£ °³³ä ¶§¹®¿¡ ´Ù´ë´Ù °ü°è°¡ ¹ß»ýÇßÀ¸¹Ç·Î, ±Ù¹« °ü°è¿¡ ÅõÀÔÀÏÀÌ¶ó´Â ¼Ó¼ºÀ» Ãß°¡
-    --->»ç¿ø¹øÈ£¿Í »ç¾÷Àå¹øÈ£°¡ Áßº¹µÈ´Ù ÇØµµ ÅõÀÔÀÏÀÌ ´Ù¸£¹Ç·Î ¿Ã¹Ù¸¥ µ¥ÀÌÅÍ + »ç¿ø¹øÈ£¿Í »ç¾÷Àå¹øÈ£¸¦ ÇÕÄ¡¸é ¿ª½Ã Áßº¹Àº ÇØ¼ÒµÊ
-    --ÀÌ´Â Áß°£ °ü°è¸¦ °³Ã¼È­(ÇØ¼Ò)ÇÑ °úÁ¤.
-    --ÀÌ ¶§ÀÇ °³Ã¼-°ü°è¸¦ ¾×¼Ç ¿£Æ¼Æ¼, ±³Â÷ ¿£Æ¼Æ¼¶ó°í ºÎ¸§       @@ÀÌÇØ°¡ Àß? @@
+    --(ì°¸ê³ )ì™œ ë‹¤ëŒ€ë‹¤ ê´€ê³„ë¥¼ DBì—ì„œ ì²˜ë¦¬í•  ìˆ˜ ì—†ëŠ”ê°€?(êµìž¬ 53P)
+    --í•œ ì‚¬ì›ì´ ì—¬ëŸ¬ ì‚¬ì—…ìž¥ì„ ëŒì•„ë‹¤ë‹ ìˆ˜ ìžˆê³ , ì‚¬ì—…ìž¥ í•˜ë‚˜ì— ì—¬ëŸ¬ ì‚¬ì›ì´ ê·¼ë¬´í•  ìˆ˜ ìžˆë‹¤. - ë‹¤ëŒ€ë‹¤ ê´€ê³„
+    --ë°ì´í„° ì¤‘ë³µ ë“±ì˜ ë¬¸ì œê°€ ë°œìƒ -> ì´ ë•Œ ê·¼ë¬´ë¼ëŠ” ê´€ê³„ë¥¼ ì´ìš©.
+    --ì‹œê°„ ê°œë… ë•Œë¬¸ì— ë‹¤ëŒ€ë‹¤ ê´€ê³„ê°€ ë°œìƒí–ˆìœ¼ë¯€ë¡œ, ê·¼ë¬´ ê´€ê³„ì— íˆ¬ìž…ì¼ì´ë¼ëŠ” ì†ì„±ì„ ì¶”ê°€
+    --->ì‚¬ì›ë²ˆí˜¸ì™€ ì‚¬ì—…ìž¥ë²ˆí˜¸ê°€ ì¤‘ë³µëœë‹¤ í•´ë„ íˆ¬ìž…ì¼ì´ ë‹¤ë¥´ë¯€ë¡œ ì˜¬ë°”ë¥¸ ë°ì´í„° + ì‚¬ì›ë²ˆí˜¸ì™€ ì‚¬ì—…ìž¥ë²ˆí˜¸ë¥¼ í•©ì¹˜ë©´ ì—­ì‹œ ì¤‘ë³µì€ í•´ì†Œë¨
+    --ì´ëŠ” ì¤‘ê°„ ê´€ê³„ë¥¼ ê°œì²´í™”(í•´ì†Œ)í•œ ê³¼ì •.
+    --ì´ ë•Œì˜ ê°œì²´-ê´€ê³„ë¥¼ ì•¡ì…˜ ì—”í‹°í‹°, êµì°¨ ì—”í‹°í‹°ë¼ê³  ë¶€ë¦„       @@ì´í•´ê°€ ìž˜? @@
     
---3. Å×ÀÌºí ¼³°è
---ERD Á¦ÀÛ ¼ø¼­
---´Ü¾î»çÀü: ¿µ¹®¸íÀ» Á¤ÇÏ°í ±×¿¡ ¸Â´Â ¿µ¹®¾à¾îµµ Á¤ÇÑ´Ù
---¿ë¾î»çÀü: ´Ü¾î»çÀü¿¡ µî·ÏµÈ ´Ü¾î¸¦ ÂüÁ¶/Á¶ÇÕÇØ ¿µ¹® full¸íÀ» Á¤ÇÏ°í ¼³¸íÀ» µ¡ºÙÀÎ´Ù
---ÀÚ·á»çÀü: ´Ü¾î»çÀüÀ» ¹ÙÅÁÀ¸·Î Ç¥ÁØ¿µ¹®¸íÀ» Á¤ÇÏ°í Å¸ÀÔ(µ¥ÀÌÅÍ Å¸ÀÔ, ÀÚ·áÇü), ±æÀÌ, ¼³¸í(°øÅëºÐ¸ð Ã£±â)
-        --ÀÌ ¶§ Å×ÀÌºí¸íÀÇ ±âº»°ªÀº VARCHAR2
---Å×ÀÌºí ¸í¼¼¼­: ÀÚ·á»çÀü µîÀ» Âü°íÇØ °³Ã¼º° Å×ÀÌºí ¸í¼¼¼­¸¦ ¸¸µç´Ù.
-        --ÀÌ ¶§ ÄÃ·³ID ¾Õ¿¡´Â Å×ÀÌºíIDÀÇ ¾à¾î(EMP¶ó¸é E, SI¶ó¸é S)¸¦ ³Ö¾îÁØ´Ù.
-        --NOT NULLÀº N.N, NULLÀº °ø¹éÀ¸·Î Ç¥±â, KEY¶õÀÇ ±âº»Å°´Â P.K·Î Ç¥±âÇÑ´Ù.
-        --¿Ü·¡Å°(F.K)¸¦ ³Ö¾îÁÙ ¶§ N.NÀº ½áµµ µÇ°í ¾È ½áµµ µÈ´Ù. ¿Ü·¡Å°´Â NULLÀÏ ¼ö ÀÖ±â ¶§¹®
+--3. í…Œì´ë¸” ì„¤ê³„
+--ERD ì œìž‘ ìˆœì„œ
+--ë‹¨ì–´ì‚¬ì „: ì˜ë¬¸ëª…ì„ ì •í•˜ê³  ê·¸ì— ë§žëŠ” ì˜ë¬¸ì•½ì–´ë„ ì •í•œë‹¤
+--ìš©ì–´ì‚¬ì „: ë‹¨ì–´ì‚¬ì „ì— ë“±ë¡ëœ ë‹¨ì–´ë¥¼ ì°¸ì¡°/ì¡°í•©í•´ ì˜ë¬¸ fullëª…ì„ ì •í•˜ê³  ì„¤ëª…ì„ ë§ë¶™ì¸ë‹¤
+--ìžë£Œì‚¬ì „: ë‹¨ì–´ì‚¬ì „ì„ ë°”íƒ•ìœ¼ë¡œ í‘œì¤€ì˜ë¬¸ëª…ì„ ì •í•˜ê³  íƒ€ìž…(ë°ì´í„° íƒ€ìž…, ìžë£Œí˜•), ê¸¸ì´, ì„¤ëª…(ê³µí†µë¶„ëª¨ ì°¾ê¸°)
+        --ì´ ë•Œ í…Œì´ë¸”ëª…ì˜ ê¸°ë³¸ê°’ì€ VARCHAR2
+--í…Œì´ë¸” ëª…ì„¸ì„œ: ìžë£Œì‚¬ì „ ë“±ì„ ì°¸ê³ í•´ ê°œì²´ë³„ í…Œì´ë¸” ëª…ì„¸ì„œë¥¼ ë§Œë“ ë‹¤.
+        --ì´ ë•Œ ì»¬ëŸ¼ID ì•žì—ëŠ” í…Œì´ë¸”IDì˜ ì•½ì–´(EMPë¼ë©´ E, SIë¼ë©´ S)ë¥¼ ë„£ì–´ì¤€ë‹¤.
+        --NOT NULLì€ N.N, NULLì€ ê³µë°±ìœ¼ë¡œ í‘œê¸°, KEYëž€ì˜ ê¸°ë³¸í‚¤ëŠ” P.Kë¡œ í‘œê¸°í•œë‹¤.
+        --ì™¸ëž˜í‚¤(F.K)ë¥¼ ë„£ì–´ì¤„ ë•Œ N.Nì€ ì¨ë„ ë˜ê³  ì•ˆ ì¨ë„ ëœë‹¤. ì™¸ëž˜í‚¤ëŠ” NULLì¼ ìˆ˜ ìžˆê¸° ë•Œë¬¸
 
---4. ER-winÀ» ÀÌ¿ëÇÑ ¸ðµ¨¸µ
---ERDÀÛ¼º ½Ã °³Ã¼´Â ³×¸ð, ¼Ó¼ºÀº µ¿±×¶ó¹Ì, °ü°è´Â ¸¶¸§¸ð·Î ³ªÅ¸³¿
-    --ERD¿¡´Â ¿Ü·¡Å°¸¦ ¾²Áö ¾Ê´Â´Ù. ÇÏÁö¸¸ ÀüÀÌµÈ ±âº»Å°´Â Á¸ÀçÇÑ´Ù.
+--4. ER-winì„ ì´ìš©í•œ ëª¨ë¸ë§
+--ERDìž‘ì„± ì‹œ ê°œì²´ëŠ” ë„¤ëª¨, ì†ì„±ì€ ë™ê·¸ë¼ë¯¸, ê´€ê³„ëŠ” ë§ˆë¦„ëª¨ë¡œ ë‚˜íƒ€ëƒ„
+    --ERDì—ëŠ” ì™¸ëž˜í‚¤ë¥¼ ì“°ì§€ ì•ŠëŠ”ë‹¤. í•˜ì§€ë§Œ ì „ì´ëœ ê¸°ë³¸í‚¤ëŠ” ì¡´ìž¬í•œë‹¤.
     
-    --ERwin¿¡¼­ Logical: ³í¸®¼³°è Physical: ¹°¸®¼³°è
-    --¸Þ´º-Model-Model properties-Notation(Ç¥±â¹ý)¿¡¼­ IE·Î ¼öÁ¤
-    --¹°¸®¼³°è·Î ÀüÈ¯ÇÏ¸é Database¸Þ´º°¡ »õ·Î »ý±è
-    --Ã³À½¿¡ format-table display-column datatype¿¡ Ã¼Å©ÇÏ¸é È­¸é¿¡ µ¥ÀÌÅÍÅ¸ÀÔÀ» ÇÔ²² ¶ç¿öÁÜ
-    --³×¸ðÄ­ À§´Â °³Ã¼¸í, ³×¸ðÄ­ »ó´Ü ¿µ¿ªÀº ½Äº°¿µ¿ª, ³×¸ðÄ­ ÇÏ´Ü ¿µ¿ªÀº ºñ½Äº°¿µ¿ª(¼Ó¼º)
-    --1:NÀ» ÀÌ¾îÁÙ ¶§´Â 1ÂÊºÎÅÍ Å¬¸¯-NÂÊ Å¬¸¯
-    --±î¸¶±Í¹ß·Î ÀÌ¾îÁÙ ¶§ OÁ¦°ÅÇÏ±â: ¼±À» ´õºíÅ¬¸¯ÇØ¼­ one or more·Î ¹Ù²Ù±â. Nulls Allowed -> No Nulls ÇÊ¿ä½Ã ¿©±â¼­ ¹Ù²Ü ¼ö ÀÖÀ½
-    --ERwin¿¡¼­ ERD ¸¸µé°í Ã¼Å©Æ÷ÀÎÆ®
-        --1. VARCHAR2°¡ 4000byte¸¦ ÃÊ°úÇß´Â°¡? ³ÑÀ¸¸é ¾È µÊ. VARCHAR2 ÃÖ´ë Å©±â°¡ 4000byteÀÓ
-        --2. NUMBER°¡ 38ÀÚ¸¦ ³Ñ¾ú´Â°¡? ³ÑÀ¸¸é ¾È µÊ
-        --3. VARCHAR2°¡ ()°ýÈ£¸¸ ÀÖ´Â °æ¿ì. °ýÈ£¸¸ ÀÖÀ¸¸é ¾È µÊ(+°ýÈ£°¡ ¾ø´Â °æ¿ì->¾øÀ¸¸é ¾È µÊ)
-            --´Ü number´Â ()°ýÈ£¸¸ ÀÖÀ» ¼ö ÀÖ´Ù
-        --4. ±âº»Å° ¿Ü·¡Å°ÀÇ ÀÚ·áÇü°ú Å©±â°¡ ¼­·Î µ¿ÀÏÇØ¾ß ÇÔ
-        --5. DATE¿¡´Â °ýÈ£°¡ ¾ø¾î¾ß ÇÑ´Ù
+    --ERwinì—ì„œ Logical: ë…¼ë¦¬ì„¤ê³„ Physical: ë¬¼ë¦¬ì„¤ê³„
+    --ë©”ë‰´-Model-Model properties-Notation(í‘œê¸°ë²•)ì—ì„œ IEë¡œ ìˆ˜ì •
+    --ë¬¼ë¦¬ì„¤ê³„ë¡œ ì „í™˜í•˜ë©´ Databaseë©”ë‰´ê°€ ìƒˆë¡œ ìƒê¹€
+    --ì²˜ìŒì— format-table display-column datatypeì— ì²´í¬í•˜ë©´ í™”ë©´ì— ë°ì´í„°íƒ€ìž…ì„ í•¨ê»˜ ë„ì›Œì¤Œ
+    --ë„¤ëª¨ì¹¸ ìœ„ëŠ” ê°œì²´ëª…, ë„¤ëª¨ì¹¸ ìƒë‹¨ ì˜ì—­ì€ ì‹ë³„ì˜ì—­, ë„¤ëª¨ì¹¸ í•˜ë‹¨ ì˜ì—­ì€ ë¹„ì‹ë³„ì˜ì—­(ì†ì„±)
+    --1:Nì„ ì´ì–´ì¤„ ë•ŒëŠ” 1ìª½ë¶€í„° í´ë¦­-Nìª½ í´ë¦­
+    --ê¹Œë§ˆê·€ë°œë¡œ ì´ì–´ì¤„ ë•Œ Oì œê±°í•˜ê¸°: ì„ ì„ ë”ë¸”í´ë¦­í•´ì„œ one or moreë¡œ ë°”ê¾¸ê¸°. Nulls Allowed -> No Nulls í•„ìš”ì‹œ ì—¬ê¸°ì„œ ë°”ê¿€ ìˆ˜ ìžˆìŒ
+    --ERwinì—ì„œ ERD ë§Œë“¤ê³  ì²´í¬í¬ì¸íŠ¸
+        --1. VARCHAR2ê°€ 4000byteë¥¼ ì´ˆê³¼í–ˆëŠ”ê°€? ë„˜ìœ¼ë©´ ì•ˆ ë¨. VARCHAR2 ìµœëŒ€ í¬ê¸°ê°€ 4000byteìž„
+        --2. NUMBERê°€ 38ìžë¥¼ ë„˜ì—ˆëŠ”ê°€? ë„˜ìœ¼ë©´ ì•ˆ ë¨
+        --3. VARCHAR2ê°€ ()ê´„í˜¸ë§Œ ìžˆëŠ” ê²½ìš°. ê´„í˜¸ë§Œ ìžˆìœ¼ë©´ ì•ˆ ë¨(+ê´„í˜¸ê°€ ì—†ëŠ” ê²½ìš°->ì—†ìœ¼ë©´ ì•ˆ ë¨)
+            --ë‹¨ numberëŠ” ()ê´„í˜¸ë§Œ ìžˆì„ ìˆ˜ ìžˆë‹¤
+        --4. ê¸°ë³¸í‚¤ ì™¸ëž˜í‚¤ì˜ ìžë£Œí˜•ê³¼ í¬ê¸°ê°€ ì„œë¡œ ë™ì¼í•´ì•¼ í•¨
+        --5. DATEì—ëŠ” ê´„í˜¸ê°€ ì—†ì–´ì•¼ í•œë‹¤
         
---5. ÇÑ±¹°Ç¼³ÀÇ ¹°¸®Àû DB¸ðµ¨¸µ
+--5. í•œêµ­ê±´ì„¤ì˜ ë¬¼ë¦¬ì  DBëª¨ë¸ë§
 
---6. DB ½ºÅ°¸¶ »ý¼º
--- forward°úÁ¤(ERD -> forward -> ¿À¶óÅ¬DB)
-    --ERwin ¸Þ´º-tools-forward engineer-schema generation¿¡¼­ triggerÀÇ Ã¼Å© ´Ù ÇØÁ¦ÇÑ ÈÄ
-    --Generate Å¬¸¯-¿À·ù°¡ ¶á´Ù¸é ÀÔ·ÂÀÌ ¿Ã¹Ù¸¥Áö ´Ù½Ã È®ÀÎ.
-    --'..already used by an existing object' ´Â ÀÌ¹Ì ÀÖ´Ù´Â ¶æÀÌ¹Ç·Î ÄÁÆ¼´ºÇØ¼­ Àß µÇ¸é OK
-    --SQL µðº§·ÎÆÛ¿¡¼­ »õ·Î°íÄ§ÇØ¼­ Àß ¶ß¸é ¼º°ø
+--6. DB ìŠ¤í‚¤ë§ˆ ìƒì„±
+-- forwardê³¼ì •(ERD -> forward -> ì˜¤ë¼í´DB)
+    --ERwin ë©”ë‰´-tools-forward engineer-schema generationì—ì„œ triggerì˜ ì²´í¬ ë‹¤ í•´ì œí•œ í›„
+    --Generate í´ë¦­-ì˜¤ë¥˜ê°€ ëœ¬ë‹¤ë©´ ìž…ë ¥ì´ ì˜¬ë°”ë¥¸ì§€ ë‹¤ì‹œ í™•ì¸.
+    --'..already used by an existing object' ëŠ” ì´ë¯¸ ìžˆë‹¤ëŠ” ëœ»ì´ë¯€ë¡œ ì»¨í‹°ë‰´í•´ì„œ ìž˜ ë˜ë©´ OK
+    --SQL ë””ë²¨ë¡œí¼ì—ì„œ ìƒˆë¡œê³ ì¹¨í•´ì„œ ìž˜ ëœ¨ë©´ ì„±ê³µ
 
--- reverse°úÁ¤(¿À¶óÅ¬DB -> reverse -> ERD)
-    -- ERwin¿¡¼­ new model»ý¼º(³í¸®/¹°¸®) -> physicalÅ¬¸¯->db¸Þ´ºÀÇdb connectionÅ¬¸¯
-    -- ->pw´©¸£°í Ä¿³ØÆ®->tools¸Þ´ºÀÇ reverse engineer->logical/physical¼±ÅÃÇÏ°í
-    -- currnet user->pw´©¸£ÄÚ Ä¿³ØÆ®->db½ºÅ°¸¶°¡ erwinÀ¸·Î µé¾î¿È
+-- reverseê³¼ì •(ì˜¤ë¼í´DB -> reverse -> ERD)
+    -- ERwinì—ì„œ new modelìƒì„±(ë…¼ë¦¬/ë¬¼ë¦¬) -> physicalí´ë¦­->dbë©”ë‰´ì˜db connectioní´ë¦­
+    -- ->pwëˆ„ë¥´ê³  ì»¤ë„¥íŠ¸->toolsë©”ë‰´ì˜ reverse engineer->logical/physicalì„ íƒí•˜ê³ 
+    -- currnet user->pwëˆ„ë¥´ì½” ì»¤ë„¥íŠ¸->dbìŠ¤í‚¤ë§ˆê°€ erwinìœ¼ë¡œ ë“¤ì–´ì˜´
 
------------------------------------------------ ±âÅ¸
+----------------------------------------------- ê¸°íƒ€
 
---SQL±¸¹®
---ppt 134p Ã¥ Áß°£ 10p
---CREATE TABLE(db¿ÀºêÁ§Æ® »ý¼ºÇÏ±â)
+--SQLêµ¬ë¬¸
+--ppt 134p ì±… ì¤‘ê°„ 10p
+--CREATE TABLE(dbì˜¤ë¸Œì íŠ¸ ìƒì„±í•˜ê¸°)
 
---SQL µðº§·ÎÆÛ¿¡¼­ »õ·Î ¸¸µé±â/dbÁ¢¼Ó
-    --Á¢¼ÓÀÌ¸§/»ç¿ëÀÚÀÌ¸§/pw´Â »ý¼ºÇØ µÐ »ç¿ëÀÚ¸í/ºñ¹Ð¹øÈ£·Î ÀÔ·Â
-    --Å×½ºÆ® ´©¸£°í »óÅÂ¿¡ ¼º°ø ¶ß¸é Á¢¼Ó
---½ÇÇàÇÏ±â(Ctrl+Enter)
-    --´Ü ÀÌ¶§ ½ÇÇàÇÒ ÇØ´ç ºÎºÐ¿¡ Å¬¸¯ÇÏ°í ½ÇÇàÇÒ °Í
---º¯°æ»çÇ× Ä¿¹Ô: È­¸éÁÂÃø¿¡¼­ Å×ÀÌºí Å¬¸¯-µ¥ÀÌÅÍ º¯°æ-º¯°æ»çÇ× Ä¿¹Ô ¹öÆ° ´©¸£±â
---´ë¼Ò¹®ÀÚ º¯°æ: ºí·°Àâ°í Alt + '
---Çà ¹øÈ£ Åä±Û: ¹øÈ£ ³ª¿Ã ¿©¹é¿¡¼­ ¸¶¿ì½º ¿ìÅ¬¸¯ÇÏ°í Åä±Û ¼±ÅÃ
---»èÁ¦½Ã ¼±ÅÃÃ¢ÀÇ °è´Ü½Ä: cascade(ÀÚ½ÄÅ×ÀÌºíµµ ÇÔ²² »ç¶óÁø´Ù) / ºñ¿ì±â´Â ½Ï Áö¿ì°Ú´Ù
---ÁÖ¼® »ö»ó ¹Ù²Ù±â µµ±¸-È¯°æ¼³Á¤-ÄÚµåÆíÁý±â-pl/sql±¸¹® »ö»ó-½ºÅ¸ÀÏ¿¡¼­ 
-    --±âº» ÁÖ¼® ¼±ÅÃ-Àû´çÈ÷ ¹Ù²Ù±â
---º¯°æµÈ »çÇ×ÀÌ ÁÂÃø Ã¢¿¡ Àß ¹Ý¿µµÇÁö ¾Ê´Â´Ù¸é »õ·Î°íÄ§ºÎÅÍ ÇØ º¸±â
+--SQL ë””ë²¨ë¡œí¼ì—ì„œ ìƒˆë¡œ ë§Œë“¤ê¸°/dbì ‘ì†
+    --ì ‘ì†ì´ë¦„/ì‚¬ìš©ìžì´ë¦„/pwëŠ” ìƒì„±í•´ ë‘” ì‚¬ìš©ìžëª…/ë¹„ë°€ë²ˆí˜¸ë¡œ ìž…ë ¥
+    --í…ŒìŠ¤íŠ¸ ëˆ„ë¥´ê³  ìƒíƒœì— ì„±ê³µ ëœ¨ë©´ ì ‘ì†
+--ì‹¤í–‰í•˜ê¸°(Ctrl+Enter)
+    --ë‹¨ ì´ë•Œ ì‹¤í–‰í•  í•´ë‹¹ ë¶€ë¶„ì— í´ë¦­í•˜ê³  ì‹¤í–‰í•  ê²ƒ
+--ë³€ê²½ì‚¬í•­ ì»¤ë°‹: í™”ë©´ì¢Œì¸¡ì—ì„œ í…Œì´ë¸” í´ë¦­-ë°ì´í„° ë³€ê²½-ë³€ê²½ì‚¬í•­ ì»¤ë°‹ ë²„íŠ¼ ëˆ„ë¥´ê¸°
+--ëŒ€ì†Œë¬¸ìž ë³€ê²½: ë¸”ëŸ­ìž¡ê³  Alt + '
+--í–‰ ë²ˆí˜¸ í† ê¸€: ë²ˆí˜¸ ë‚˜ì˜¬ ì—¬ë°±ì—ì„œ ë§ˆìš°ìŠ¤ ìš°í´ë¦­í•˜ê³  í† ê¸€ ì„ íƒ
+--ì‚­ì œì‹œ ì„ íƒì°½ì˜ ê³„ë‹¨ì‹: cascade(ìžì‹í…Œì´ë¸”ë„ í•¨ê»˜ ì‚¬ë¼ì§„ë‹¤) / ë¹„ìš°ê¸°ëŠ” ì‹¹ ì§€ìš°ê² ë‹¤
+--ì£¼ì„ ìƒ‰ìƒ ë°”ê¾¸ê¸° ë„êµ¬-í™˜ê²½ì„¤ì •-ì½”ë“œíŽ¸ì§‘ê¸°-pl/sqlêµ¬ë¬¸ ìƒ‰ìƒ-ìŠ¤íƒ€ì¼ì—ì„œ 
+    --ê¸°ë³¸ ì£¼ì„ ì„ íƒ-ì ë‹¹ížˆ ë°”ê¾¸ê¸°
+--ë³€ê²½ëœ ì‚¬í•­ì´ ì¢Œì¸¡ ì°½ì— ìž˜ ë°˜ì˜ë˜ì§€ ì•ŠëŠ”ë‹¤ë©´ ìƒˆë¡œê³ ì¹¨ë¶€í„° í•´ ë³´ê¸°
 
---ERwin¿¡¼­ buyerÅ×ÀÌºíÀ» Ãß°¡ÇÒ ¶§, ¿©±â¼­ Ãß°¡Çß´Ù°í db¿¡¼­µµ °°ÀÌ Ãß°¡µÈ °ÍÀº ¾Æ´Ô.
---ERwin¿¡¼­ Ãß°¡ÇÑ ºÎºÐÀ» db·Î º¸³¾ ¼öµµ ¾øÀ½(buyer°¡ ÀÌ¹Ì ÀÖÀ¸¹Ç·Î forward ¿£Áö´Ï¾î¸µÀÌ °ÅÀýµÊ). Áï Ãß°¡ ºÒ°¡.
---forward ¿£Áö´Ï¾î¸µÀº createÇÏ´Â °ÍÀÌ±â ¶§¹®(¾ø´ø °Í¸¸ Ãß°¡ °¡´É. ¾Æ´Ï¸é Å×ÀÌºí¿¡¼­ »èÁ¦ÇÏ°í ´Ù½Ã ÇÏ°Å³ª)
---ERwin¿¡¼­ Ãß°¡ÇÑ ºÎºÐÀ» db¿¡ Ãß°¡ÇÏ·Á¸é? ALTER·Î µû·Î ³Ö¾îÁà¾ß ÇÔ.
+--ERwinì—ì„œ buyerí…Œì´ë¸”ì„ ì¶”ê°€í•  ë•Œ, ì—¬ê¸°ì„œ ì¶”ê°€í–ˆë‹¤ê³  dbì—ì„œë„ ê°™ì´ ì¶”ê°€ëœ ê²ƒì€ ì•„ë‹˜.
+--ERwinì—ì„œ ì¶”ê°€í•œ ë¶€ë¶„ì„ dbë¡œ ë³´ë‚¼ ìˆ˜ë„ ì—†ìŒ(buyerê°€ ì´ë¯¸ ìžˆìœ¼ë¯€ë¡œ forward ì—”ì§€ë‹ˆì–´ë§ì´ ê±°ì ˆë¨). ì¦‰ ì¶”ê°€ ë¶ˆê°€.
+--forward ì—”ì§€ë‹ˆì–´ë§ì€ createí•˜ëŠ” ê²ƒì´ê¸° ë•Œë¬¸(ì—†ë˜ ê²ƒë§Œ ì¶”ê°€ ê°€ëŠ¥. ì•„ë‹ˆë©´ í…Œì´ë¸”ì—ì„œ ì‚­ì œí•˜ê³  ë‹¤ì‹œ í•˜ê±°ë‚˜)
+--ERwinì—ì„œ ì¶”ê°€í•œ ë¶€ë¶„ì„ dbì— ì¶”ê°€í•˜ë ¤ë©´? ALTERë¡œ ë”°ë¡œ ë„£ì–´ì¤˜ì•¼ í•¨.
 
---DDL¹®(CREATE, ALTER, DROP, RENAME, TRUNCATE)À» »ç¿ëÇÒ ¶§´Â ÀÚµ¿ Ä¿¹ÔµÊ
---¸¸¾à DDL¹®¿¡¼­ ¿À·ù°¡ ³ª´õ¶óµµ ÀÚµ¿ Ä¿¹ÔµÊ
---°á·Ð: DDL¹® »ç¿ë ½Ã °¢º°È÷ ÁÖÀÇÇÒ ÇÊ¿ä°¡ ÀÖÀ½
+--DDLë¬¸(CREATE, ALTER, DROP, RENAME, TRUNCATE)ì„ ì‚¬ìš©í•  ë•ŒëŠ” ìžë™ ì»¤ë°‹ë¨
+--ë§Œì•½ DDLë¬¸ì—ì„œ ì˜¤ë¥˜ê°€ ë‚˜ë”ë¼ë„ ìžë™ ì»¤ë°‹ë¨
+--ê²°ë¡ : DDLë¬¸ ì‚¬ìš© ì‹œ ê°ë³„ížˆ ì£¼ì˜í•  í•„ìš”ê°€ ìžˆìŒ
 
---Ä«µð³Î¸®Æ¼(cardinality): ÇàÀÇ °³¼ö¸¦ ºÎ¸£´Â ¸»
---µð±×¸®(degree): Â÷¼ö(¿­ÀÇ °³¼ö)
+--ì¹´ë””ë„ë¦¬í‹°(cardinality): í–‰ì˜ ê°œìˆ˜ë¥¼ ë¶€ë¥´ëŠ” ë§
+--ë””ê·¸ë¦¬(degree): ì°¨ìˆ˜(ì—´ì˜ ê°œìˆ˜)
 
---°ü°è´ë¼ö: ±âÈ£
---½Ã±×¸¶-°¡·Î¹æÇâ(Çà) ÇÊÅÍ¸µ-WHERE
---Æ¯Á¤ Å×ÀÌºí·ÎºÎÅÍ(=SELECT * FROM Å×ÀÌºí¸í)
---(½Ã±×¸¶ LPROD_ID>5¶ó¸é? ÇØ´çÇÏ´Â µ¥ÀÌÅÍ¸¸ °¡Á®¿Í¶ó)
---ÆÄÀÌ-¼¼·Î¹æÇâ(¿­) ÇÊÅÍ¸µ-SELECT
---(½Ã±×¸¶, ÆÄÀÌ´Â ³ªÁß¿¡ »ý°¢ÇØµµ ¹«¹æ)
+--ê´€ê³„ëŒ€ìˆ˜: ê¸°í˜¸
+--ì‹œê·¸ë§ˆ-ê°€ë¡œë°©í–¥(í–‰) í•„í„°ë§-WHERE
+--íŠ¹ì • í…Œì´ë¸”ë¡œë¶€í„°(=SELECT * FROM í…Œì´ë¸”ëª…)
+--(ì‹œê·¸ë§ˆ LPROD_ID>5ë¼ë©´? í•´ë‹¹í•˜ëŠ” ë°ì´í„°ë§Œ ê°€ì ¸ì™€ë¼)
+--íŒŒì´-ì„¸ë¡œë°©í–¥(ì—´) í•„í„°ë§-SELECT
+--(ì‹œê·¸ë§ˆ, íŒŒì´ëŠ” ë‚˜ì¤‘ì— ìƒê°í•´ë„ ë¬´ë°©)
 
---±âº»Å°¿Í UNIQUE(À¯ÀÏ)ÀÇ Â÷ÀÌÁ¡: ±âº»Å°´Â NULLºÒ°¡, UNIQUE´Â NULL°¡´É
+--ê¸°ë³¸í‚¤ì™€ UNIQUE(ìœ ì¼)ì˜ ì°¨ì´ì : ê¸°ë³¸í‚¤ëŠ” NULLë¶ˆê°€, UNIQUEëŠ” NULLê°€ëŠ¥
 
---nºÐ Àü ½ÃÁ¡À¸·Î µ¹¾Æ°¡±â(Ä¿¹Ô/µå¶ø ÀÌÀüÀ¸·Î µÇµ¹¸®·Á°í ÇÒ ¶§) - flashback °Ë»ö
---flashback table MEMBER to timestamp sysdate 1/24/60*10;
---alter table MEMBER enable row movement;
+--në¶„ ì „ ì‹œì ìœ¼ë¡œ ëŒì•„ê°€ê¸°(ì»¤ë°‹/ë“œëž ì´ì „ìœ¼ë¡œ ë˜ëŒë¦¬ë ¤ê³  í•  ë•Œ) - flashback ê²€ìƒ‰

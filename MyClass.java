@@ -2,7 +2,63 @@ package e_OOP;
 
 public class MyClass {
 	public static void main(String[] args) {
+		
+		Com c = new Com();
+		
+		c.cpu = "Core i7";
+		c.clock = 3600;
+		System.out.println(c.cpu);
+		
+		c.power();
+		System.out.println(c.power);
+
+		c.browser = "구글 크롬";
+		System.out.println(c.browser);
+		c.changeBrowser();
+		System.out.println(c.browser);
+
+		System.out.println(c.clock);
+		c.overClock();
+		System.out.println(c.clock);
+
+		c.power();
+
+
+	}
+}
+
+class Com {
+	String cpu;
+	int clock;
+	boolean power;
+	String browser;
+
+	void overClock(){
+		clock = 4000;
+	}
+
+	void power(){
+		power = !power;
+	}
+
+	void changeBrowser(){
+		browser = "인터넷 익스플로러";
+	}
+
+
+}
+
+//이 때 여러 PC의 CPU와 클럭이 모두 같은가? 모두 같은 걸 쓰는가?
+//그렇지 않다면 cv, cm이 아닌 iv, im으로 지정해야 한다.
+//변수 및 메서드 에는 의미가 있어야
+
+/*
+package e_OOP;
+
+public class MyClass {
+	public static void main(String[] args) {
 		Com.cpu = "Core i7";
+		Com.clock = 3600;
 		System.out.println(Com.cpu);
 		Com c = new Com();
 		c.power();
@@ -25,7 +81,7 @@ public class MyClass {
 
 class Com {
 	static String cpu;
-	static int clock = 3600;
+	static int clock;
 	boolean power;
 	String browser;
 
@@ -43,6 +99,10 @@ class Com {
 
 
 }
+*/
+
+
+
 /*
 	변수로 뽑을 것
 	boolean power
