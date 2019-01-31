@@ -8,14 +8,14 @@ class Data{
 public class InterVari {
 	public static void main(String[] args) {
 		// 1. Data 클래스의 객체를 만들어주세요 변수명 d1
-		Data d1 = new Data();
+		Data d1 = new Data();				// Data 타입
 		// 2. d1의 x값을 10으로 변경해주세요
 		d1.x = 10;
 		// 3. main()기본형 : 10 // d1의 x값
 		System.out.println("main()기본형 : "+d1.x);
 		// 4. change메서드를 호출해주세요
 		//    단 인자값으로 d1의 x값을 보내주세요
-		InterVari.change(d1.x);
+		InterVari.change(d1.x);				//같은 클래스 안이라 클래스명 생략 가능
 		// 5. main()기본형 : d1의 x값
 		System.out.println("main()기본형 : "+d1.x);
 		// 6. Data 클래스의 객체를 만들어주세요 변수명 d2

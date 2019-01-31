@@ -36,35 +36,45 @@ public class CalcTest {
 //		}
 		
 		// 5. 1~4번을 무한 반복하게 만들어주고 2에서 입력한 부호가 사칙연산이 아닌 경우 연산을 종료해주세요
-		
 		do{
+			
 			Scanner scn = new Scanner(System.in);
-			System.out.print("숫자를 입력해주세요.>");
+			System.out.print("숫자를 입력해주세요.> ");
 			int number = scn.nextInt();
 			
 			Scanner scn2 = new Scanner(System.in);
-			System.out.print("부호를 입력해주세요.>");
+			System.out.print("부호를 입력해주세요.> ");
 			String s = scn2.next();
 			
+			if(!(s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/"))){
+				System.out.println("연산을 종료합니다.");
+				break;
+			}
+			
 			Scanner scn3 = new Scanner(System.in);
-			System.out.print("숫자를 입력해주세요.>");
+			System.out.print("숫자를 입력해주세요.> ");
 			int number2 = scn3.nextInt();
 			
 			Calc k = new Calc();
 			if(s.equals("+")){
 				int result = k.add(number, number2);
-				System.out.println(result);
+				System.out.println("연산결과는 "+result+"입니다");
 			} else if(s.equals("-")){
 				int result = k.sub(number, number2);
-				System.out.println(result);
+				System.out.println("연산결과는 "+result+"입니다");
 			} else if(s.equals("*")){
 				int result = k.multiply(number, number2);
-				System.out.println(result);
+				System.out.println("연산결과는 "+result+"입니다");
 			} else if(s.equals("/")){
 				int result = k.divide(number, number2);
-				System.out.println(result);
+				System.out.println("연산결과는 "+result+"입니다");
 			}
-		} while(s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/"));
+			
+		}while(true);
+		
+		
+		
+		
 		
 		// (숫자부호숫자 - 다음부터는 부호숫자부호숫자. C누르면 0으로. 이외의 수를 누르면 종료되도록)
 		

@@ -1227,7 +1227,7 @@ FROM CART;
 
 ----------------------------------------------------
 --101P 집계함수
-집계는? 묶는다. 묶어서 SUM합계, AVG평균, MAX최대값, MIN최소값, COUNT개수세기 등을 구한다
+--집계는? 묶는다. 묶어서 SUM합계, AVG평균, MAX최대값, MIN최소값, COUNT개수세기 등을 구한다
 
 SELECT PROD_COST
 FROM PROD
@@ -1237,3 +1237,261 @@ SELECT AVG(DISTINCT PROD_COST) --AS "중복된 값은 제외"
      , AVG(ALL PROD_COST) --AS "DEFAULT로써 모든 값을 포함."   생략도 ALL과 동일
      , AVG(PROD_COST) -- AS "매입가 평균"
 FROM PROD;
+
+--상품테이블의 상품분류별 매입가격 평균 값
+SELECT PROD_LGU     상품분류
+     , ROUND(AVG(PROD_COST),2)    매입가격
+--이것도 묶어야 하니 매입가격 평균을 구해 한 값으로 만든다
+FROM PROD
+GROUP BY PROD_LGU          --묶어주기
+ORDER BY 1;                 --첫번째 열로 정렬한다
+
+--상품테이블의 총 판매가격 평균값을 구하라(ALIAS: 상품총판매가격평균)
+
+SELECT AVG(PROD_SALE)    상품총판매가격평균
+FROM PROD;
+
+--상품테이블의 상품분류별 판매가격 평균값을 구하라
+--ALIAS: 상품분류, 상품분류별판매가평균
+
+SELECT PROD_LGU                 상품분류
+     , ROUND(AVG(PROD_SALE),2)  상품분류별판매가평균
+FROM PROD
+GROUP BY PROD_LGU
+ORDER BY 상품분류;
+
+--101P      COUNT        자료 수가 몇 개인가?
+SELECT COUNT(DISTINCT PROD_COAST)
+     , COUNT(ALL PROD_COAST)
+     , COUNT(PROD_COAST)
+     , COUNT(*)         -- 기본키를 포함해서 세기 때문에 중복이 나올 수 없다
+     , COUNT(DISTINCT PROD_ID||PROD_NAME||PROD_COAST)
+-- 하나로 묶어서 세기. PROD_ID가 들어갔으므로 DISTINCT는 의미가 없다
+FROM PROD;
+
+SELECT COUNT(*) AS RESULT1
+     , COUNT(PROD_LGU) AS RESULT2
+FROM PROD;
+
+--상품테이블의 상품분류별 자료의 수
+SELECT PROD_LGU "상품 분류"
+     , COUNT(*) "상품 분류별 자료의 수"
+FROM PROD
+GROUP BY PROD_LGU;
+
+--102P 거래처테이블(BUYER)의 담당자(BUYER_CHARGER)를 컬럼으로 하여 COUNT집계하시오
+--ALIAS: 자료수(DISTINCT), 자료수, 자료수(*)
+
+SELECT COUNT(DISTINCT BUYER_CHARGER)    "자료수(DISTINCT)"
+     , COUNT(BUYER_CHARGER)             "자료수"
+     , COUNT(*)                         "자료수(*)"
+FROM BUYER;
+--여기서는 중복 DATA 없음. 그룹별로 세는 게 아님. 그래서 GROUP BY가 필요없음
+
+--회원테이블의 취미종류수를 COUNT집계(ALIAS: 취미종류수)
+SELECT COUNT(DISTINCT MEM_LIKE)    취미종류수
+FROM MEMBER
+ORDER BY 1;
+
+--회원테이블의 취미별 인원수 COUNT집계(ALIAS: 취미, 자료수, 자료수(*)
+SELECT MEM_LIKE         취미
+     , COUNT(MEM_LIKE)  자료수
+     , COUNT(*)         "자료수(*)" -- 모든 컬럼이 다 들어간 것
+FROM MEMBER
+GROUP BY MEM_LIKE
+ORDER BY 1;
+
+--회원테이블의 직업종류수를 COUNT집계(ALIAS: 직업종류수)
+SELECT COUNT(DISTINCT MEM_JOB) 직업종류수
+FROM MEMBER;
+
+--회원테이블의 직업별 COUNT집계(ALIAS: 직업, 자료수, 자료수(*))
+--SELECT MEM_JOB          직업
+--     , COUNT(MEM_JOB)   자료수
+--     , COUNT(*)         "자료수(*)"
+--FROM MEMBER
+--GROUP BY MEM_JOB
+--ORDER BY 1;
+
+SELECT MEM_JOB          
+     , COUNT(MEM_ID)
+     , COUNT(*)         
+FROM MEMBER
+GROUP BY MEM_JOB;
+--집계함수가 아닌 MEM_JOB을 GROUP BY에 기술
+
+--장바구니테이블의 회원(CART_MEMBER)별 COUNT집계
+--(ALIAS: 회원ID, 구매수(DISTINCT), 구매수, 구매수(*))
+--SELECT CART_MEMBER                      회원ID
+--     , COUNT(DISTINCT CART_MEMBER)      "구매수(DISTINCT)"
+--     , COUNT(CART_MEMBER)               구매수
+--     , COUNT(*)                         "구매수(*)"
+--FROM CART
+--GROUP BY CART_MEMBER
+--ORDER BY 1;
+
+SELECT CART_MEMBER
+     , COUNT(DISTINCT CART_PROD)
+     , COUNT(CART_PROD)
+     , COUNT(*)
+FROM CART
+GROUP BY CART_MEMBER
+ORDER BY 1;
+
+--104P <중요!!!>       SELECT구문에서 집계함수 이외의 컬럼들은 GROUP BY절에 기술해야 한다
+
+--102P      MAX, MIN
+--상품 중 최고판매가격과 최저판매가격
+SELECT MAX(PROD_SALE) "최고판매가"
+     , MIN(PROD_SALE) "최저판매가"
+FROM PROD;
+
+--상품 중 거래처별 최고매입가격과 최저매입가격
+SELECT PROD_BUYER       "거래처"
+     , MAX(PROD_COST)   "최고매입가"
+     , MIN(PROD_COST)   "최저매입가"
+FROM PROD
+GROUP BY PROD_BUYER;
+
+--장바구니테이블의 회원별 최대구매수량을 검색
+--ALIAS: 회원ID, 최대수량, 최소수량
+SELECT CART_MEMBER      회원ID
+     , MAX(CART_QTY)    최대수량
+     , MIN(CART_QTY)    최소수량
+FROM CART
+GROUP BY CART_MEMBER
+ORDER BY 1;
+
+--오늘이 2005년 7월 11일이라 가정하고 장바구니테이블에 발생될 추가주문번호를 검색하시오
+--ALIAS: 최고치주문번호, 추가주문번호
+--일단 2005년 7월 11일 찾기. 주문번호가 현재 002까지 왔음. 거기에 고객 한명 더 들어오면 다 똑같고 끝이 3이 됨. GROUP BY X
+
+SELECT MAX(CART_NO) 최고치주문번호
+     , MAX(CART_NO) + 1 추가주문번호
+FROM CART
+WHERE CART_NO LIKE '20050711%';
+
+--103P      SUM
+
+--상품테이블의 매입가의 총 합계값
+SELECT SUM(DISTINCT PROD_COST)
+     , SUM(PROD_COST)
+FROM PROD;
+
+--상품테이블의 판매가의 총 합계값
+SELECT SUM(PROD_SALE)   "상품 판매가 총합계"
+FROM PROD;
+
+--상품테이블의 상품분류별 판매가 합계값
+SELECT PROD_LGU
+     , SUM(PROD_SALE)   "분류별 판매가 합계"
+FROM PROD
+GROUP BY PROD_LGU;
+
+--상품입고테이블의 상품별 입고수량의 합계값
+SELECT BUY_PROD     상품
+     , SUM(BUY_QTY) 입고수량합계
+FROM   BUYPROD
+GROUP BY BUY_PROD;
+
+--장바구니테이블의 상품분류별 판매수량의 합계값(ALIAS 상품, 판매수량합계)
+SELECT CART_PROD            상품
+     , SUM(CART_QTY)        판매수량합계
+FROM CART
+GROUP BY CART_PROD
+ORDER BY 1;
+
+--회원테이블의 회원 전체의 마일리지 평균, 마일리지 합계, 최고 마일리지, 최소 마일리지, 인원수를 검색
+--ALIAS 마일리지평균, 마일리지합계, 최고마일리지, 최소마일리지, 인원수
+SELECT AVG(MEM_MILEAGE)     마일리지평균
+     , SUM(MEM_MILEAGE)     마일리지합계
+     , MAX(MEM_MILEAGE)     최고마일리지
+     , MIN(MEM_MILEAGE)     최소마일리지 
+     , COUNT(MEM_MILEAGE)   인원수 
+FROM MEMBER;
+
+--상품테이블에서 판매가 전체의 평균, 합계, 최고값, 최저값, 자료수를 검색
+--ALIAS 평균, 합계, 최고값, 최저값, 자료수
+SELECT AVG(PROD_SALE)       평균
+     , SUM(PROD_SALE)       합계
+     , MAX(PROD_SALE)       최고값
+     , MIN(PROD_SALE)       최저값
+     , COUNT(PROD_SALE)     자료수
+FROM PROD;
+
+--상품테이블에서 상품분류, 거래처 별로 최고판매가, 최소판매가, 자료수를 검색하시오
+
+SELECT PROD_LGU     상품분류
+     , PROD_BUYER   거래처
+     , MAX(PROD_SALE)    최고판매가
+     , MIN(PROD_SALE)    최소판매가
+     , COUNT(PROD_ID)      자료수
+FROM PROD
+GROUP BY PROD_LGU, PROD_BUYER
+ORDER BY 1,2;
+--상품분류는 대그룹, 거래처는 소그룹 -> 대그룹부터 써 준다
+
+--104P PPT 215-216P
+--장바구니테이블에서 회원, 상품분류별로 구매수량평균,
+--구매수량합계, 자료수를 검색하시오 ?
+--( Alias는 회원ID, 상품분류, 구매수량평균, 구매수량합계, 자료수 )
+--(회원ID, 상품분류 순으로 SORT하시오)
+
+SELECT CART_MEMBER                      회원
+     , SUBSTR(CART_PROD,1,4)            상품분류        -- 여기까지는 생략해도 작동에 문제 없지만, 컬럼의 의미를 알 수 없어진다
+     , ROUND(AVG(CART_QTY),2)           구매수량평균
+     , SUM(CART_QTY)                    구매수량합계
+     , COUNT(CART_NO)                   자료수
+FROM CART
+GROUP BY CART_MEMBER, SUBSTR(CART_PROD,1,4)
+ORDER BY 1,2;
+
+--회원테이블에서 지역(주소1의 2자리),생일년도별로 마일리지평균,
+--   마일리지합계, 최고마일리지, 최소마일리지, 자료수를 검색하시오 ?
+--   ( Alias는 지역,생일연도, 마일리지평균, 마일리지합계, 
+--                  최고마일리지,최소마일리지, 자료수 )
+
+SELECT SUBSTR(MEM_ADD1,1,2)     지역
+     , EXTRACT(YEAR FROM MEM_BIR) 생일연도            -- 자료형 확인. DATE형. EXTRACT 사용가능.
+     , AVG(MEM_MILEAGE)         마일리지평균
+     , SUM(MEM_MILEAGE)         마일리지합계
+     , MAX(MEM_MILEAGE)         최고마일리지
+     , MIN(MEM_MILEAGE)         최소마일리지
+     , COUNT(MEM_ID)            자료수
+FROM MEMBER
+GROUP BY SUBSTR(MEM_ADD1,1,2), EXTRACT(YEAR FROM MEM_BIR)
+ORDER BY 1,2;
+
+--책35P PPT 228P       DECODE
+--DECODE는 JAVA의 SWITCH문과 유사
+
+SELECT DECODE (7
+            , 10, 'A'
+            , 9, 'B'
+            , 8, 'C'
+            , 'D')
+FROM DUAL;
+
+--35P 상품 분류 중...
+SELECT PROD_NAME            상품명
+     , SUBSTR(PROD_LGU,1,2)
+     , PROD_SALE            판매가
+     , DECODE(SUBSTR(PROD_LGU,1,2)          -- 따질 대상
+            ,'P1',PROD_SALE * 1.1           -- 맞으면 옆문장 수행
+            ,'P2',PROD_SALE * 1.15          -- 맞으면 옆문장 수행
+            ,PROD_SALE                      -- else부분. 그냥 출력하고 끝
+            ) 변경판매가
+FROM PROD;
+
+--대전측기사에서는 3월에 생일인(MEM_BIR) 회원을 대상으로 마일리지를 10% 인상해주는 이벤트를 시행하고자 한다.
+--생일이 3월이 아닌 회원은 짝수인 경우만 5% 인상 처리한다.
+--ALIAS: 회원ID, 회원명, 마일리지, 변경마일리지
+
+SELECT MEM_ID       회원ID
+     , MEM_NAME     회원명
+     , MEM_MILEAGE  마일리지
+     , MEM_MILEAGE  변경마일리지
+     
+        EXTRACT(MONTH FROM MEM_BIR)
+FROM MEMBER;
+
