@@ -1260,6 +1260,7 @@ FROM PROD
 GROUP BY PROD_LGU
 ORDER BY 상품분류;
 
+----------------------------------------------------
 --101P      COUNT        자료 수가 몇 개인가?
 SELECT COUNT(DISTINCT PROD_COAST)
      , COUNT(ALL PROD_COAST)
@@ -1340,6 +1341,7 @@ ORDER BY 1;
 
 --104P <중요!!!>       SELECT구문에서 집계함수 이외의 컬럼들은 GROUP BY절에 기술해야 한다
 
+----------------------------------------------------
 --102P      MAX, MIN
 --상품 중 최고판매가격과 최저판매가격
 SELECT MAX(PROD_SALE) "최고판매가"
@@ -1462,6 +1464,7 @@ FROM MEMBER
 GROUP BY SUBSTR(MEM_ADD1,1,2), EXTRACT(YEAR FROM MEM_BIR)
 ORDER BY 1,2;
 
+----------------------------------------------------
 --책35P PPT 228P       DECODE
 --DECODE는 JAVA의 SWITCH문과 유사
 
@@ -1490,8 +1493,228 @@ FROM PROD;
 SELECT MEM_ID       회원ID
      , MEM_NAME     회원명
      , MEM_MILEAGE  마일리지
-     , MEM_MILEAGE  변경마일리지
-     
-        EXTRACT(MONTH FROM MEM_BIR)
+     , DECODE(EXTRACT(MONTH FROM MEM_BIR)  
+            , 03, MEM_MILEAGE * 1.1
+            , DECODE(MOD(EXTRACT(MONTH FROM MEM_BIR), 2)
+                 , 0,MEM_MILEAGE * 1.05
+                 , MEM_MILEAGE
+            ) 
+            ) 변경마일리지
+FROM MEMBER;
+--EXTRACT를 쓰려면 데이터형이 DATE여야
+--3월인지 아닌지, 짝수인지 아닌지 두 번의 분기. MOD는 나머지를 구하는 함수
+
+--회원이 서울이면 서울특별시... 출력
+--ALIAS 회원ID, 회원명, 지역
+SELECT MEM_ID       회원ID
+     , MEM_NAME     회원명
+     , DECODE(SUBSTR(MEM_ADD1,1,2),
+         '서울', '서울특별시',
+         '충남', '충청남도',
+         '대전', '대전광역시',
+         '대구', '대구광역시',
+         MEM_ADD1
+        ) 지역
 FROM MEMBER;
 
+--회원의 주민번호 뒷자리 첫글자를 사용하여 1이면 남성, 2이면 여성, 3이면 2000이후남성 4이면 2000이후여성
+--ALIAS: 회원ID, 회원명, 주민번호 뒷자리, 성별
+SELECT MEM_ID           회원ID
+     , MEM_NAME         회원명
+     , MEM_REGNO2       "주민번호 뒷자리"
+     , DECODE(SUBSTR(MEM_REGNO2,1,1),
+            '1', '남성',
+            '2', '여성',
+            '3', '2000년이후 남성',
+            '4', '2000년이후 여성',
+            MEM_REGNO2
+            )   성별
+FROM MEMBER;
+
+----------------------------------------------------
+--35P
+--SIMPLE-CASE-EXPRESSION
+--CASE와 WHEN 사이에 비교 대상이 있을 때
+
+SELECT
+  CASE '나' WHEN '철호' THEN '아니다'
+            WHEN '너' THEN '아니다'
+            WHEN '나' THEN '맞다'
+            ELSE '모르겠다'
+  END RESULT
+FROM DUAL;
+
+--SEARCHED-CASE-EXPRESSION
+--CASE와 WHEN 사이에 비교 대상이 없을 때
+
+SELECT
+  CASE      WHEN '철호' = '나' THEN '아니다'
+            WHEN '너' = '나' THEN '아니다'
+            WHEN '나' = '우리' THEN '맞다'
+            ELSE '모르겠다'
+  END RESULT
+FROM DUAL;
+
+SELECT PROD_NAME 상품
+     , PROD_LGU 분류
+     ,
+ CASE
+  WHEN PROD_LGU = 'P101' THEN '컴퓨터제품'
+  WHEN PROD_LGU = 'P102' THEN '전자제품'
+  WHEN PROD_LGU = 'P201' THEN '여성캐주얼'
+  WHEN PROD_LGU = 'P202' THEN '남성캐주얼'
+  WHEN PROD_LGU = 'P301' THEN '피혁잡화'
+  WHEN PROD_LGU = 'P302' THEN '화장품'
+  WHEN PROD_LGU = 'P401' THEN '음반/CD'
+  WHEN PROD_LGU = 'P402' THEN '도서'
+  WHEN PROD_LGU = 'P403' THEN '문구류'
+  ELSE '미등록분류'
+ END 상품분류
+FROM PROD;
+
+--회원테이블(member)에서 주민등록번호(MEM_REGNO2)의 첫번째 자리를 통해 성별 구분
+--ALIAS: 회원ID, 회원명, 주민번호2 ,성별 (CASE WHEN 구문 사용)
+SELECT MEM_ID           회원ID
+     , MEM_NAME         회원명
+     , MEM_REGNO2       주민번호2
+ , CASE
+  WHEN SUBSTR(MEM_REGNO2,1,1) = '1' THEN '남성'
+  WHEN SUBSTR(MEM_REGNO2,1,1) = '2' THEN '여성'
+  WHEN SUBSTR(MEM_REGNO2,1,1) = '3' THEN '남성'
+  WHEN SUBSTR(MEM_REGNO2,1,1) = '4' THEN '여성'
+--  WHEN SUBSTR(MEM_REGNO2,1,1) = IN('1','3') THEN '남성'     
+--  WHEN SUBSTR(MEM_REGNO2,1,1) = IN('2','4') THEN '여성'
+
+--  CASE WHEN MOD(SUBSTR(MEM_REGNO2,1,1),2) = '0' THEN '남성'
+-- SEARCHED-CASE-EXPRESSION은 이런 식으로 보다 간결하게 표현 가능. 그래서 더 많이 사용
+  ELSE '기타'
+ END 성별
+FROM MEMBER;
+
+SELECT PROD_NAME 상품
+     , PROD_PRICE 판매가
+     , CASE
+        WHEN (100000 - PROD_PRICE) >= 0 THEN '10만원 미만'
+        WHEN (200000 - PROD_PRICE) >= 0 THEN '10만원대'
+        WHEN (300000 - PROD_PRICE) >= 0 THEN '20만원대'
+        WHEN (400000 - PROD_PRICE) >= 0 THEN '30만원대'
+        WHEN (500000 - PROD_PRICE) >= 0 THEN '40만원대'
+        WHEN (600000 - PROD_PRICE) >= 0 THEN '50만원대'
+        WHEN (700000 - PROD_PRICE) >= 0 THEN '60만원대'
+        WHEN (800000 - PROD_PRICE) >= 0 THEN '70만원대'
+        WHEN (900000 - PROD_PRICE) >= 0 THEN '80만원대'
+        WHEN (1000000 - PROD_PRICE) >= 0 THEN '90만원대'
+        ELSE '100만원 이상'
+       END 가격대
+FROM PROD;
+
+----------------------------------------------------
+--PPT 244P 책 64P?      조인(JOIN)
+
+SELECT LPROD_GU
+     , LPROD_NM
+FROM LPROD;
+--JOIN할 집합 1
+
+SELECT PROD_ID
+     , PROD_LGU
+     , PROD_NAME
+FROM PROD;
+--JOIN할 집합 2
+
+--PPT 247P 1. CARTESIAN PRODUCT(카티션곱: 모든 가능한 행들의 조합)
+--물리적으로 합쳐지는 것이 아닌, 논리적으로(가상으로) 합쳐지는 것(합쳐진 것 처럼 보일 뿐)
+
+SELECT LPROD_GU
+     , LPROD_NM
+     , PROD_ID
+     , PROD_LGU
+     , PROD_NAME
+FROM LPROD, PROD;
+
+--LPROD와 BUYER 카티션곱
+SELECT LPROD_GU
+     , LPROD_NM
+FROM LPROD;
+--JOIN할 집합 1. 9행
+
+SELECT BUYER_ID
+     , BUYER_NAME
+     , BUYER_LGU
+FROM BUYER;
+--JOIN할 집합 2. 13행
+
+SELECT LPROD_GU
+     , LPROD_NM
+     , BUYER_ID
+     , BUYER_NAME
+     , BUYER_LGU
+FROM LPROD, BUYER;
+--5열, 9 * 13 = 117행
+
+--PPT 248P 2. EQUAL(EQUI) JOIN(공통점을 찾아 조합)
+--무엇이 무엇을 참조하는가(어떤 연결고리가 있는가) 찾아서 연결
+--ERwin에서 관계선 더블클릭 - Rolename에 표기된 부분을 참고하면 좋다
+
+SELECT LPROD_GU
+     , LPROD_NM
+     , BUYER_ID
+     , BUYER_NAME
+     , BUYER_LGU
+FROM LPROD, BUYER
+WHERE LPROD_GU = BUYER_LGU;
+--상품분류코드가 같은 것만 찾으면? 데이터가 올바르게 나온다
+
+--JOIN조건(WHERE절) : JOIN은 서로 관계(연결고리)가 있어야 가능
+
+SELECT BUYER_ID
+     , BUYER_NAME
+     , PROD_ID
+     , PROD_NAME
+     , PROD_BUYER
+FROM BUYER, PROD
+WHERE  BUYER_ID = PROD_BUYER;
+
+--(참고) 기본키/외래키 설정 없이는 개체간 관계를 설정할 수 없다
+
+SELECT P.PROD_ID                        -- 여기에 다 달아준다
+     , P.PROD_NAME
+     , P.PROD_BUYER
+     , BP.BUY_DATE
+     , BP.BUY_PROD
+     , BP.BUY_QTY
+     , BP.BUY_COST
+     , B.BUYER_ID
+     , B.BUYER_NAME
+FROM PROD P, BUYPROD BP, BUYER B        -- 여기서 부여하고
+WHERE P.PROD_ID = BP.BUY_PROD
+AND B.BUYER_ID = P.PROD_BUYER;
+
+--TABLE ALIAS.  일반 ALIAS처럼 AS는 쓰지 않는다
+--구별을 위해 사용하는 것을 권장
+
+
+--관계가 있다면 3개 이상도 가능
+SELECT PROD_ID
+     , PROD_NAME
+     , CART_PROD
+     , CART_MEMBER
+     , CART_QTY
+     , MEM_ID
+     , MEM_NAME
+FROM PROD , CART, MEMBER
+WHERE PROD_ID = CART_PROD AND CART_MEMBER = MEM_ID;
+
+SELECT PROD_ID
+     , PROD_NAME
+     , BUYER_NAME
+     , BUY_QTY
+     , CART_QTY
+     , MEM_NAME
+FROM PROD, BUYER, BUYPROD, CART, MEMBER
+WHERE PROD_BUYER = BUYER_ID
+AND PROD_ID = BUY_PROD
+AND PROD_ID = CART_PROD
+AND CART_MEMBER = MEM_ID;
+
+--다대다 관계 JOIN은 가능은 하나 좋지 않다(CART와 BUYPROD JOIN)등

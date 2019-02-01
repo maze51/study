@@ -2,8 +2,7 @@ package e_OOP;
 
 public class DoubleDiceTest {
 	public static void main(String[] args) {
-		//throwDice호출하면 총 이동거리를 반환(2, 4나오면 6칸 이동)
-		//반환은 최종 이동거리 한 번만
+		
 		DoubleDice dd = new DoubleDice();
 		int result = dd.throwDice();
 		System.out.println(result);
@@ -12,13 +11,7 @@ public class DoubleDiceTest {
 }
 
 class DoubleDice{
-	//전역변수 없음
-	//메서드는 하나만
-	//재귀호출을 이용해서
-	//메서드명은 throwDice
-	//인스턴스 메서드
-	//던지고 비교하고 여기서 전부 다
-	//랜덤값이 나왔을 때는 뭐가 나왔나 한번쯤 보여주기
+	
 	int throwDice(){
 		
 			int distance = 0;
@@ -34,8 +27,12 @@ class DoubleDice{
 			distance += (dice1 + dice2);
 			return distance;
 			
-
-		
+			/*
+			굳이 덧붙일 거 없는 코드
+			if(one == two){
+				result += throdDice();
+			}
+			*/
 		
 	}
 	
