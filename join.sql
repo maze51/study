@@ -1,5 +1,6 @@
 ----------------------------------------------------
 --PPT 244P 책 70P      조인(JOIN)
+--JOIN하려면? 자료형, 길이, 데이터가 같아야
 
 SELECT LPROD_GU
      , LPROD_NM
@@ -130,10 +131,11 @@ AND B.BUYER_NAME = '삼성전자';
 /*
 JOIN의 종류 다섯가지(PPT 244P) 암기 필요. 이건 오라클 사투리.
 1. CARTESIAN PRODUCT 모든 가능한 행들의 조합
-2. EQUI JOIN 조건이 일치하는 컬럼을 매칭. "중요"
+2. EQUI JOIN (기본키/외래키)조건이 일치하는 컬럼을 매칭. "중요"
 3. NON-EQUI JOIN 조건절에서 JOIN조건이 '='아닌 다른 연산기호로 주어질 때
 4. OUTER JOIN 조건이 일치하지 않더라도 모든 행을 검색할 때. (+)로 표시. "중요"
 5. SELF JOIN 한 테이블 내에서 JOIN하는 경우
+CENOS 로 암기
 
 246P ANSI JOIN 표준말. 역시 숙지 필요
 1. CROSS JOIN
@@ -199,11 +201,12 @@ FROM PROD P INNER JOIN LPROD L ON(L.LPROD_GU = P.PROD_LGU)
             INNER JOIN BUYER B ON(P.PROD_BUYER = B.BUYER_ID)
 AND L.LPROD_GU = 'P102';
 
---상품입고테이블(BUYPROD)의 2005년도 1월의 거래처별(거래처코드 BUYER_ID 거래처명 BUYER_NAME)
---매입금액을 검색하시오.
---매입금액=매입수량(BUY_QTY) * 매입단가(PROD_COST)
---ALIAS 거래처코드, 거래처명, 매입금액
-
+/*
+상품입고테이블(BUYPROD)의 2005년도 1월의 거래처별(거래처코드 BUYER_ID 거래처명 BUYER_NAME)
+매입금액을 검색하시오.
+매입금액=매입수량(BUY_QTY) * 매입단가(PROD_COST)
+ALIAS 거래처코드, 거래처명, 매입금액
+*/
 SELECT B.BUYER_ID             거래처코드
      , B.BUYER_NAME           거래처명
      , SUM(BP.BUY_QTY * P.PROD_COST)  매입금액
@@ -227,11 +230,12 @@ AND BUY_DATE LIKE '05/01/%'
 GROUP BY BUYER_ID, BUYER_NAME
 ORDER BY 1;
 
---70P 장바구니테이블(CART)의 2005년도 5월의 회원별 구매금액을 검색
---구매금액 = 구매수량(CART_QTY) * 판매가(PROD_SALE)
---ALIAS 회원ID(MEM_ID), 회원명(MEM_NAME), 구매금액
---EQUI JOIN, INNER JOIN모두 사용
-
+/*
+70P 장바구니테이블(CART)의 2005년도 5월의 회원별 구매금액을 검색
+구매금액 = 구매수량(CART_QTY) * 판매가(PROD_SALE)
+ALIAS 회원ID(MEM_ID), 회원명(MEM_NAME), 구매금액
+EQUI JOIN, INNER JOIN모두 사용
+*/
 SELECT MEM_ID           회원ID
      , MEM_NAME         회원명
      , SUM(CART_QTY * PROD_SALE)     구매금액
@@ -252,5 +256,188 @@ AND C.CART_NO LIKE '200505%'
 GROUP BY M.MEM_ID, M.MEM_NAME
 ORDER BY 1;
 
---------------------------
---OUTER JOIN
+----------------------------------------------------
+/*
+책 72P PPT 259P OUTER JOIN(EQUI JOIN과 함께 가장 중요한 방법)
+JOIN조건: 보통은 1. 기본키와 외래키(필수는 아니나 무결성을 지키기 위해 필요함)
+                2. 자료형, 크기가 동일해야
+                3. 같은 데이터가 들어 있어야
+EQUI JOIN시 한 쪽에 없는 데이터는 자동으로 걸러짐
+모두 포함시키고자 한다면 OUTER JOIN을 사용해야 한다.
+<OUTER JOIN의 종류>
+    1. 왼쪽 외부 조인(LEFT OUTER JOIN): JOIN할 테이블 중 왼쪽에 무게를 실어준다
+        JOIN결과물에 왼쪽 테이블의 모든 정보 포함. 오른쪽 테이블에 (+)가 붙음.
+    2. 오른쪽 외부 조인(RIGHT OUTER JOIN): JOIN할 테이블 중 오른쪽에 무게를 실어준다
+        JOIN결과물에 오른쪽 테이블의 모든 정보 포함. 왼쪽 테이블에 (+)가 붙음.
+        EQUI JOIN시 이미 오른쪽 테이블의 데이터가 모두 포함되어 있다. 그래서 큰 의미는 없음
+    3. 완전 외부 조인(FULL OUTER JOIN 합집합): JOIN할 테이블 양쪽 모두를 포함한다.
+        왼쪽, 오른쪽 외부 조인을 각각 작성 후 UNION으로 결합.
+        이 때 중복부분은 1회 출력되고 결과물은 자동정렬.
+        UNION ALL: 중복부분도 모두 출력되고 결과물은 자동정렬되지 않음.
+        INTERSECT(교집합): JOIN할 테이블간 중복 부분만 출력.
+        MINUS(차집합): JOIN할 테이블 중 A - B하고 남는 부분만 출력.
+*/
+
+--1. S테이블 생성 후 기본키는 C / 컬럼 : C, D, E
+CREATE TABLE S(
+   C VARCHAR2(5),
+   D VARCHAR2(5),
+   E VARCHAR2(5),
+   CONSTRAINT PK_S PRIMARY KEY(C)
+);
+
+--2. R테이블 생성 후 기본키는 A / 컬럼 : A, B, C
+CREATE TABLE R(
+   A VARCHAR2(5),
+   B VARCHAR2(5),
+   C VARCHAR2(5),
+   CONSTRAINT PK_R PRIMARY KEY(A)
+);
+
+--3. R테이블에 데이터 입력
+INSERT INTO R(A, B, C) VALUES('a1','b1','c1');
+INSERT INTO R(A, B, C) VALUES('a2','b2','c2');
+
+--4. S테이블에 데이터 입력
+INSERT INTO S(C, D, E) VALUES('c1','d1','e1');
+INSERT INTO S(C, D, E) VALUES('c3','d2','e2');
+
+--TCL(Transaction Control Language)
+--COMMIT : 기존 트랜잭션이 종료되고 새로운 트랜잭션이 시작됨
+COMMIT;
+
+--데이터 확인하기
+SELECT * FROM R;
+SELECT * FROM S;
+
+--5. 두 테이블을 EQUI JOIN, INNER JOIN처리
+--EQUI JOIN
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM R, S
+WHERE R.C = S.C;
+--ANSI표준 INNER JOIN
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM   R INNER JOIN S ON(R.C = S.C);
+
+--6. 왼쪽 외부 조인(LEFT OUTER JOIN)
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM R, S
+WHERE R.C = S.C(+);
+--ANSI표준 LEFT OUTER JOIN
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM   R LEFT OUTER JOIN S ON(R.C = S.C);
+
+--7. R테이블과 S테이블을 오른쪽 외부조인
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM R, S
+WHERE R.C(+) = S.C;
+--ANSI표준 RIGHT OUTER JOIN
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM   R RIGHT OUTER JOIN S ON(R.C = S.C);
+
+--8. R테이블과 S테이블을 완전 외부 조인
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM R, S
+WHERE R.C(+) = S.C
+UNION
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM R, S
+WHERE R.C = S.C(+);
+--ANSI표준 FULL OUTER JOIN
+SELECT R.A, R.B, R.C, S.C, S.D, S.E
+FROM   R FULL OUTER JOIN S ON(R.C = S.C);
+
+
+--DEPART, STUDENT 테이블을 통해 OUTER JOIN 연습
+--1. DEPART 테이블 생성
+CREATE TABLE DEPART(
+    DEP_CODE VARCHAR2(10),
+    DEP_NAME VARCHAR2(10),
+    CONSTRAINT PK_DEPART PRIMARY KEY(DEP_CODE)
+);
+--2. STUDENT 테이블 생성
+--PK: STUD_NO FK: STUD_DEP(DEPART의 DEP_CODE컬럼 참조) / 컬럼: STUD_NO, STUD_NAME STUD_DEP
+CREATE TABLE STUDENT(
+    STUD_NO VARCHAR2(10),
+    STUD_NAME VARCHAR2(10),
+    STUD_DEP VARCHAR2(10),
+    CONSTRAINT PK_STUDENT PRIMARY KEY (STUD_NO),
+    CONSTRAINT FK_STUD_DEP FOREIGN KEY (STUD_DEP) REFERENCES DEPART (DEP_CODE)
+);
+--마지막 행을 분리해서 쓸 수도 있다.
+--ALTER TABLE STUDENT
+--ADD(CONSTRAINT FK_STUD_DEP FOREIGN KEY (STUD_DEP) REFERENCES DEPART (DEP_CODE));
+
+--3. DEPART 데이터 입력하기
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('201','12월반');
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('202','5월반');
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('203','4월반');
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('204','1월반');
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('205','3월반');
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('206','6월반');
+INSERT INTO DEPART(DEP_CODE, DEP_NAME) VALUES('207','11월반');
+
+COMMIT;
+--4. STUDENT 데이터 입력하기
+INSERT INTO STUDENT(STUD_NO,STUD_NAME,STUD_DEP)
+VALUES('2006120001','박서경','206');
+INSERT INTO STUDENT(STUD_NO,STUD_NAME,STUD_DEP)
+VALUES('2006120002','정요한','206');
+INSERT INTO STUDENT(STUD_NO,STUD_NAME,STUD_DEP)
+VALUES('2006120003','박영춘','205');
+INSERT INTO STUDENT(STUD_NO,STUD_NAME,STUD_DEP)
+VALUES('2006120004','유다연','201');
+INSERT INTO STUDENT(STUD_NO,STUD_NAME,STUD_DEP)
+VALUES('2006120005','유민하','202');
+
+COMMIT;
+
+--5. DEPART테이블과 STUDENT테이블을 EQUI JOIN & INNER JOIN 모든 컬럼 포함
+SELECT D.DEP_CODE, D.DEP_NAME, S.STUD_NO, S.STUD_NAME, S.STUD_DEP
+FROM DEPART D, STUDENT S
+WHERE D.DEP_CODE = S.STUD_DEP;
+
+SELECT D.DEP_CODE, D.DEP_NAME, S.STUD_NO, S.STUD_NAME, S.STUD_DEP
+FROM DEPART D INNER JOIN STUDENT S ON(D.DEP_CODE = S.STUD_DEP);
+
+--6. DEPART테이블과 STUDENT테이블을 왼쪽 외부조인. 모든 컬럼 포함
+SELECT D.DEP_CODE, D.DEP_NAME, S.STUD_NO, S.STUD_NAME, S.STUD_DEP
+--SELECT * 로 간단하게 쓸 수도 있다. 하지만 보안상 컬럼명을 써주는 것을 권장
+FROM DEPART D, STUDENT S
+WHERE D.DEP_CODE = S.STUD_DEP(+)
+ORDER BY 1;
+
+SELECT D.DEP_CODE, D.DEP_NAME, S.STUD_NO, S.STUD_NAME, S.STUD_DEP
+FROM DEPART D LEFT OUTER JOIN STUDENT S
+ON(D.DEP_CODE = S.STUD_DEP)
+ORDER BY 1;
+
+--7. DEPART테이블과 STUDENT테이블을 오른쪽 외부조인. 모든 컬럼 포함
+SELECT *
+FROM DEPART D, STUDENT S
+WHERE D.DEP_CODE(+) = S.STUD_DEP;
+
+SELECT *
+FROM DEPART D RIGHT OUTER JOIN STUDENT S
+ON(D.DEP_CODE = S.STUD_DEP);
+
+--8. DEPART테이블과 STUDENT테이블을 완전 외부조인.
+SELECT STUD_NO      학번
+     , STUD_NAME    이름
+     , DEP_CODE     반번호
+     , DEP_NAME     반이름
+FROM STUDENT, DEPART
+WHERE STUD_DEP = DEP_CODE(+)
+UNION
+SELECT STUD_NO
+     , STUD_NAME
+     , DEP_CODE
+     , DEP_NAME
+FROM STUDENT, DEPART
+WHERE STUD_DEP(+) = DEP_CODE;
+
+SELECT STUD_NO      학번
+     , STUD_NAME    이름
+     , DEP_CODE     반번호
+     , DEP_NAME     반이름
+FROM DEPART FULL OUTER JOIN STUDENT ON(STUD_DEP = DEP_CODE);
