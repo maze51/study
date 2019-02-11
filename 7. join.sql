@@ -275,7 +275,7 @@ EQUI JOIN시 한 쪽에 없는 데이터는 자동으로 걸러짐
         이 때 중복부분은 1회 출력되고 결과물은 자동정렬.
         UNION ALL: 중복부분도 모두 출력되고 결과물은 자동정렬되지 않음.
         INTERSECT(교집합): JOIN할 테이블간 중복 부분만 출력.
-        MINUS(차집합): JOIN할 테이블 중 A - B하고 남는 부분만 출력.
+        MINUS(차집합): JOIN할 테이블 중 A - B하고 남는 부분만 출력.      -- 집합 연산자 부분(책68P) 참고
 */
 
 --1. S테이블 생성 후 기본키는 C / 컬럼 : C, D, E
@@ -441,3 +441,179 @@ SELECT STUD_NO      학번
      , DEP_CODE     반번호
      , DEP_NAME     반이름
 FROM DEPART FULL OUTER JOIN STUDENT ON(STUD_DEP = DEP_CODE);
+
+--72P 전체 분류의 상품자료 수를 검색 조회(ALIAS 분류코드, 분류명, 상품자료수)
+
+SELECT L.LPROD_GU     분류코드
+     , L.LPROD_NM     분류명
+     , COUNT(P.PROD_ID)      상품자료수
+FROM LPROD L, PROD P
+WHERE L.LPROD_GU = P.PROD_LGU(+)
+GROUP BY L.LPROD_GU, L.LPROD_NM
+ORDER BY 1;
+
+--ANSI표준
+SELECT L.LPROD_GU            분류코드
+     , L.LPROD_NM            분류명
+     , COUNT(P.PROD_ID)      상품자료수
+FROM LPROD L LEFT OUTER JOIN PROD P
+ON(L.LPROD_GU=P.PROD_LGU)
+GROUP BY L.LPROD_GU, L.LPROD_NM
+ORDER BY 1;
+
+--74P 전체상품의 2005년 1월 입고수량을 검색 조회(ALIAS 상품코드, 상품명, 입고수량)
+--OUTER JOIN형태
+SELECT P.PROD_ID             상품코드
+     , P.PROD_NAME           상품명
+     , BP.BUY_QTY            입고수량
+FROM PROD P, BUYPROD BP
+WHERE P.PROD_ID = BP.BUY_PROD(+)
+AND BP.BUY_DATE BETWEEN '05/01/01' AND '05/01/31'        -- BUY_DATE는 날짜형. BETWEEN 사용가능.
+ORDER BY 1;
+/*
+OUTER JOIN은 WHERE행에서 끝. 뒤에 AND가 붙어버리면 OUTER JOIN이 깨짐
+날짜 한정이 뒤에 들어오면 모든 상품이 아니게 된다. OUTER JOIN의 의미가 사라짐
+해결법은 ANSI 표준을 쓰는 것
+AND행을 없애면 왜 카디널리티가 더 늘어나나? 같은 상품이 여러개 나와서
+*/
+SELECT P.PROD_ID             상품코드
+     , P.PROD_NAME           상품명
+     , BP.BUY_QTY            입고수량
+FROM PROD P LEFT OUTER JOIN BUYPROD BP
+ON(P.PROD_ID=BP.BUY_PROD AND BP.BUY_DATE BETWEEN '05/01/01' AND '05/01/31')
+-- ANSI표준 시 JOIN조건 이외의 조건이 ON안에 들어감. ON안에 들어가면 OUTER JOIN도중에 조건을 고려한다.
+--마찬가지로 ON뒤로 빼면 OUTER JOIN의 의미가 사라짐.
+ORDER BY 1;
+
+--76P 전체 회원의 2005년도 4월의 구매현황 조회(회원ID, 성명, 구매수량의 합)
+SELECT M.MEM_ID              회원ID
+     , M.MEM_NAME            성명
+     , SUM(C.CART_QTY)       구매수량의합
+FROM MEMBER M, CART C
+WHERE M.MEM_ID = C.CART_MEMBER(+)
+AND C.CART_NO LIKE '200504%'
+GROUP BY M.MEM_ID, M.MEM_NAME
+ORDER BY 1;
+
+--LIKE조건과 OUTER JOIN을 함께 적용시킬 수 없으므로 ANSI표준 이용
+
+SELECT M.MEM_ID              회원ID
+     , M.MEM_NAME            성명
+     , NVL(SUM(C.CART_QTY),0)       구매수량의합
+--NVL: NULL이 있으면 지정한 값으로 바꿔라
+FROM MEMBER M LEFT OUTER JOIN CART C
+ON(M.MEM_ID = C.CART_MEMBER AND C.CART_NO LIKE '200504%')
+GROUP BY M.MEM_ID, M.MEM_NAME
+ORDER BY 1;
+
+--76P 전체 상품의 2005년도 5월 5일의 입고, 출고현황 조회(상품코드, 상품명, 입고수량의합, 판매수량의합)
+--전체 상품이 창고에 몇 개 들어왔냐? & 그 상품이 몇 개 팔렸냐? 를 찾는 문제
+SELECT P.PROD_ID            상품코드
+     , P.PROD_NAME          상품명
+     , SUM(BP.BUY_QTY)      입고수량의합
+     , SUM(C.CART_QTY)      판매수량의합
+FROM PROD P, BUYPROD BP, CART C
+WHERE P.PROD_ID = BP.BUY_PROD
+AND P.PROD_ID = C.CART_PROD
+AND BP.BUY_DATE = '05/05/05'
+AND C.CART_NO LIKE '20050505%'
+GROUP BY P.PROD_ID, P.PROD_NAME
+ORDER BY 1; -- 불완전. ANSI표준으로
+
+SELECT P.PROD_ID            상품코드
+     , P.PROD_NAME          상품명
+     , NVL(SUM(BP.BUY_QTY),0)      입고수량의합
+     , NVL(SUM(C.CART_QTY),0)      판매수량의합
+FROM PROD P LEFT OUTER JOIN BUYPROD BP ON(P.PROD_ID = BP.BUY_PROD AND BP.BUY_DATE = '05/05/05')
+            LEFT OUTER JOIN CART C     ON(P.PROD_ID = C.CART_PROD AND C.CART_NO LIKE '20050505%')
+GROUP BY P.PROD_ID, P.PROD_NAME
+ORDER BY 1;
+
+--OUTER JOIN문제
+--전체 상품분류에 해당하는 상품분류별 판매가의 합계는?(상품분류코드, 상품분류명, 판매가합)
+
+SELECT L.LPROD_GU                  상품분류코드
+     , L.LPROD_NM                  상품분류명
+     , NVL(SUM(P.PROD_SALE),0)     판매가합
+FROM LPROD L, PROD P
+WHERE L.LPROD_GU = P.PROD_LGU(+)
+--이게 없으면 EQUI JOIN. 전체 상품분류가 나오지 않았기 때문에 LEFT OUTER JOIN이 필요하다
+GROUP BY L.LPROD_GU, L.LPROD_NM
+ORDER BY 1;
+
+SELECT L.LPROD_GU                  상품분류코드
+     , L.LPROD_NM                  상품분류명
+     , NVL(SUM(P.PROD_SALE),0)     판매가합
+FROM LPROD L LEFT OUTER JOIN PROD P ON(L.LPROD_GU = P.PROD_LGU)
+GROUP BY L.LPROD_GU, L.LPROD_NM
+ORDER BY 1;
+
+--전체 회원별 판매금액(판매가 * 구매수량)의 합계를 구하기(회원ID, 회원명, 판매금액)
+--단, 상품분류코드가 P201인 상품으로 제한
+SELECT M.MEM_ID                     회원ID
+     , M.MEM_NAME                   회원명
+     , SUM(P.PROD_SALE*C.CART_QTY)  판매금액
+FROM MEMBER M, CART C, PROD P
+WHERE M.MEM_ID = C.CART_MEMBER(+)
+AND P.PROD_ID(+) = C.CART_PROD
+--AND P.PROD_LGU = 'P201'
+GROUP BY M.MEM_ID, M.MEM_NAME
+ORDER BY 1;
+
+SELECT M.MEM_ID                                           회원ID
+     , M.MEM_NAME                                         회원명
+     , TO_CHAR(NVL(SUM(P.PROD_SALE*C.CART_QTY),0))||'원'  판매금액 -- 뒤에 문자를 붙이기 위해 문자형으로 형변환하고 ||연결
+--FROM CART C LEFT OUTER JOIN MEMBER M ON(M.MEM_ID = C.CART_MEMBER)
+--            LEFT OUTER JOIN PROD P   ON(P.PROD_ID = C.CART_PROD AND P.PROD_LGU = 'P201')
+FROM MEMBER M LEFT OUTER JOIN CART C ON(M.MEM_ID = C.CART_MEMBER)
+              LEFT OUTER JOIN PROD P ON(P.PROD_ID = C.CART_PROD AND P.PROD_LGU = 'P201')
+-- 전체 회원을 출력하는 것이 기준이므로 회원에 하나를 먼저 JOIN하고 다른 하나도 JOIN하는 것이 맞다
+GROUP BY M.MEM_ID, M.MEM_NAME
+ORDER BY 1;
+--------------------------------------------------------------
+--          NON-EQUI JOIN('='이 없는 JOIN)
+
+-- 점수로 학점 구하기
+SELECT * FROM HAKJUM;   
+SELECT * FROM EXAM_01;
+
+SELECT E.STUDNO
+     , E.TOTAL
+     , H.GRADE
+FROM EXAM_01 E, HAKJUM H
+WHERE E.Total BETWEEN H.MIN_POINT AND H.MAX_POINT
+ORDER BY 1;
+
+--연봉으로 예상 직급 구하기
+SELECT E.EMPNO      직원번호
+     , E.NAME       직원명
+     , NVL(E.POSITION,'---')   현직급
+     , E.PAY        연봉
+     , P.POSITION   예상직급
+FROM EMP2 E, P_GRADE P
+WHERE E.PAY BETWEEN P.S_PAY AND P.E_PAY;
+
+SELECT * FROM P_GRADE;
+SELECT * FROM EMP2;
+
+SELECT S.STUDIO, S.NAME, S.PROFNO, P.PROFNAME
+FROM STUDENT S, PROFESSOR P
+WHERE S.PROFNO = P.PROFNO;
+
+SELECT S.STUDIO, S.NAME, S.PROFNO, P.PROFNAME
+FROM STUDENT S
+INNER JOIN PROFESSOR P ON(S.PROFNO = P.PROFNO);
+
+--ANSI표준의 NATURAL JOIN (컬럼이 단 하나 같을 때, JOIN조건을 생략할 수 있는 것) JOIN조건 앞에 ALIAS를 붙이지 않는다
+SELECT STUDIO, NAME, PROFNO, PROFNAME
+FROM STUDENT NATURAL JOIN PROFESSOR;
+
+SELECT S.STUDIO, S.NAME, PROFNO, P.PROFNAME
+FROM STUDENT S NATURAL JOIN PROFESSOR P;
+/*
+ALTER TABLE PROFESSOR
+RENAME COLUMN NAME TO PROFNAME;
+
+ALTER TABLE PROFESSOR
+RENAME COLUMN ID TO PROFID;
+*/
