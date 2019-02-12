@@ -617,3 +617,160 @@ RENAME COLUMN NAME TO PROFNAME;
 ALTER TABLE PROFESSOR
 RENAME COLUMN ID TO PROFID;
 */
+
+--------------------------------------------------------------
+/*
+77P                  SELF JOIN
+테이블 별명(ALIAS)을 사용하여 마치 2개의 TABLE인 것 처럼 자신의 TABLE과 자신의 TABLE을 JOIN하여 검색
+이름은 하난데 별명은 여러개
+*/
+
+--77P 회원ID가 'h001(라준호)'인 고객의 마일리지 점수보다 점수가 높은 회원만 검색
+--ALIAS 회원ID, 성명, 마일리지
+
+SELECT B.MEM_ID         회원ID        --B집합에서 결과를 가져오므로 B집합을 써 준다
+     , B.MEM_NAME       성명
+     , B.MEM_MILEAGE    마일리지
+FROM MEMBER A, MEMBER B
+WHERE A.MEM_ID = 'h001'            --A집합에서 ID가 일치하는 회원으로 비교할 값을 한정
+AND B.MEM_MILEAGE >= A.MEM_MILEAGE;
+-- B.MEM_MILEAGE>=1500으로 처리하면 일단 되지만, 가변적이어야 더 적합하다
+
+--거래처코드가 'P30203(참존)'과 동일지역에 속한 거래처만 검색조회
+--ALIAS 거래처코드 거래처 주소
+SELECT B.BUYER_ID                          거래처코드
+     , B.BUYER_NAME                        거래처
+     , B.BUYER_ADD1 || ' ' || B.BUYER_ADD2 주소
+FROM BUYER A, BUYER B
+WHERE A.BUYER_ID = 'P30203'
+AND SUBSTR(A.BUYER_ADD1,1,2) = SUBSTR(B.BUYER_ADD1,1,2);
+
+--라준호 회원의 직업과 동일한 직업을 가진 회원의 리스트 출력
+--회원ID, 회원명, 직업
+
+SELECT B.MEM_ID         회원ID
+     , B.MEM_NAME       회원명
+     , B.MEM_JOB        직업
+FROM MEMBER A, MEMBER B
+WHERE A.MEM_NAME = '라준호'        --비교할 값을 하나로 한정
+AND B.MEM_JOB = A.MEM_JOB;
+
+--회원ID가 'r001'인 고객의 2005년도 월별 구매현황 조회
+--회원ID, 성명, 주민등록번호, 구매월, 구매총액
+SELECT M.MEM_ID                   회원ID
+     , M.MEM_NAME                 성명
+     , M.MEM_REGNO1 || M.MEM_REGNO2 주민등록번호
+     , SUBSTR(C.CART_NO,1,6)      구매월
+     , SUM(P.PROD_SALE*C.CART_QTY)  구매총액
+FROM MEMBER M, CART C, PROD P
+WHERE M.MEM_ID = 'r001'
+AND M.MEM_ID = C.CART_MEMBER
+AND P.PROD_ID = C.CART_PROD
+AND C.CART_NO LIKE '2005%'        -- 2005년도 조건
+GROUP BY M.MEM_ID, M.MEM_NAME, M.MEM_REGNO1 || M.MEM_REGNO2, SUBSTR(C.CART_NO,1,6);
+
+--거래처(BUYER)별 2005년도 거래현황을 파악하여 결과가 0원인 거래처에 대해서는
+--다음 년도에 계약해지. 데이터 생성
+--(거래현황 : 입고가격의 합 SUM(PROD_COST)) (ALIAS: 거래처ID, 거래처명, 거래현황)
+SELECT B.BUYER_ID         거래처ID
+     , B.BUYER_NAME       거래처명
+     , SUM(P.PROD_COST)   거래현황
+FROM BUYER B, PROD P, BUYPROD BP
+WHERE B.BUYER_ID = P.PROD_BUYER(+)
+AND P.PROD_ID = BP.BUY_PROD(+)
+AND BP.BUY_DATE LIKE '05/%'
+GROUP BY B.BUYER_ID, B.BUYER_NAME;
+/*
+여기서 거래현황은? 어떤 상품을 누구한테 사서 언제, 몇개를, 얼마에 샀는가?
+BUY_COST와 BUYER_ID연결이 필요하다 -> 직접 관계 X -> PROD와 함께 JOIN
+결과는? 거래현황이 0원인 것. 찾아서 BUYER TABLE의 모든 정보를 최종 결과에 포함시켜야 한다. -> OUTER JOIN
+OUTER JOIN과 추가검색을 함께 쓸 수 없으므로 ANSI표준 이용
+*/
+SELECT B.BUYER_ID                 거래처ID
+     , B.BUYER_NAME              거래처명
+     , NVL(SUM(P.PROD_COST),0)   거래현황
+FROM BUYER B LEFT OUTER JOIN PROD P ON(B.BUYER_ID = P.PROD_BUYER)
+             LEFT OUTER JOIN BUYPROD BP ON(P.PROD_ID = BP.BUY_PROD AND BP.BUY_DATE LIKE '05/%')
+GROUP BY B.BUYER_ID, B.BUYER_NAME;
+
+--2005년도 상품의 판매 총합계 현황을 조회          -- '모든'이 없으면 굳이 OUTER JOIN하지 않아도 무방
+--(상품코드, 상품명, 판매수량, 판매금액(판매가 * 판매수량))
+
+SELECT P.PROD_ID                         상품코드
+     , P.PROD_NAME                       상품명
+     , SUM(C.CART_QTY)                   판매수량
+     , SUM(P.PROD_SALE * C.CART_QTY)     판매금액
+FROM PROD P, CART C
+WHERE P.PROD_ID = C.CART_PROD
+AND SUBSTR(C.CART_NO,1,4) = 2005        -- C.CART_NO LIKE '2005%'도 가능
+GROUP BY P.PROD_ID, P.PROD_NAME
+ORDER BY 1;
+/*
+(추가)단, 판매수량이 10개 이상이면서 판매금액이 1000만원 이상인 데이터를 구하기
+(GROUP BY 이후의 결과를 가지고 따지기 => GROUP BY 절 후에 조건이 와야 한다)
+하지만 WHERE는 이미 집계 완료 상태라 쓸 수 없다. => 집계함수 자체에 조건 걸기 : HAVING
+*/
+SELECT P.PROD_ID                         상품코드
+     , P.PROD_NAME                       상품명
+     , SUM(C.CART_QTY)                   판매수량
+     , SUM(P.PROD_SALE * C.CART_QTY)     판매금액
+FROM PROD P, CART C
+WHERE P.PROD_ID = C.CART_PROD
+AND SUBSTR(C.CART_NO,1,4) = 2005
+GROUP BY P.PROD_ID, P.PROD_NAME
+HAVING SUM(C.CART_QTY) >= 10
+AND SUM(P.PROD_SALE * C.CART_QTY) >= 10000000
+ORDER BY 1;
+
+--2005년도 월별 모든 상품분류별 매출 현황을 검색
+--ALIAS 월(CART_NO) 상품분류(LPROD_NM) 매출금액(PROD_SALE * CART_QTY)
+SELECT SUBSTR(C.CART_NO,5,2)                       월
+     , L.LPROD_NM                                  상품분류
+     , NVL(SUM(P.PROD_SALE * C.CART_QTY),0)        매출금액
+FROM CART C, LPROD L, PROD P
+WHERE P.PROD_ID = C.CART_PROD(+)
+AND L.LPROD_GU = P.PROD_LGU(+)
+AND C.CART_NO LIKE '2005%'
+GROUP BY SUBSTR(C.CART_NO,5,2), L.LPROD_NM
+ORDER BY 1,2;
+--여기서 CART_NO는 언제 팔렸냐? LPROD_NM은 어떤 분류 상품이냐? 매출금액은 얼마짜리 상품이 몇 개 팔렸냐?
+--ANSI표준으로 바꾸면
+SELECT SUBSTR(C.CART_NO,5,2)                       월
+     , L.LPROD_NM                                  상품분류
+     , NVL(SUM(P.PROD_SALE * C.CART_QTY),0)        매출금액
+FROM LPROD L LEFT OUTER JOIN PROD P ON(L.LPROD_GU = P.PROD_LGU)
+             LEFT OUTER JOIN CART C ON(P.PROD_ID = C.CART_PROD AND C.CART_NO LIKE '2005%')
+GROUP BY SUBSTR(C.CART_NO,5,2), L.LPROD_NM
+ORDER BY 1,2;
+
+--(추가)단, 매출금액이 1000만원 초과하는 데이터는?
+SELECT SUBSTR(C.CART_NO,5,2)                       월
+     , L.LPROD_NM                                  상품분류
+     , NVL(SUM(P.PROD_SALE * C.CART_QTY),0)        매출금액
+FROM LPROD L LEFT OUTER JOIN PROD P ON(L.LPROD_GU = P.PROD_LGU)
+             LEFT OUTER JOIN CART C ON(P.PROD_ID = C.CART_PROD AND C.CART_NO LIKE '2005%')
+GROUP BY SUBSTR(C.CART_NO,5,2), L.LPROD_NM
+HAVING SUM(P.PROD_SALE * C.CART_QTY) > 10000000
+ORDER BY 1,2;
+
+--159P 2005년도 판매된 상품 중 5회 이상의 판매횟수가 있는 상품 조회(상품코드, 상품명, 판매횟수-COUNT한 것)
+SELECT P.PROD_ID            상품코드
+     , P.PROD_NAME          상품명
+     , COUNT(C.CART_NO)     판매횟수
+FROM PROD P, CART C
+WHERE P.PROD_ID = C.CART_PROD
+AND C.CART_NO LIKE '2005%'
+GROUP BY P.PROD_ID, P.PROD_NAME
+HAVING COUNT(C.CART_NO) >= 5
+ORDER BY 1;
+
+--75P 상품분류가 컴퓨터제품(P101)인 상품의 2005년도 일자별 판매 조회(판매일, 판매금액PROD_SALE * CART_QTY(5백만 초과일 경우만), 판매수량(CART_QTY))
+SELECT SUBSTR(C.CART_NO,1,8)                 판매일
+     , SUM(P.PROD_SALE * C.CART_QTY)         판매금액
+     , SUM(C.CART_QTY)                       판매수량
+FROM CART C, PROD P
+WHERE P.PROD_ID = C.CART_PROD
+AND P.PROD_LGU = 'P101'
+AND C.CART_NO LIKE '2005%'
+GROUP BY SUBSTR(C.CART_NO,1,8)
+HAVING SUM(P.PROD_SALE * C.CART_QTY) > 5000000;

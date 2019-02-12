@@ -3,7 +3,7 @@ package f_OOP2;
 public class TimeTest {
 	public static void main(String[] args) {
 		TimeVO t = new TimeVO();
-		t.setHour(30);
+		t.setHour(21);
 		System.out.println(t.getHour()); // 6
 		
 		t.setMinute(140);
@@ -12,8 +12,8 @@ public class TimeTest {
 		t.setSeconds(10000);
 		System.out.println(t.getHour()+" : "+t.getMinute()+" : "+t.getSeconds()); // 11 : 6 : 40
 		
-	} // 메서드 재활용시 편하게 가능
-} // 최종적으로 각 한줄씩이면 가능. 2단계 다 풀고 보다 효율적으로 만들 수 있을까 생각해 보기.
+	}
+}
 
 class TimeVO{
 	private int hour;
@@ -22,7 +22,7 @@ class TimeVO{
 	
 	void setHour(int hour){
 		this.hour = hour%24;
-				
+		
 	}
 	
 	int getHour(){
@@ -30,8 +30,17 @@ class TimeVO{
 	}
 	
 	void setMinute(int minute){
-		this.hour += minute/60;
-		this.minute = minute%60;
+			
+//			hour += minute/60; // hour가 24를 넘을 수 있다.
+//			if(hour>23){ 		//해결방안
+//				setHour(hour);
+//			} else {
+//				this.minute = minute;
+//			}
+			setHour(hour += minute/60);
+			this.minute = minute%60;
+//		this.hour += minute/60;
+//		this.minute = minute%60;
 
 	}
 	
@@ -40,8 +49,13 @@ class TimeVO{
 	}
 	
 	void setSeconds(int seconds){
-		setMinute(minute += seconds/60);
-		this.seconds =seconds%60;
+			// 3600으로 나눈 몫만큼 시간 추가
+//			hour += seconds/3600;
+			// 60으로 나눈 몫만큼 분에 추가
+//			minute += seconds/60;		// 둘 다 갖고 있는것이 setMinute
+			
+		setMinute(minute += seconds/60);		
+		this.seconds = seconds%60;
 		
 	}
 	
