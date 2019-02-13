@@ -6,7 +6,7 @@ public class InstanceofTest {
 		Car2 c = new FireCar2();
 		System.out.println(c.a); // 참조변수의 타입 Car2의 영향을 받아 10
 		System.out.println(c.b); // 참조변수의 타입 Car2의 영향을 받아 20
-		c.method(); // 자기꺼 쓴다고 메서드를 오버라이드했으니 자식것이 호출됨
+		c.method(); // 따로 자기꺼 쓴다고 메서드를 오버라이드했으니 자식것이 호출됨
 		
 		if(c instanceof FireCar2){
 			System.out.println("c는 FireCar2의 인스턴스이다");

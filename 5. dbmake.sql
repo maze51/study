@@ -29,7 +29,7 @@ CREATE TABLE BUYER
 DESC BUYER;
  
 /*
-    ALTER TABLE BUYER
+    ALTER TABLE BUYER   책 중간 6P
     ADD : 컬럼 추가
     MODIFY : 컬럼 수정
     DROP : 컬럼 삭제
@@ -72,7 +72,21 @@ ADD(CONSTRAINT FR_BUYER_LPROD FOREIGN KEY(BUYER_LGU)
 --buyer 자식의 buyer_lgu가 lprod 부모의 기본키를 참조한다
 --lprod부모의 기본키가 buyer 자식의 buyer_lgu로 전이된다
 --ERwin에서 까마귀발로 이어주기(1대다 관계라면 1부터)
+/*
+ALTER TABLE TEST
+DROP (MEM_EXPERT);  컬럼 삭제
 
+ALTER TABLE TEST
+RENAME COLUMN MEM_COMTEL TO MEM_COMT;   컬럼명 변경
+
+DROP TABLE TEST     테이블 삭제
+
+SELECT * FROM RECYCLEBIN;   휴지통 확인
+
+FLASHBACK TABLE "오브젝트 이름" TO BEFORE DROP;   휴지통에서 복구
+
+TRUNCATE TABLE TEST;    구조는 그대로, 내용만 삭제(복구불가)
+*/
 CREATE TABLE PROD
 (
 PROD_ID             VARCHAR2(10)        NOT NULL,

@@ -764,7 +764,8 @@ GROUP BY P.PROD_ID, P.PROD_NAME
 HAVING COUNT(C.CART_NO) >= 5
 ORDER BY 1;
 
---75P 상품분류가 컴퓨터제품(P101)인 상품의 2005년도 일자별 판매 조회(판매일, 판매금액PROD_SALE * CART_QTY(5백만 초과일 경우만), 판매수량(CART_QTY))
+--75P 상품분류가 컴퓨터제품(P101)인 상품의 2005년도 일자별 판매 조회
+--(판매일, 판매금액PROD_SALE * CART_QTY(5백만 초과일 경우만), 판매수량(CART_QTY))
 SELECT SUBSTR(C.CART_NO,1,8)                 판매일
      , SUM(P.PROD_SALE * C.CART_QTY)         판매금액
      , SUM(C.CART_QTY)                       판매수량
@@ -774,3 +775,36 @@ AND P.PROD_LGU = 'P101'
 AND C.CART_NO LIKE '2005%'
 GROUP BY SUBSTR(C.CART_NO,1,8)
 HAVING SUM(P.PROD_SALE * C.CART_QTY) > 5000000;
+
+--75P 2005년도 판매일자(CART_NO), 판매총액(CART_QTY * PROD_SALE), 판매수량(CART_QTY),
+--판매회수(COUNT(CART_NO))를 조회하시오
+--단, 판매회수가 8개 이상, 판매총액이 500만 초과, 판매수량이 50초과
+--ALIAS: 판매일, 판매금액, 판매수량, 판매회수
+SELECT SUBSTR(C.CART_NO,1,8) 판매일
+     , SUM(C.CART_QTY * P.PROD_SALE) 판매금액
+     , SUM(C.CART_QTY) 판매수량
+     , COUNT(C.CART_NO) 판매회수
+FROM CART C, PROD P
+WHERE P.PROD_ID = C.CART_PROD
+AND C.CART_NO LIKE '2005%'
+GROUP BY SUBSTR(C.CART_NO,1,8)
+HAVING SUM(C.CART_QTY * P.PROD_SALE) > 5000000
+AND SUM(C.CART_QTY) > 50
+AND COUNT(C.CART_NO) >= 8
+ORDER BY 1;
+
+--2005년도 회원(MEMBER)직업 별 판매금액(판매가(PROD_SALE) * 판매개수(CART_QTY)) 조회
+--ALIAS 직업 연도 지역 판매금액 / 지역은 대전, 판매금액은 2천만 이상
+SELECT M.MEM_JOB                     직업
+     , SUBSTR(C.CART_NO,1,4)         연도
+     , SUBSTR(M.MEM_ADD1,1,2)        지역
+     , SUM(P.PROD_SALE * C.CART_QTY) 판매금액
+FROM MEMBER M, CART C, PROD P
+WHERE M.MEM_ID = C.CART_MEMBER
+AND P.PROD_ID = C.CART_PROD
+AND C.CART_NO LIKE '2005%'
+AND SUBSTR(M.MEM_ADD1,1,2) = '대전'
+GROUP BY M.MEM_JOB, SUBSTR(C.CART_NO,1,4), SUBSTR(M.MEM_ADD1,1,2)
+HAVING SUM(P.PROD_SALE * C.CART_QTY) >= 20000000;
+
+
