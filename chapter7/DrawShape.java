@@ -3,6 +3,8 @@ package f_OOP2;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class DrawShape extends Frame{
@@ -13,7 +15,7 @@ public class DrawShape extends Frame{
 		
 	}
 	
-		//ds.paint(new Graphics()); - 자동 생성됨
+		//ds.paint(new Graphics()); - 자동 생성됨. 새로 생성된 인스턴스의 주소를 매개변수로 지정한 것. 아래쪽 this(new Point(100,100), 200)과 동일
 	
 	@Override
 	public void paint(Graphics g) {
@@ -61,6 +63,16 @@ public class DrawShape extends Frame{
 		setSize(500, 500);
 		setVisible(true);
 		setBackground(Color.MAGENTA);
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0); // x 누르면 시스템을 끄도록 익명 클래스를 이용해 설정한 것. 
+				super.windowClosing(e);
+			}
+			
+		});
+		
 	}
 }
 /**
