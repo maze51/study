@@ -282,22 +282,175 @@ SELECT LPROD_GU     상품분류코드
 FROM LPROD
 WHERE LPROD_GU IN(SELECT DISTINCT PROD_LGU FROM PROD);
 
---PPT 302P ANY, ALL
+--PPT 302P ANY(OR연산), ALL(AND연산)
 --직업이...
 SELECT MEM_NAME     회원명
      , MEM_JOB      직업
      , MEM_MILEAGE  마일리지
 FROM MEMBER
-WHERE MEM_MILEAGE > ANY(                        -- ANY는 OR연산
-SELECT MEM_MILEAGE FROM MEMBER WHERE MEM_JOB = '공무원');
+WHERE MEM_MILEAGE > ANY(
+SELECT MEM_MILEAGE FROM MEMBER WHERE MEM_JOB = '공무원'); -- WHERE절에 쓰였으므로 NESTED 서브쿼리 다시 기억하기
 
 --a001회원의 구입수량을 검색하여 최소한 a001회원보다는 구입수량이(AND개념) 큰 주문내역 출력
 --단, a001회원은 제외하고 검색(주문번호, 상품코드, "회원명", 구입수량)
-
 SELECT CART_NO          주문번호
      , CART_PROD        상품코드
-     , SELECT(MEM_NAME FROM MEMBER WHERE CART_MEMBER = MEM_ID)      회원명
+     , (SELECT MEM_NAME FROM MEMBER WHERE CART_MEMBER = MEM_ID)      회원명 -- 일단 회원과 관련된 컬럼을 쓰고, 나중에 조건 부여
      , CART_QTY         상품수량
 FROM CART
-WHERE CART_QTY > ALL (
-SELECT CART_QTY FROM CART WHERE CART_MEMBER = 'a001');
+WHERE CART_MEMBER <> 'a001' -- a001회원은 제외하고
+AND CART_QTY > ALL ( -- 결국은 16보다 큰 값을 가져옴
+    SELECT CART_QTY FROM CART
+    WHERE CART_MEMBER = 'a001');
+
+--책 84P 집합
+/*
+UNION(합집합): 중복부분은 1회 출력되고 결과물은 자동정렬.
+UNION ALL: 중복부분도 모두 출력되고 결과물은 자동정렬되지 않음.
+INTERSECT(교집합): JOIN할 테이블간 중복 부분만 출력.
+MINUS(차집합): JOIN할 테이블 중 A - B하고(같은 부분을 빼고) 남는 부분만 출력.
+
+집합은 밑으로 붙는 것(JOIN은 옆으로 붙는 것). 그러려면
+1. 열의 개수가 같아야 한다 2. 매핑되는 열의 자료형이 동일해야 한다
+조건을 만족하면 집합 처리가 가능하다
+*/
+
+SELECT MEM_NAME
+     , MEM_JOB
+     , MEM_MILEAGE
+FROM MEMBER
+WHERE MEMBER.MEM_MILEAGE > 4000
+MINUS
+SELECT MEM_NAME
+     , MEM_JOB
+     , MEM_MILEAGE
+FROM MEMBER
+WHERE MEM_JOB = '자영업';
+
+SELECT 'LPROD'      TABLE_ID
+     , '상품분류테이블'    TABLE_NAME
+     , COUNT(*)     DATA_COUNT
+FROM LPROD
+UNION
+SELECT 'LPROD'      TABLE_ID
+     , '상품테이블'  TABLE_NAME
+     , COUNT(*)     DATA_COUNT
+FROM PROD
+UNION
+SELECT 'MEMBER'     TABLE_ID
+     , '회원테이블'  TABLE_NAME
+     , COUNT(*)     DATA_COUNT
+FROM MEMBER;
+
+--책 86P EXISTS(교집합 연산자. 이것도 다중행일때 쓰이는 연산자. IN, ALL, ANY와 함께)
+SELECT MEM_ID -- 이렇게 열 갯수가 달라지면? UNION할 수 없다.
+     , MEM_NAME
+     , MEM_JOB
+     , MEM_MILEAGE
+FROM MEMBER
+WHERE MEM_MILEAGE > 4000;
+
+SELECT MEM_NAME
+     , MEM_JOB
+     , MEM_MILEAGE
+FROM MEMBER
+WHERE MEM_JOB = '자영업';
+
+--가능하게 하려면?
+--EXIST심경
+--집합과집합사이에AND EXISTS를쓰고 B집합을괄호로묶은후
+--B집합에연결고리를작성(JOIN조건을 쓰면)하면되느니라             --JOIN조건? 자료형, 크기가 같고 같은 데이터가 들어 있어야(복습)
+SELECT A.MEM_ID
+     , A.MEM_NAME
+     , A.MEM_JOB
+     , A.MEM_MILEAGE
+FROM MEMBER A
+WHERE A.MEM_MILEAGE > 4000
+AND EXISTS
+    (SELECT B.MEM_NAME
+         , B.MEM_JOB
+         , B.MEM_MILEAGE
+    FROM MEMBER B
+    WHERE B.MEM_JOB = '자영업'
+    AND A.MEM_NAME = B.MEM_NAME --****중요!**** B집합에 JOIN조건을 쓴다
+    );
+
+--84P EXIST를 이용하여 INTERSECT구현
+--2005년 4월에 판매된 상품 & 6월에 판매된 상품 찾는 문제
+--P302### 중에서 P302000012 여성 향수가 앞쪽 테이블에 없음
+
+SELECT DISTINCT C.CART_PROD   판매상품
+     , P.PROD_NAME            상품명
+FROM CART C, PROD P
+WHERE C.CART_PROD = P.PROD_ID
+AND SUBSTR(C.CART_NO,1,8) BETWEEN '20050401' AND '20050430'
+AND EXISTS
+    (SELECT DISTINCT CART_PROD
+    FROM CART D
+    WHERE D.CART_PROD = C.CART_PROD
+    AND D.CART_NO LIKE '200506%');
+
+--85P 2005년도 구매금액 2천만 이상 우수고객으로 지정하여 검색
+--회원ID, 회원명, '우수고객'(문자열 출력)
+--구매금액 : SUM(CART.CART_QTY * PROD.PROD_SALE)
+
+SELECT A.MEM_ID     회원ID
+     , A.MEM_NAME   회원명
+     , '우수고객'
+FROM MEMBER A
+WHERE EXISTS     -- A쪽에 WHERE가 있다면 AND EXISTS를 쓸 수 있지만 보안 위험이 있다(SQL INJECTION)
+(SELECT B.MEM_ID
+      , B.MEM_NAME
+      , SUM(CART.CART_QTY * PROD.PROD_SALE)
+FROM CART, PROD, MEMBER B
+WHERE PROD.PROD_ID = CART.CART_PROD
+AND B.MEM_ID = CART.CART_MEMBER
+AND CART.CART_NO LIKE '2005%'
+AND A.MEM_ID = B.MEM_ID             -- 연결고리
+GROUP BY B.MEM_ID, B.MEM_NAME
+HAVING SUM(CART.CART_QTY * PROD.PROD_SALE) > 20000000)
+;
+--아래처럼 MEMBER가 빠져도 작동한다.
+--또한 GROUP BY 절도 뺄 수 있다
+SELECT A.MEM_ID     회원ID
+     , A.MEM_NAME   회원명
+     , '우수고객'
+FROM MEMBER A
+WHERE EXISTS     -- A쪽에 WHERE가 있다면 AND EXISTS를 쓸 수 있지만 보안 위험이 있다(SQL INJECTION)
+(SELECT SUM(CART_QTY * PROD_SALE)
+FROM CART, PROD
+WHERE PROD_ID = CART_PROD
+AND CART_NO LIKE '2005%'
+AND MEM_ID = CART_MEMBER             -- 연결고리 중요!
+HAVING SUM(CART_QTY * PROD_SALE) > 20000000)
+;
+
+--2005년도 매입금액 천만원 이상 우수거래처로 지정하여 검색하기
+--거래처코드, 거래처명, '우수거래처'
+--(구매금액 : SUM(BUYPROD.BUY_QTY * BUYPROD.BUY_COST)
+SELECT A.BUYER_ID
+     , A.BUYER_NAME
+     , '우수거래처'
+FROM BUYER A
+WHERE EXISTS
+    (SELECT B.BUYER_ID
+         , B.BUYER_NAME
+         , SUM(BP.BUY_QTY * BP.BUY_COST)
+    FROM BUYER B, PROD P, BUYPROD BP
+    WHERE B.BUYER_ID = P.PROD_BUYER
+    AND P.PROD_ID = BP.BUY_PROD
+    AND BP.BUY_DATE LIKE '05/%'
+    AND A.BUYER_ID = B.BUYER_ID
+    GROUP BY B.BUYER_ID, B.BUYER_NAME
+    HAVING SUM(BP.BUY_QTY * BP.BUY_COST) > 10000000);
+
+
+
+--JOIN ORDER BY
+
+--INSERT심화
+
+--UPDATE심화
+
+
+
