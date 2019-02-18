@@ -305,8 +305,8 @@ AND CART_QTY > ALL ( -- 결국은 16보다 큰 값을 가져옴
 
 --책 84P 집합
 /*
-UNION(합집합): 중복부분은 1회 출력되고 결과물은 자동정렬.
-UNION ALL: 중복부분도 모두 출력되고 결과물은 자동정렬되지 않음.
+UNION(합집합): 중복부분(교집합)은 1회 출력되고 결과물은 자동정렬.
+UNION ALL(합집합): 중복부분(교집합)도 모두 출력되고 결과물은 자동정렬되지 않음.
 INTERSECT(교집합): JOIN할 테이블간 중복 부분만 출력.
 MINUS(차집합): JOIN할 테이블 중 A - B하고(같은 부분을 빼고) 남는 부분만 출력.
 
@@ -443,14 +443,266 @@ WHERE EXISTS
     AND A.BUYER_ID = B.BUYER_ID
     GROUP BY B.BUYER_ID, B.BUYER_NAME
     HAVING SUM(BP.BUY_QTY * BP.BUY_COST) > 10000000);
+    
+--------------------------------------------------------------------
+/*
+88P 집계용 문법 - 잘 사용하지 않음
+RANK() : 순위 출력 함수(점수가 같은 부분은 같은 순위.
+다음 순위는 내부적으로 카운트되어 순위가 같은 부분만큼 밀린다=순번을 따라간다)
+DENSE RANK() : 서열 출력 함수(점수가 같은 부분은 같은 순위.
+다음 순위는 내부적으로 카운트되지 않아 다음번 숫자가 된다)
+*/
 
 
+SELECT RANK('c001')
+WITHIN GROUP (ORDER BY CART_MEMBER) RANK
+     , DENSE_RANK('c001')
+WITHIN GROUP (ORDER BY CART_MEMBER) DENSE_RANK
+FROM CART;
 
---JOIN ORDER BY
+--분석용 문법
 
---INSERT심화
+--장바구니(CART) 테이블에서 회원들의 회원ID와 구매수, 구매수순위를 출력
+SELECT CART_MEMBER  회원ID
+     , CART_QTY     구매수
+     , RANK() OVER(ORDER BY CART_QTY DESC)          구매수순위
+     , DENSE_RANK() OVER(ORDER BY CART_QTY DESC)    서열
+FROM CART;
+--중요한 것은 순위가 내부적으로 카운트되어 공동 순위 이후가 밀리는 것(서열은 그렇지 않다)
 
---UPDATE심화
+--CART테이블에서 아이디가 'a001'인 회원의 회원아이디, 상품코드, 구매수, 구매수순위를 출력
+SELECT CART_MEMBER  회원아이디
+     , CART_PROD    상품코드
+     , CART_QTY     구매수
+     , RANK() OVER(ORDER BY CART_QTY DESC)  구매수순위
+     -- RANK() 소괄호 안에 넣는 것은 집계용 문법. 안에 넣은 것 하나만 출력할 때 사용
+     , DENSE_RANK() OVER(ORDER BY CART_QTY DESC) 서열
+FROM CART
+WHERE CART_MEMBER='a001';
+/*
+책90P 행순서 함수(행번호)
+ROWNUM 레코드에 대한(행 자체에 대한) 일련번호
+현재 출력된 것 결과값 사이의 일련번호를 보여주는 것
+정렬 옵션이 적용되기 전에 출력됨
+제대로 결과값을 조회하려면 INLINE VIEW(FROM절에 쓰인 서브쿼리)를 이용해
+원하는 결과를 먼저 정해놓은 다음 ROWNUM을 적용
+
+사용처: 게시판의 페이징 처리(이전 페이지, 다음 페이지)
+*/
+SELECT ROWNUM
+     , LPROD_ID
+     , LPROD_GU
+     , LPROD_NM
+FROM LPROD;
+
+SELECT ROWNUM
+     , L.*
+FROM LPROD L
+ORDER BY LPROD_NM ASC;
+
+SELECT ROWNUM "RNUM1", T.*         -- 섞이지 않는다
+FROM (SELECT ROWNUM "RNUM2"        -- 섞인다
+     , L.*
+FROM LPROD L
+ORDER BY LPROD_NM ASC) T;
+
+--ROWID : 테이블의 특정 레코드로 랜덤하게 접근하기 위한 논리적인 주소값.
+--DB에서 고유한 값. DB안에서 절대 중복될 수 없다.
+SELECT LPROD_GU
+     , LPROD_NM
+     , ROWID
+FROM LPROD
+ORDER BY 3;
+
+--파일저장방법
+SELECT MEM_ID
+     , MEM_NAME
+     , MEM_PATH
+     , MEM_IMG
+FROM MEMBER;
+
+--파일저장방법 실습
+--회원테이블에 회원의 사진 첨부파일을 저장하기
+ALTER TABLE MEMBER
+ADD(
+    MEM_PATH VARCHAR2(1000),
+    MEM_IMG  VARCHAR2(1000)
+);
+
+UPDATE MEMBER
+SET     MEM_PATH = '\\Sem-pc\공유폴더\', MEM_IMG = '힘내요.png'
+WHERE   MEM_ID = 'a001';
+
+--RATIO_TO_REPORT 전체 대비 해당ROW의 값이 차지하는 비율
+SELECT T1.VAL
+     , RATIO_TO_REPORT(T1.VAL) OVER() * 100 || '%'
+FROM
+(
+    SELECT 10 VAL FROM DUAL
+    UNION ALL
+    SELECT 20 VAL FROM DUAL
+    UNION ALL
+    SELECT 30 VAL FROM DUAL
+    UNION ALL
+    SELECT 40 VAL FROM DUAL
+) T1;
+
+--a001회원이 구입한 상품의 내역을 활용하여 구매개수(CART_QTY) 대비 해당 구매개수 값이
+--차지하는 비율 구하기(회원ID, 상품코드, 구매수, 차지비율)
+SELECT CART_MEMBER      회원ID
+     , CART_PROD        상품코드
+     , CART_QTY         구매수
+     , RATIO_TO_REPORT(CART_QTY) OVER() * 100 || '%'    차지비율
+FROM CART
+WHERE CART_MEMBER = 'a001';
+
+--92P ROLLUP    소계 구하기
+--상품분류별, 거래처별 입고수와 입고가격의 합(상품분류, 거래처, 상품수, 입고가격합)
+SELECT B.BUYER_LGU           상품분류
+     , B.BUYER_ID            거래처
+     , SUM(BP.BUY_QTY)       상품수
+     , SUM(BP.BUY_COST)      입고가격합
+FROM BUYER B, PROD P, BUYPROD BP
+WHERE B.BUYER_ID = P.PROD_BUYER
+AND P.PROD_ID = BP.BUY_PROD
+GROUP BY ROLLUP(B.BUYER_LGU, B.BUYER_ID)
+ORDER BY 1,2;
+
+--ROLLUP을 UNION ALL로 처리
+/*
+GROUP BY ROLLUP(PROD_LGU, PROD_BUYER)
+=>
+GROUP BY PROD_LGU, PROD_BUYER
+UNION ALL
+GROUP BY PROD_LGU
+UNION ALL
+전체 집계
+*/
+
+SELECT B.BUYER_LGU           상품분류
+     , B.BUYER_ID            거래처
+     , SUM(BP.BUY_QTY)       상품수
+     , SUM(BP.BUY_COST)      입고가격합
+FROM BUYER B, PROD P, BUYPROD BP
+WHERE B.BUYER_ID = P.PROD_BUYER
+AND P.PROD_ID = BP.BUY_PROD
+GROUP BY B.BUYER_LGU, B.BUYER_ID
+UNION ALL
+SELECT NULL                  상품분류
+     , NULL                  거래처
+     , SUM(BP.BUY_QTY)       상품수
+     , SUM(BP.BUY_COST)      입고가격합
+FROM BUYER B, PROD P, BUYPROD BP
+WHERE B.BUYER_ID = P.PROD_BUYER
+AND P.PROD_ID = BP.BUY_PROD
+ORDER BY 1,2;
 
 
+-- ROLLUP
+
+SELECT E.DEPTNO
+     , D.DNAME
+     , E.JOB
+     , COUNT(E.EMPNO)
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+GROUP BY ROLLUP((E.DEPTNO, D.DNAME), E.JOB);
+
+--위를 UNION ALL로 바꿔보기
+SELECT E.DEPTNO
+     , D.DNAME
+     , E.JOB
+     , COUNT(E.EMPNO)
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+GROUP BY ROLLUP(E.DEPTNO, D.DNAME), E.JOB
+UNION ALL
+SELECT E.DEPTNO
+     , D.DNAME
+     , NULL
+     , COUNT(E.EMPNO)
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+GROUP BY (E.DEPTNO, D.DNAME) -- 분류별 소계 영역. 불필요한 JOB을 없애고 NULL로 바꾼다
+UNION ALL
+SELECT NULL
+     , NULL
+     , NULL
+     , COUNT(E.EMPNO)
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+-- 전체 합계 영역. GROUP BY가 사라지고 불필요한 이름을 NULL로 바꾼다
+ORDER BY 1,2,3;
+
+--책 93P CUBE
+/*
+중분류로 소계를 낼 때 사용. ROLLUP과 사용법은 동일.
+
+CUBE정리
+GROUP BY CUBE(A,B) => ?
+GROUP BY A,B
+UNION ALL
+GROUP BY A
+UNION ALL -- CUBE
+GROUP BY B -- CUBE
+UNION ALL -- 나머지는 ROLLUP
+모든 집합 그룹 결과
+*/
+SELECT E.DEPTNO
+     , D.DNAME
+     , E.JOB
+     , COUNT(E.EMPNO)
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+GROUP BY CUBE((E.DEPTNO, D.DNAME), E.JOB);
+
+SELECT PROD_LGU
+     , PROD_BUYER
+     , COUNT(*)
+     , SUM(PROD_COST)
+FROM PROD
+GROUP BY CUBE(PROD_LGU, PROD_BUYER);
+
+--UNION ALL로 바꿔보기
+SELECT PROD_LGU
+     , PROD_BUYER
+     , COUNT(*)
+     , SUM(PROD_COST)
+FROM PROD
+GROUP BY CUBE(PROD_LGU, PROD_BUYER)
+UNION ALL
+SELECT NULL
+     , PROD_BUYER
+     , COUNT(*)
+     , SUM(PROD_COST)
+FROM PROD
+GROUP BY (PROD_LGU, PROD_BUYER)
+UNION ALL
+SELECT NULL
+     , NULL
+     , COUNT(*)
+     , SUM(PROD_COST)
+FROM PROD;
+/*
+94P GROUPING SET 함수
+그루핑 조건이 여러개일 때 사용
+GROUP BU GROUPING SET? (A,B,C)
+
+
+*/
+SELECT MEM_JOB
+     , MEM_LIKE -- 결합연산자 ||로 묶는게 더 빠르다
+     , COUNT(*)
+FROM MEMBER
+GROUP BY GROUPING SETS(MEM_JOB, MEM_LIKE); -- 직업 따로, 취미 따로. 따로따로 그루핑해서 세는 것
+
+SELECT MEM_JOB
+     , COUNT(*)
+FROM MEMBER
+GROUP BY MEM_JOB
+UNION -- 위에서 MEM_JOB으로 한 번 묶고, 아래에서 MEM_LIKE로 다시 한 번 묶는다
+SELECT MEM_LIKE
+     , COUNT(*)
+FROM MEMBER
+GROUP BY MEM_LIKE;
 

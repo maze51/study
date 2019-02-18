@@ -134,19 +134,21 @@ public class Exam_07 {
 		
 		/*
 		[7-11]
-		(1) 이전 채널의 값을 저장할 인스턴스변수 prevChannel을 선언한다
-		int prevChannel;
-		(2) setChannel 메서드를 활용해 이전 채널의 값을 prevChannel에 저장한다
-		void setChannel(int channel){
-			prevChannel = this.channel;
-			this.channel = channel;
-		}
-		(3) gotoPrevChannel()을 만들고 지역변수 i를 선언한다.
-		i를 중간 저장소로 활용해 변수 channel과 prevChannel의 값을 맞바꾼다.
-		void gotoPrevChannel(){
-			int i = this.channel;
-			this.channel = prevChannel;
-			prevChannel = i;
+		class MyTv2 {
+			(1) 이전 채널의 값을 저장할 인스턴스변수 prevChannel을 선언한다
+			int prevChannel;
+			(2) setChannel 메서드를 활용해 이전 채널의 값을 prevChannel에 저장한다
+			void setChannel(int channel){
+				prevChannel = this.channel;
+				this.channel = channel;
+			}
+			(3) gotoPrevChannel()을 만들고 지역변수 i를 선언한다.
+			i를 중간 저장소로 활용해 변수 channel과 prevChannel의 값을 맞바꾼다.
+			void gotoPrevChannel(){
+				int i = this.channel;
+				this.channel = prevChannel;
+				prevChannel = i;
+			}
 		}
 		 */
 		
@@ -173,26 +175,219 @@ public class Exam_07 {
 		
 		/*
 		[7-15]
-		
+		옳은 것
+		a(형변환 가능) b(up-casting이므로 생략가능) c d(up-casting이므로 생략가능)
+		f(부모타입의 참조변수로 자손타입의 인스턴스를 참조할 수 있다)
+		옳지 않은 것
+		e(자손타입의 참조변수로 부모타입의 인스턴스를 참조할 수 없다) ??
 		 */
 		
+		/*
+		[7-16]
+		true인 것
+		a b c d
+		true가 아닌 것
+		e FireEngine형 참조변수와 Ambulance형 참조변수는 어떤 상속관계도 없다. 때문에 형변환할 수 없다. 
+		 */
+		
+		/*
+		[7-17]
+		아래 세 개의 클래스로부터 공통부분을 뽑아서 Unit이라는 클래스를 만들고, 이 클래스를 상속받도록 코드를 변경하시오.
+		class Unit {
+			int x, y;
+			void move(int x, int y) {} 
+			void stop() {}
+		}
+		
+		class Marine extends Unit { // 보병
+			void stimPack() {} 
+		}
+		class Tank extends Unit { // 탱크
+			void changeMode() {} 
+		}
+		class Dropship extends Unit { // 수송선
+			void load() {} 
+			void unload() {} 
+		}
+		 */
+		
+		/*
+		[7-18]
+		action(Robot r) 메서드 작성
+		static void action(Robot r){
+			if(r instanceof DanceRobot) {
+				DanceRobot da = new DanceRobot();
+				da.dance();
+			} else if(r instanceof SingRobot) {
+				SingRobot si = new SingRobot();
+				si.sing();
+			} else {
+				DrawRobot dr = new DrawRobot();
+				dr.draw();
+			}
+		}
+		 */
+		
+		/*
+		[7-19]
+		(1) buy(Product p) 메서드 작성
+		void buy(Product p) {
+			if(money<p.price){
+				System.out.println("잔액이 부족하여 "+p+"를 살 수 없습니다.");
+				return;
+			} else {
+				money -= p.price;
+				add(p);
+			}
+		}
+		
+		(2) add(Product p) 메서드 작성
+		void add(Product p) {
+			if(i >= cart.length){
+				Product[] lcart = new Product[cart.length*2];
+				for(int j=0;j<cart.length;j++){
+					lcart[j] = cart[j];
+				}
+				cart = lcart;
+			}
+			cart[i] = p;
+			i++;
+		}
+		
+		(3) summary 메서드 작성
+		void summary() {
+			int sum = 0;
+			System.out.print("구입한 물건: ");
+			for(int i=0;i<cart.length;i++){
+				System.out.print(cart[i]+",");
+				sum += cart[i].price;
+			}
+			System.out.println();
+			
+			System.out.println("사용한 금액: "+sum);
+			System.out.println("남은 금액: "+money);
+		}
+		 */
+		
+		/*
+		[7-20]
+		실행결과
+		p.x = 100
+		Child Method
+		c.x = 200
+		Child Method
+		 */
+		
+		/*
+		[7-21]
+		매개변수로 가능한 것
+		Movable인터페이스를 구현한 클래스의 인스턴스
+		 */
+		
+		/*
+		[7-22]
+		class Rectangle extends Shape {
+			double width;
+			double height;
+			Rectangle(double width, double height){
+				this(new Point(0,0), width, height);
+			}
+			
+			Rectangle(Point p, double width, double height){
+				super(p);
+				this.width = width;
+				this.height = height;
+			}
+			
+			boolean isSquare(){
+				return width*height!=0 && width==height;
+			}
+			
+			@Override
+			double calcArea() {
+				return width * height;
+			}
+		}
 		
 		
+		class Circle extends Shape {
+			double r;
+			
+			Circle (double r) {
+				this(new Point(0,0),r);
+			}
+			
+			Circle (Point p, double r){
+				super(p);
+				this.r = r;
+			}
+			
+			@Override
+			double calcArea() {
+				return Math.PI*r*r;
+			}
+		}
+		 */
 		
+		/*
+		[7-23]
+		static double sumArea(Shape[] arr) {
+			double sum = 0;
+			for(int i=0; i < arr.length;i++)
+				sum+= arr[i].calcArea();
+			return sum;
+		}
+		 */
 		
+		/*
+		[7-24]
+		인터페이스의 장점
+		a, b, c, d
+		장점이 아닌 것
+		e
+		 */
 		
+		/*
+		[7-25]
+		Outer o = new Outer();
+		Outer.Inner i = o.new Inner();
+		System.out.println(i.iv);
+		 */
 		
+		/*
+		[7-26]
+		Outer.Inner i = new Outer.Inner();
+		System.out.println(i.iv);
+		 */
 		
+		/*
+		[7-27]
+		(1) 지역변수 value, Inner 클래스의 지역변수 value, Outer 클래스의 지역변수 value를 차례로 출력
+		System.out.println(value);
+		System.out.println(this.value);
+		System.out.println(Outer.this.value);
 		
+		(2) 출력을 위해 Outer, Inner 클래스를 인스턴스화
+		Outer o = new Outer();
+		Outer.Inner inner = o.new Inner();
+		inner.method1();
+		 */
 		
+		/*
+		[7-28]
+			f.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					e.getWindow().setVisible(false);
+					e.getWindow().dispose();
+					System.exit(0);
+			};
+		});
+		 */
 		
-		
-		
-		
-		
-		
-		
-		
-		
+		/*
+		[7-29]
+		메서드가 수행을 마치고 지역변수가 소멸된 시점에도, 지역 클래스의 인스턴스가 소멸된 지역변수를 참조하려는 경우가
+		발생할 수 있기 때문.
+		 */
 	}
 }

@@ -147,11 +147,12 @@ order by 절 : 정렬;
 
 SELECT MEM_ID
     , 1004
-    , '내일이 지나면..'   --별도 문자를 결과에 추가한 것
+    , '내일이 지나면..'
     , MEM_NAME
     , MEM_MILEAGE
-    , MEM_MILEAGE / 12 AS "월 평균"    --결과값에 나올 이름을 따로 지정
+    , ROUND(MEM_MILEAGE / 12,2) "월 평균"    --결과값에 나올 이름을 따로 지정
 FROM MEMBER;
+--싱글쿼트로 감싼 영역: 별도 문자를 결과에 추가한 것
 
 --회원 테이블로부터 회원ID와 성명과 마일리지 * 12를 검색하시오
 SELECT MEM_ID
