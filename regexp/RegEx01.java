@@ -71,10 +71,10 @@ public class RegEx01 {
 		//3. .이후에는 영문자가 2~3자가 올 수 있다.
 		//4. .kr이 하나 있을 수도 있고 없을 수도 있다.
 		
-		String email = "^[a-zA-Z][-_\\\\.\\w]*(@)\\w{1,7}(.)[a-zA-Z]{2,3}*(.kr)?";
-		System.out.println(Pattern.matches(email, "qw._\\-sf-tg@hanmail.net"));
+		String email = "^[a-zA-Z]([-_.\\\\\\w])*@[A-Za-z0-9]{1,7}[.][a-zA-Z]{2,3}([.]kr)?";
+		System.out.println(Pattern.matches(email, "q-w.-_-sf-tg@hanmail.net"));
 		
-		//비속어 정규식 응용법
+		//비속어 정규식 응용법 \\w{1,7}
 		
 		
 		String text = " ";

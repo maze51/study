@@ -706,3 +706,462 @@ SELECT MEM_LIKE
 FROM MEMBER
 GROUP BY MEM_LIKE;
 
+--0219 PPT 317P             INSERT 심화
+CREATE TABLE REMAIN
+(
+    REMAIN_YEAR     CHAR(4) NOT NULL,           -- 해당 년도
+    REMAIN_PROD     VARCHAR2(10) NOT NULL,      -- 상품 코드
+    REMAIN_J_00     NUMBER(5),                  -- 전년 재고
+    REMAIN_I        NUMBER(5),                  -- 입고
+    REMAIN_O        NUMBER(5),                  -- 출고
+    REMAIN_J_99     NUMBER(5),                  -- 현재고
+    REMAIN_DATE     DATE,                       -- 처리일자
+    CONSTRAINT PK_REMAIN PRIMARY KEY(REMAIN_YEAR, REMAIN_PROD),
+    CONSTRAINT FR_REMAIN_PROD FOREIGN KEY(REMAIN_PROD)
+                              REFERENCES PROD(PROD_ID) ON DELETE CASCADE
+);
+--ON DELETE CASCADE는 자식 테이블에 쓴다
+/*
+참조 무결성을 지키는 방법들
+NO ACTION(안한다) 안씀
+RESTRICT 부모 테이블의 데이터 삭제 시 자식 테이블에서 참조하는 키가 있다면 삭제할 수 없게 막는다(이게 기본옵션)
+CASCADE(연쇄) 부모 테이블의 데이터 삭제 시 자식 테이블에서 참조하는 키가 있다면 같이 삭제된다
+DEFAULT 부모 테이블의 데이터 삭제 시 자식 테이블에서 참조하는 키가 있다면 지정한 DEFAULT값으로 바뀐다
+NULLIFY 부모 테이블의 데이터 삭제 시 자식 테이블에서 참조하는 키가 있다면 NULL값으로 바뀐다
+*/
+
+--연습예제
+CREATE TABLE TBL_PARENT(
+        COL1 VARCHAR2(10) PRIMARY KEY,
+        COL2 VARCHAR2(10)
+);
+
+INSERT INTO TBL_PARENT VALUES('P101','과일');
+INSERT INTO TBL_PARENT VALUES('P102','채소');
+INSERT INTO TBL_PARENT VALUES('P103','스낵');
+
+CREATE TABLE TBL_CHILD(
+        COL3 VARCHAR2(10) PRIMARY KEY,
+        COL1 VARCHAR2(10) REFERENCES TBL_PARENT(COL1)
+);--CREATE TABLE 시 CONSTRAINT 안 하고 이런 식으로 간단하게 처리할 수도 있다.
+
+INSERT INTO TBL_CHILD VALUES(1,'P101');
+INSERT INTO TBL_CHILD VALUES(2,'P101');
+INSERT INTO TBL_CHILD VALUES(3,'P101');
+INSERT INTO TBL_CHILD VALUES(4,'P102');
+INSERT INTO TBL_CHILD VALUES(5,'P102');
+INSERT INTO TBL_CHILD VALUES(6,'P103');
+
+DELETE FROM TBL_PARENT
+WHERE COL1 = 'P101'; -- 그냥 지울 수 없다. RESTRICT가 기본값으로 걸려 있기 때문에
+--테이블 제약조건을 수정하면 삭제가능
+SELECT * FROM TBL_CHILD;
+-----------------------------------------
+--모든 컬럼에 데이터를 넣을 때만 컬럼 리스트를 생략 가능하다.
+INSERT INTO REMAIN
+VALUES('2003','P101000001',20,10,12,18,'2004-01-01');
+--하지만 다음과 같이 컬럼명을 명시하는 것을 권장한다
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,
+                   REMAIN_I,REMAIN_O,REMAIN_J_99,
+                   REMAIN_DATE)
+VALUES('2003','P101000002',11,7,6,12,'2004-01-02');
+
+SELECT * FROM REMAIN;
+DESC REMAIN;
+
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_I)
+        VALUES('2003','P102000007',10);
+-- 입력된 부분만 들어가고 나머지는 NULL
+-- 단 NOT NULL로 지정된 부분의 값은 반드시 들어가야 한다
+        
+--NULL값 입력방법 1) INSERT문장의 COLOMN LIST에서 생략
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_J_99,REMAIN_DATE)
+VALUES('2003','P102000002',31,21,41,'2003-12-31');
+
+--오라클에서는 NULL과 공백문자('')는 동일
+
+--INSERT문장의 VALUE절에서 NULL 또는 빈공백(화이트스페이스-'')으로 지정
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_O,REMAIN_J_99,REMAIN_DATE)
+VALUES('2003','P102000002',31,21,NULL,41,'2003-12-31');
+
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_O,REMAIN_J_99,REMAIN_DATE)
+VALUES('2003','P102000003',31,21,'',41,SYSDATE);
+
+--REMAIN테이블에 다음 데이터 입력하기
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_O,REMAIN_J_99,REMAIN_DATE)
+VALUES('2003','P302000023',35,NULL,20,15,SYSDATE);
+--여기서 P302000023이 부모 테이블의 참조할 영역에 없다면 추가할 수 없다
+
+--REMAIN테이블에 다음 데이터를 입력하기. 오류발생 시 상품코드의 첫글자를 수정하여 디버깅
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_O,REMAIN_J_99,REMAIN_DATE)
+VALUES('2003','P302000022',27,NULL,NULL,NULL,'2004-01-01');
+
+--REMAIN테이블에 다음 데이터 입력. 오류발생 시 디버깅(2003년도)
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_O,REMAIN_J_99,REMAIN_DATE)
+VALUES('2003','P302000016',30,10,15,25,'2004-01-02');
+
+commit;
+
+--모든 상품에 대한 재고 수불 파일 생성 (2016년도 재고 수불 마감)
+--해당년도 2017년    상품코드 전 상품(PROD테이블)
+--기초(전년)재고 상품코드의 우측2자리를 숫자로 컨버전하여 처리(원칙은 전년도말 재고가 되어야 함)
+--입고    10으로 일괄 처리      출고  7로 일괄 처리        현재고 전년재고+입고-출고
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_I
+                   ,REMAIN_O,REMAIN_J_99,REMAIN_DATE)
+SELECT '2017',PROD_ID,TO_NUMBER(SUBSTR(PROD_ID,-2))
+       ,10,7,TO_NUMBER(SUBSTR(PROD_ID,-2))+10-7, SYSDATE
+FROM PROD;
+--INSERT와 SELECT를 동시에 써서 데이터를 일괄 입력하는 방법. 이렇게 하면 VALUES없어도 입력가능.
+
+--2018년도 재고수불 마감 작업. REMAIN테이블사용. 모든 상품에 대한 재고 수불 파일 생성
+--2018년, 상품코드: 2017년도 수불 상품, 전년재고: 2017년말의 현재고 현재고: 2017년말의 현재고
+INSERT INTO REMAIN(REMAIN_YEAR,REMAIN_PROD,REMAIN_J_00,REMAIN_J_99)
+SELECT '2018',REMAIN_PROD, REMAIN_J_99, REMAIN_J_99
+FROM REMAIN
+WHERE REMAIN_YEAR LIKE '2017%';
+
+--INSERT ALL
+--여러개의 SQL문을 한 번에 INSERT하는 구문
+CREATE TABLE LPROD_ALL
+AS
+SELECT * FROM LPROD;
+
+DELETE FROM LPROD_ALL;
+
+SELECT * FROM LPROD_ALL;
+
+--PPT 321P          UPDATE 심화
+--'이'와 '김'씨 성을 가진 회원의 휴대폰 컬럼을 '011-111-1111'로 갱신
+UPDATE MEMBER
+SET MEM_HP = '011-111-1111'
+WHERE MEM_NAME LIKE '이%' OR MEM_NAME LIKE '김%';
+--또는 SUBSTR(MEM_NAME,1,1) IN('이','김')
+
+--회원테이블에서 회원ID가 'a001'인 회원의 데이터를 다음과 같이 수정
+--취미: 독서, 직업: 군인
+SELECT * FROM MEMBER WHERE MEM_ID = 'a001';
+
+UPDATE MEMBER
+SET MEM_JOB = '군인',MEM_LIKE = '독서'
+WHERE MEM_ID = 'a001';
+
+--'이'와 '김'씨 성을 가진 회원 중 회원ID가 'a001','j001'인 회원을 제외하고
+--휴대폰 컬럼에 '099-999-9999'로 갱신
+SELECT * FROM MEMBER;
+
+UPDATE MEMBER
+SET MEM_HP = '099-999-9999'
+WHERE (MEM_NAME LIKE '이%' OR MEM_NAME LIKE '김%')
+      AND MEM_ID NOT IN('a001','j001');
+
+--회원테이블(MEMBER)에서 모든 회원의 마일리지 컬럼값을 10% 높게 수정
+UPDATE MEMBER
+SET    MEM_MILEAGE = MEM_MILEAGE * 1.1; -- WHERE가 없으면 모든 컬럼이 업데이트된다
+
+--MEMBER테이블에서 마일리지가 3000점 이상이고, 휴대폰번호가 011로 시작되는 회원의 마일리지를
+--10%인상처리
+
+UPDATE MEMBER
+SET    MEM_MILEAGE = MEM_MILEAGE * 1.1
+WHERE  MEM_MILEAGE >= 3000
+       AND SUBSTR(MEM_HP,1,3) = '011';
+
+-- PPT 325P EXISTS UPDATE
+-- WHERE절에서 IN이나 EXISTS를 활용
+
+
+/*
+2005년도 판매금액이 8천만 이상인 거래처의 담당자 컬럼을 '우수거래처'로 갱신
+WHERE절에 EXISTS문 사용
+*/
+--1단계: 2005년도 판매금액이 8천만 이상인 거래처를 출력하기
+SELECT B.BUYER_ID                     거래처ID
+     , B.BUYER_NAME                   거래처명
+     , SUM(C.CART_QTY * P.PROD_SALE)    판매금액
+FROM BUYER B, PROD P, CART C
+WHERE B.BUYER_ID = P.PROD_BUYER
+AND P.PROD_ID = C.CART_PROD
+AND C.CART_NO LIKE '2005%'
+GROUP BY B.BUYER_ID, B.BUYER_NAME
+HAVING SUM(C.CART_QTY * P.PROD_SALE) >= 80000000;
+
+--0220 계속
+--2단계: 모든 거래처 출력
+SELECT BUYER_ID
+     , BUYER_NAME
+     , BUYER_CHARGER
+FROM BUYER;
+
+--3단계: 두 테이블의 교집합 만들기
+SELECT A.BUYER_ID
+     , A.BUYER_NAME
+     , A.BUYER_CHARGER
+FROM BUYER A
+WHERE EXISTS -- WHERE절이 없으므로 WHERE EXISTS를 써 준다
+    (SELECT B.BUYER_ID                     거래처ID
+         , B.BUYER_NAME                   거래처명
+         , SUM(C.CART_QTY * P.PROD_SALE)    판매금액
+    FROM BUYER B, PROD P, CART C
+    WHERE B.BUYER_ID = P.PROD_BUYER
+    AND P.PROD_ID = C.CART_PROD
+    AND C.CART_NO LIKE '2005%'
+    AND A.BUYER_ID = B.BUYER_ID     --자료형, 데이터가 같아야 연결고리 역할을 할 수 있다
+    GROUP BY B.BUYER_ID, B.BUYER_NAME
+    HAVING SUM(C.CART_QTY * P.PROD_SALE) >= 80000000);
+
+--4단계: UPDATE
+UPDATE BUYER A
+SET    A.BUYER_CHARGER = '우수'
+WHERE EXISTS
+    (SELECT B.BUYER_ID                     거래처ID
+         , B.BUYER_NAME                   거래처명
+         , SUM(C.CART_QTY * P.PROD_SALE)    판매금액
+    FROM BUYER B, PROD P, CART C
+    WHERE B.BUYER_ID = P.PROD_BUYER
+    AND P.PROD_ID = C.CART_PROD
+    AND C.CART_NO LIKE '2005%'
+    AND A.BUYER_ID = B.BUYER_ID
+    GROUP BY B.BUYER_ID, B.BUYER_NAME
+    HAVING SUM(C.CART_QTY * P.PROD_SALE) >= 80000000);
+    
+--2005년도 구매금액이 3천만 이상인 회원의 마일리지 점수를 20만으로 하여 수정하시오
+--A테이블
+SELECT A.MEM_ID
+     , A.MEM_NAME
+     , A.MEM_MILEAGE
+FROM MEMBER A;
+
+--B테이블
+--2005년도 구매금액이 3천만 이상인 회원 출력
+SELECT M.MEM_ID                     회원ID
+     , M.MEM_NAME                   회원명
+     , SUM(C.CART_QTY * P.PROD_SALE)    구매금액
+FROM MEMBER M, CART C, PROD P
+WHERE M.MEM_ID = C.CART_MEMBER
+AND P.PROD_ID = C.CART_PROD
+AND C.CART_NO LIKE '2005%'
+GROUP BY M.MEM_ID, M.MEM_NAME
+HAVING SUM(C.CART_QTY * P.PROD_SALE) >= 30000000;
+--합치기
+UPDATE MEMBER A
+SET A.MEM_MILEAGE = 200000
+WHERE EXISTS
+    (SELECT M.MEM_ID                     회원ID
+         , M.MEM_NAME                   회원명
+         , SUM(C.CART_QTY * P.PROD_SALE)    구매금액
+    FROM MEMBER M, CART C, PROD P
+    WHERE M.MEM_ID = C.CART_MEMBER
+    AND P.PROD_ID = C.CART_PROD
+    AND C.CART_NO LIKE '2005%'
+    AND A.MEM_ID = M.MEM_ID
+    GROUP BY M.MEM_ID, M.MEM_NAME
+    HAVING SUM(C.CART_QTY * P.PROD_SALE) >= 30000000);
+    
+--PPT 330P JOIN UPDATE
+
+--상품 모두의 2005년도 입고수량을 합산하여 상품테이블의 총 입고수량 COLOMN(PROD_QTYIN) 갱신
+--매입은? 상품이 창고에 들어오는 것. 우선 상품별 입고수량을 합산
+--A집합
+SELECT PROD_ID, PROD_QTYIN
+FROM PROD;
+
+--B집합
+SELECT BUY_PROD
+     , SUM(BUY_QTY)
+FROM BUYPROD
+WHERE BUY_DATE LIKE '05/%'
+GROUP BY BUY_PROD;
+
+--교집합
+SELECT PROD_ID, PROD_QTYIN
+FROM PROD
+WHERE EXISTS
+    (SELECT BUY_PROD
+         , SUM(BUY_QTY)
+    FROM BUYPROD
+    WHERE BUY_DATE LIKE '05/%'
+    AND PROD_ID = BUY_PROD
+    GROUP BY BUY_PROD);
+    
+--PROD_QTYIN 업데이트
+UPDATE PROD
+SET PROD_QTYIN = 
+    (SELECT SUM(BUY_QTY) -- WHERE EXISTS와 BUY_PROD를 없애는 이유? SUM을 바로 적용시키기 위해
+    FROM BUYPROD
+    WHERE BUY_DATE LIKE '05/%'
+    AND PROD_ID = BUY_PROD
+    GROUP BY BUY_PROD);
+
+--상품 모두의 2005년도 판매수량을 합산하여 상품테이블의 총판매수량 COLOMN갱신
+--A
+SELECT PROD_ID
+     , PROD_QTYSALE
+FROM PROD;
+--B
+SELECT CART_PROD
+     , SUM(CART_QTY)
+FROM CART
+WHERE CART_NO LIKE '2005%'
+GROUP BY CART_PROD;
+--
+UPDATE PROD
+SET    PROD_QTYSALE = (
+    SELECT SUM(CART_QTY)
+    FROM CART
+    WHERE CART_NO LIKE '2005%'
+    AND PROD_ID = CART_PROD
+    GROUP BY CART_PROD); -- 상관관계 SUBQUERY형식
+
+--336P 상품 모두의 2005년도 입고수량, 판매수량을 합산하여  재고수불(remain)테이블의  입고, 출고, 현재고 Column을 수정하시오 ? 
+--최종결과
+UPDATE REMAIN
+SET     (REMAIN_I, REMAIN_O, REMAIN_J_99) =
+
+(
+SELECT TBL1.IN_AMT, TBL1.OUT_AMT, TBL1.IN_AMT - TBL1.OUT_AMT
+FROM
+(SELECT A.PROD_ID
+     , (SELECT SUM(BUY_QTY)
+        FROM BUYPROD
+        WHERE BUY_DATE LIKE '05%'
+        AND A.PROD_ID = BUYPROD.BUY_PROD) IN_AMT
+     , (SELECT SUM(CART_QTY)
+        FROM CART
+        WHERE CART_NO LIKE '2005%'
+        AND A.PROD_ID = CART.CART_PROD) OUT_AMT
+FROM    PROD A) TBL1
+WHERE   REMAIN_PROD = TBL1.PROD_ID
+)
+WHERE REMAIN_YEAR = '2017';
+
+--1
+SELECT PROD_ID
+     , IN_AMT
+     , OUT_AMT
+FROM PROD;
+--2 위 IN_AMT를 정리한 것
+SELECT PROD_ID
+     , SUM(BUY_QTY)
+FROM PROD, BUYPROD
+WHERE PROD_ID = BUY_PROD
+AND BUY_DATE LIKE '05%'
+GROUP BY PROD_ID;
+--3 OUT_AMT 정리
+SELECT PROD_ID
+     , SUM(CART_QTY)
+FROM PROD, CART
+WHERE PROD_ID = CART_PROD
+AND CART_NO LIKE '2005%'
+GROUP BY PROD_ID;
+--한곳으로 모으기
+SELECT A.PROD_ID
+     , (SELECT SUM(B.BUY_QTY)
+        FROM BUYPROD B
+        WHERE A.PROD_ID = B.BUY_PROD
+        AND B.BUY_DATE LIKE '05%') IN_AMT
+     , (SELECT SUM(CART_QTY)
+        FROM CART
+        WHERE PROD_ID = CART_PROD
+        AND CART_NO LIKE '2005%') OUT_AMT
+    FROM PROD A;
+--다음 단계
+SELECT TBL1.PROD_ID
+     , TBL1.IN_AMT
+     , TBL1.OUT_AMT
+     , TBL1.IN_AMT - TBL1.OUT_AMT
+FROM
+(SELECT A.PROD_ID
+     , (SELECT SUM(B.BUY_QTY)
+        FROM BUYPROD B
+        WHERE A.PROD_ID = B.BUY_PROD
+        AND B.BUY_DATE LIKE '05%') IN_AMT
+     , (SELECT SUM(CART_QTY)
+        FROM CART
+        WHERE PROD_ID = CART_PROD
+        AND CART_NO LIKE '2005%') OUT_AMT
+    FROM PROD A
+) TBL1;
+--마무리
+UPDATE REMAIN
+SET     (REMAIN_I, REMAIN_O, REMAIN_J_99) =
+
+(
+SELECT TBL1.IN_AMT, TBL1.OUT_AMT, TBL1.IN_AMT - TBL1.OUT_AMT
+FROM
+(SELECT A.PROD_ID
+     , (SELECT SUM(BUY_QTY)
+        FROM BUYPROD
+        WHERE BUY_DATE LIKE '05%'
+        AND A.PROD_ID = BUYPROD.BUY_PROD) IN_AMT
+     , (SELECT SUM(CART_QTY)
+        FROM CART
+        WHERE CART_NO LIKE '2005%'
+        AND A.PROD_ID = CART.CART_PROD) OUT_AMT
+FROM    PROD A) TBL1
+WHERE   REMAIN_PROD = TBL1.PROD_ID -- 서브쿼리 바깥 REMAIN과 PROD테이블의 JOIN조건
+)
+WHERE REMAIN_YEAR = '2017';
+-----------------------------------------------------
+/*
+          PPT 341P DELETE 심화
+방법은 크게 세 가지. DELETE, TRUNCATE, DROP
+DELETE는 테이블의 데이터를 모두 삭제하지만 ROLLBACK이 가능하다. 느리다(롤백을 대비해 특정 캐시에 데이터를 옮기고 지우기 때문)
+TRUNCATE는 자동 커밋, 초기화됨. FLASHBACK으로 되돌릴 수는 있음
+DROP은 테이블 구조 및 데이터 모두 삭제. 자동 커밋.
+TRUNCATE와 DROP처럼 자동 커밋되는 명령어는 사용주의!
+*/
+
+CREATE TABLE REMAIN2 AS SELECT * FROM REMAIN;
+
+CREATE TABLE LPROD_DELETE AS SELECT * FROM LPROD;
+CREATE TABLE LPROD_TRUNCATE AS SELECT * FROM LPROD;
+CREATE TABLE LPROD_DROP AS SELECT * FROM LPROD;
+
+DELETE FROM LPROD_DELETE;
+
+TRUNCATE TABLE LPROD_TRUNCATE;
+
+DROP TABLE LPROD_DROP;
+
+--재고수불2 테이블에서 2003년도 자료 중 출고수량이 6개 또는 11개인 자료를 삭제
+SELECT * FROM REMAIN2
+WHERE REMAIN_YEAR = 2003
+AND REMAIN_O IN(6,11);
+
+DELETE FROM REMAIN2
+WHERE REMAIN_YEAR = 2003
+AND REMAIN_O IN(6,11);
+
+--재고수불2 테이블에서 2003년도 자료 중 입고수량+출고수량이 20개 이상인 자료를 삭제
+SELECT * FROM REMAIN2
+WHERE REMAIN_YEAR = 2003
+AND (NVL(REMAIN_I,0) + NVL(REMAIN_O,0)) >= 20; --NULL인 행도 찾고 싶으면
+
+DELETE FROM REMAIN2
+WHERE REMAIN_YEAR = 2003
+AND (NVL(REMAIN_I,0) + NVL(REMAIN_O,0)) >= 20;
+
+-------------------------------------------
+--PPT 352P VIEW객체
+--VIEW는 논리적이다(물리적 X)
+--VIEW는 쇼윈도의 유리와 같은 존재. VIEW를 통해 실제 데이터를 바라본다.
+
+--LPROD테이블의 LPROD_GU, LPROD_NM컬럼만 추출, 가상의 테이블인 VW_LPROD 뷰 생성
+CREATE OR REPLACE VIEW VW_LPROD
+AS
+SELECT LPROD_GU
+     , LPROD_NM
+FROM LPROD;
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-/*
+
 package g_Exception;
 
 public class ExceptionEx02 {
@@ -16,7 +16,7 @@ public class ExceptionEx02 {
 		System.out.println("아니야");
 		
 		throw new RuntimeException(); // try-catch를 강제하진 않지만, 에러났으므로 뒷문장 실행 x
-		System.out.println();
+//		System.out.println();
 		
 		// 컴파일러가 예외처리를 강제하지 않는 경우
 		// 1. RuntimeException클래스들
@@ -24,4 +24,3 @@ public class ExceptionEx02 {
 		// 이런 것들을 'unchecked 예외'라고 한다. 나머지는 checked 예외
 	}
 }
-*/

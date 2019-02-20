@@ -5,6 +5,42 @@ import java.util.Arrays;
 public class StringTest02 {
 	public static void main(String[] args) {
 		
+		String ss = "Hello Oracle";
+		//Oracle에도 있는 것들
+		//1. String concat() : 문자열을 뒤에 덧붙인다
+		
+		//2. boolean contains() : 지정된 문자열을 포함하고 있는지 확인
+		
+		//확장자 처리에 유용한 것
+		//1. endsWith : 지정된 문자열로 끝나는지 확인
+		
+		//그외
+		//1. lastIndexOf : 지정된 문자 또는 문코드 문자열의 오른쪽 끝에서부터 찾아서 해당 문자열이 있는 위치를 반환한다.
+		//					못 찾으면 -1을 반환한다
+		System.out.println(ss.lastIndexOf("O"));
+		
+		//2. replace() : 문자열 중의 문자를 새로운 문자로 변환
+		String sss = ss.replace("Oracle", "Java");
+		System.out.println(sss);
+		
+		//3. split() : 문자열을 지정된 분리자로 나누어 문자열형 배열에 담는다.
+		String ssss = "aaa,444,dded,232";
+		String[] sq = ssss.split(",");
+		System.out.println(Arrays.toString(sq));
+		
+		//4. String subString(): 주어진 문자열을 시작부터 끝 위치 범위에 포함된 문자열을 얻는다 (lastIndexOf와 함께 많이 쓰인다)
+		//begin <= x < y
+		String oo = "가가가가가가.hwp";
+		String sr = oo.substring(oo.lastIndexOf("."),oo.length()); // 뒷부분 주의!
+		System.out.println(sr); // .hwp만 나온다
+		
+		//5. String trim() : 문자열의 양 끝의 공백을 제거한다. 가운데 빈칸은 없앨 수 없다. 수작업 뿐
+		String sh = "     i d 입 력  ";
+		String sj = sh.trim();
+		System.out.println(sj);
+		
+		
+		
 		// char charAt(int index) : 지정된 index번째 있는 문자를 리턴한다.
 		String s1 = "Hello";
 		char c1 = s1.charAt(0);
@@ -65,7 +101,7 @@ public class StringTest02 {
 		
 		// int indexOf(int ch, int pos) : 주어진 문자(ch)가 문자열에 존재하는지 지정된 위치(pos)부터 확인하여 위치(index)를 알려준다. 못 찾으면 -1을 반환한다
 		String s10 = "Hello";
-		int idx3 = s.indexOf('e', 0);
+		int idx3 = s.indexOf('e', 0); // 0번부터 저 문자를 찾아라
 		int idx4 = s.indexOf('e', 2);
 		System.out.println(idx3 + "\t" + idx4);
 		

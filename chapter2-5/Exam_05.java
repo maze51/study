@@ -19,7 +19,7 @@ public class Exam_05 {
 		잘못. 배열의 크기 지정은 선언하면서 할 수 없음.
 		f. int[] arr[] = new int[3][];
 		바름. 현재 상태는 큰 배열 안에 작은 배열 세 개가 생성되어 있고, 작은 배열은 null만 있을 뿐
-		추가: f번에서 arr안에 길이가 2, 4, 3인 작은 배열 3개를 생성하라
+		@추가: f번에서 arr안에 길이가 2, 4, 3인 작은 배열 3개를 생성하라
 		arr[0] = new int[2];
 		arr[1] = new int[4];
 		arr[2] = new int[3];
@@ -301,12 +301,6 @@ public class Exam_05 {
 				for(int i=0;i<coinUnit.length;i++) {
 					System.out.println(coinUnit1[i]+"원:"+coin[i]);
 				}
-				
-//		참고) 커맨드라인으로부터 입력받기를 eclipse에서 처리하기
-//		클래스에 우클릭 - run as - run configulation 들어가서 program arguments에 값을 입력
-//		그러면 main메서드의 args가 받아줌.
-//		단 그 때 들어간 값은 String형 배열, 숫자 형태라 해도 숫자가 아니다.
-//		이걸 숫자형으로 바꾸려면 int money = Integer.parseInt(  )()안의 문자를 숫자로 바꿔준다.
 				
 		/*
 		[5-8]

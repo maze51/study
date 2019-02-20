@@ -17,7 +17,7 @@ public class ExceptionBasic {
 		  - (그 외)Exception클래스들은 주로 외부의 영향으로 발생할 수 있는 예외
 		  	ex) FileNotFoundException, ClassNotFoundException...
 		  	
-		3. 예외처리(try-catch)
+		3. 예외처리(try-catch)		ExceptionEx01 참조
 		  - 프로그램 실행 시 발생할 수 있는 예외의 발생에 대비한 코드를 작성하는 것
 		  - 작성방법
 		  	try{

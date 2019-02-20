@@ -7,7 +7,7 @@ public class ExceptionEx03 {
 		
 	}
 	
-	static void method1(){ // 대개 서비스영역쯤에서 처리한다
+	static void method1(){ // 대개 (Controller-Service-DAO 중)Service영역쯤에서 처리한다
 		
 		try {
 			method2(); // 위 fix법이 던지는 것, 아래 fix법이 try-catch로 바꾸는 것

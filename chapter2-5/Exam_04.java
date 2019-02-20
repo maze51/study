@@ -24,7 +24,7 @@ public class Exam_04 {
 		7. powerOn == false
 		8. str.equals("yes")		// 문자열 간 비교는 ==연산자를 쓸 수 없다
 		
-		@@ 6. && 연산 전에 ||연산이 수행될 수 있도록 앞 ||연산에 괄호가 필요
+		@@ 6. && 연산 전에 ||연산이 수행될 수 있도록 앞 ||연산에 괄호가 필요하다
 		*/
 		
 		/*
@@ -245,8 +245,7 @@ public class Exam_04 {
 		int sum = 0;
 		for(int i=0; i < str.length(); i++) {
 		
-		sum += (str.charAt(i))-'0';			// 문자는 0부터 9까지 순서대로 코드가 부여되어 있음.
-		이를 활용해 각 자리에서 0을 빼면 원 숫자를 숫자형으로 뽑아낼 수 있음 
+		sum += (str.charAt(i))-'0';			// 문자는 0부터 9까지 순서대로 코드가 부여되어 있음. 이를 활용해 각 자리에서 0을 빼면 원 숫자를 숫자형으로 뽑아낼 수 있음 
 		}
 		System.out.println("sum="+sum);
 		 
@@ -344,7 +343,6 @@ public class Exam_04 {
 			System.out.println();
 		}
 		
-		@@ for문 3단계로도 가능(카운트하는 별도의 변수 하나 가지고. 증가하다 몇이 되면 다음으로 이동)
 		*/
 		System.out.println();
 		for(int gob=1;gob<4;gob++) {
