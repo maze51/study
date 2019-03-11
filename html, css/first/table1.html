@@ -1,0 +1,107 @@
+<html>
+	<meta charset="UTF-8">
+	<style>
+		table{
+			border : 2px solid magenta;
+			border-collapse : collapse;
+		}
+		td{
+			width : 200px;
+			height : 50px;
+			text-align : center;
+			font-size : 1.3em;
+		}
+		th{
+			background : green;
+			height : 50px;
+			font-size : 1.3em;
+		}
+		#addr{
+			width : 500px;
+			height : 100px;
+		}
+		
+		#tab{
+			border-color : crimson;
+		}
+		
+		#tab td{
+			width : 300px;
+			height : 70px;
+		}
+	</style>
+	
+	<body>
+		<table border="1">
+			<tr>
+				<th>이름</th> <!--자동으로 가운데 정렬&bold설정되어 있다-->
+				<th id="addr">주소</th> <!--크기나 옵션을 변경할 특정 칸을 지정하기 위해 id 사용 -->
+				<th>전화번호</th>
+				<th>이메일</th>
+			</tr>
+			<tr>
+				<td>홍길동</td>
+				<td>대전시 중구 대흥동 대덕인재개발원</td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>개나리</td>
+				<td>부산</td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>진달래</td>
+				<td>서울</td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>무궁화</td>
+				<td>대구</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		
+		<hr>
+		<br>
+		<pre>
+		 행병합 : rowspan 세로로 병합
+		 열병합 : colspan 가로로 병합
+		</pre>
+		<table border="1" id="tab"> <!-- id를 다르게 지정하여 테이블마다 다른 디자인을 가지게 할 수 있다 -->
+			<tr>
+				<td></td> <!-- td는 tr의 자손(후손). tr은 table의 자손 -->
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td rowspan="2"></td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<!--<td></td> 앞에서 병합했기 때문에 삭제한다-->
+				<td></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td colspan="3"></td>
+				<!-- 앞에서 병합했기 때문에 <td>두 줄은 삭제한다-->
+			</tr>
+		</table>
+		
+		<hr>
+		<br>
+		
+	</body>
+
+</html>

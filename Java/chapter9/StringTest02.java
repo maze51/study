@@ -64,7 +64,7 @@ public class StringTest02 {
 		int i = "aaa".compareTo("aaa");
 		int i2 = "aaa".compareTo("bbb");
 		int i3 = "bbb".compareTo("aaa");
-		System.out.println(i + "\t" + i2 + "\t" + i3);
+		System.out.println("compareTo  " + i + "\t" + i2 + "\t" + i3);
 		
 		// String concat(String str) : 문자열(str)을 뒤에 덧붙인다.
 		String s4 = "Hello";

@@ -1,0 +1,153 @@
+<html>
+	
+	<head>
+	<meta charset="UTF-8">
+		<title>테이블 예제2</title>
+		<style>
+			table{
+				border-color : blue;
+				border-collapse : collapse;
+			}
+			td, th{
+				width : 200px;
+				height : 50px;
+				text-align : center;
+			}
+			th{
+				font-size : 1.3em;
+			}
+			#title{
+				width : 400px;
+			}
+			caption{
+				font-size : 2.0em;
+				//border : 2px solid blue;
+				padding-top : 20px;
+				padding-bottom : 20px;
+				
+			/*
+				padding : 10px;		상하좌우 전체 10px
+				padding : 10px 20px;	위아래가 10px, 좌우가 20px
+				padding : 10px 20px 30px 40px;	시계방향 순서로 상-우-하-좌에 각각 부여
+				padding : 10px 20px 30px;	위 10px, 좌우 20px, 아래 30px 순서로
+				
+				margin으로 여백을 띄울 수도 있다. 사용법은 위 padding과 같음
+			*/	
+			
+			}
+			#tab2{
+				border : 2px solid crimson;
+				border-collapse : collapse;
+			}
+			
+			#intro{
+				width : 1000px;
+			}
+			
+			#tab3{
+				width : 420px;
+				border : 2px solid green;
+				border-collapse : separate;
+			}
+		</style>
+	</head>
+	<body>
+	<table border="1">
+		<caption>
+			최근에 본 영화들
+		</caption>
+		<tr>
+			<th id="title">영화제목</th>
+			<th>연도</th>
+			<th>감독</th>
+			<th>평가</th>
+		</tr>
+		<tr>
+			<td>라이프 오브 파이</td>
+			<td>2013</td>
+			<td>이안</td>
+			<td>8.68</td>
+		</tr>
+		<tr>
+			<td>레미제라블</td>
+			<td>2012</td>
+			<td>톰후퍼</td>
+			<td>8.28</td>
+		</tr>
+		<tr>
+			<td>장고: 분노의 추적자</td>
+			<td>2012</td>
+			<td>타란티노</td>
+			<td>8.29</td>
+		</tr>
+			
+	</table>
+	
+	<hr>
+	<br>
+	
+	<table border="1" id="tab2">
+		<tr>
+			<th colspan="5">평생교육원 강좌 소개 -- 2015년도 1학기</th>
+		</tr>
+		<tr>
+			<th>강좌이름</th>
+			<th>강의자</th>
+			<th id="intro">소개</th>
+			<th>강좌코드</th>
+			<th>실습비</th>
+		</tr>
+		<tr>
+			<td>뎃생과 유화</td>
+			<td>김철수</td>
+			<td>모든 미술영역의 뼈대를 이루는 뎃생의 기본실력을 체계적으로 다루며, 유화에서는 재료를
+			다루는 방법에서부터 다양한 표현기법에 이르기까지 전문적인 미술인으로 입문할 수 있도록
+			각 개인의 수준에 맞추어 개인별, 단계별로 지도합니다.</td>
+			<td>H27</td>
+			<td>100,000원</td>
+		</tr>
+		<tr>
+			<td>바이올린</td>
+			<td>홍길동</td>
+			<td>전반적인 현악기의 특성을 파악하며 기초를 다지고, 에뛰드와 곡을 접하면서 아름다운
+			음색의 바이올린을 연주할 수 있다.</td>
+			<td>H28</td>
+			<td>200,000원</td>
+		</tr>
+		<tr>
+			<td>성악아카데미</td>
+			<td>김호성</td>
+			<td>강의를 통해 배우고 익힌 곡을 음악회를 통하여 기량을 향상하고 무대를 경험한다.</td>
+			<td>H30</td>
+			<td>300,000원</td>
+		</tr>
+	</table>	
+		
+	<hr>
+	<br>
+	
+	<table border="1" id="tab3">
+		<tr>
+			<td colspan="2"></td>
+			<td colspan="2"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="4"></td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td colspan="4"></td>
+			<td colspan="2" rowspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	
+	</body>
+</html>

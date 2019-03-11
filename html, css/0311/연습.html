@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>이메일 전송 & 회원가입 화면</title>
+<style>
+	fieldset{
+		width : 500px;
+	}
+</style>
+</head>
+<body>
+	<form>
+	<fieldset>
+	 <legend>이메일 전송화면</legend>
+	 <label>이름:</label>
+	 <input type="text" name="id" id="id"><br>
+	 <label>이메일 주소:</label>
+	 <input type="email" name="email" id="email"><br>
+	 <label>내용:</label><br>
+	 <textarea rows=10 cols=40></textarea><br>
+	 
+	 <input type="submit" value="전송">
+	 <input type="reset" value="재설정"><br>
+	</fieldset>
+	
+	<fieldset>
+	 <legend>회원 가입 화면</legend>
+	 <label>이름:</label>
+	 <input type="text" name="name" id="name"><br>
+	 <label>주소:</label>
+	 <input type="text" name="addr" id="addr"><br>
+	 <label>email:</label>
+	 <input type="email" name="email" id="email"><br>
+	 
+	 <input type="radio" name="gender" value="Male">Male
+	 <input type="radio" name="gender" value="Femail">Female<br>
+	 
+	 <input type="submit" value="Send">
+	 <input type="reset" value="원래대로"><br>
+	</fieldset>
+	</form>
+</body>
+</html>

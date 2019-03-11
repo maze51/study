@@ -65,7 +65,7 @@ public class CollectionBasic {
 		  - key는 유일해야 한다.
 		
 		
-		
+		인터페이스타입으로 해놔야 컬렉션끼리 형변환이 가능하다. 그래서 ArrayList를 쓰더라도 List타입으로 선언해서 사용하기도 한다.
 		 */
 		
 		

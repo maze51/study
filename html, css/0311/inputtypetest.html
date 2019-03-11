@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>input forms</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+<style>
+	/*id 부여시는 #id. class 부여시에는 .txt로 찾아 부여한다 하지만 id, 이름 입력창은 굳이 height를 키워 줄 필요가 없다*/
+	.txt{
+		//height: 30px;
+	}
+	#img{
+		width : 50px;
+		height : 30px;
+	}
+</style>
+
+<script>
+// 사용자 정의 함수
+function proc() {
+	aa = parseInt(Math.random() * 100);
+	alert(aa);
+}
+</script>
+</head>
+<body>
+<pre>
+	type : 입력하는 데이터의 형태의 속성(텍스트? 파일? 이미지?) 
+		text : 한줄입력(줄바꿈 불가)
+		radio : 여러개 중 한개를 선택
+		checkbox : 여러개 선택 or 한개 선택 or 선택이 없을 수 있다 
+		hidden : 화면에서는 보이지 않는다. 값은 서버로 전송된다
+		image : 전송 버튼 역할을 한다. submit과 같은 역할
+		button : 이벤트를 부여해서 전송 역할을 한다
+		 
+	name : 서버로 전송 시 입력한 데이터로 보내기 위한 속성
+	(name이 있어야 jsp에서 제대로 받을 수 있다)
+	textarea 태그(또는 요소)
+	button 태그(요소)
+		type을 지정하지 않으면submit(전송)역할을 수행한다
+</pre>
+	<form action="typetest.jsp" method="post">
+	<!-- 여기서 아이디, 이름, 남자 등은 라벨. 화면에 나타나는 것. 따로 줄 수도 있다 -->
+		아이디 : <input type="text" name="id" id="id" class="txt"> <br>
+		이름 : <input type="text" name="name" id="name" class="txt"> <br>
+		비밀번호 : <input type="password" name="pass"> <br>
+		성별 : <input type="radio" name="gender" value="남자">남자
+			   <input type="radio" name="gender" value="여자">여자 <br>
+			   <!-- radio에서 name이 같아야 한 범주로 간주한다 -->
+		취미 : <input type="checkbox" name="like">독서
+			   <input type="checkbox" name="like">여행
+			   <input type="checkbox" name="like">영화보기
+			   <input type="checkbox" name="like">낚시
+			   <input type="checkbox" name="like">음악감상
+			   <input type="checkbox" name="like">게임
+			   <input type="checkbox" name="like">프로그램 코딩
+			   <input type="checkbox" name="like">만들기
+			   <input type="checkbox" name="like">놀기
+			   <input type="checkbox" name="like">공부하기
+			   <br>
+			   
+		자기소개 <br>
+		<textarea rows=20 cols=50></textarea><br>
+		<input type="hidden" name="price" value="1000">
+		첨부파일 <input type="file" name="file"><br> <!-- ppt128 뒤 속성에서 업로드 대상 파일형식을 제한할 수 있다 -->
+		<br>
+		<input type="image" src="../images/국화1.jpg" id="img" alt="이미지 전송"><br>
+		<!-- alt속성은 이미지가 없을 때만 대신 띄워준다 -->
+		<input type="submit" value="전송">
+		<input type="reset" value="초기화"><br>
+		<button>전송버튼</button>
+		<!-- 전송을 누르면 상단 action으로 간다. 거기서 jsp를 설정해 줘야 함 -->
+		
+		<pre>
+		함수 : 기능을 수행하는 블럭
+		사용자 정의 함수 : function 함수이름(){ } 직접 정의하고 호출한다.
+		내장 함수 : 이미 정의되어 있는 함수 예) alert()
+		</pre>
+		<input type="button" value="input확인" onclick="alert('환영합니다')">
+		<button type="button" onclick="proc()">button확인</button>
+		<!-- 이 둘은 (jsp로)전송 기능이 없다. 
+		onclick="여기는 이벤트. 입력값과 상관없다. 이때 함수호출(alert과 같은)" -->
+		
+		<!--<input type="submit" value="로그인">  -->
+	
+	</form>
+</body>
+</html>

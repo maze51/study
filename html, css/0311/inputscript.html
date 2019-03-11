@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>InputScript</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+<script>
+	function calc(){
+		//입력한 값을 가져온다
+		//body안의 html태그(요소)에 접근하기 위한 방법이 필요하다
+		/*
+		그 방법들
+		document.getElementById('price') // 이것만 단수
+		document.getElementsByTagName('input')
+		document.getElementsByName('price')
+		document.getElementsByClassName('txt')
+		*/
+		var price = document.getElementById('price').value;
+		// var을 붙이면 지역변수. 없으면 전역변수
+		var su = document.getElementById('su').value;
+		
+		alert(price * su + "원 입니다");
+	}
+
+</script>
+</head>
+<body>
+<pre>
+
+@@@@설명부분은 각자 이해하고 생각하는 대로 적을 것!
+
+외부스타일(지금까지 써 온 스타일 부여 방법은 html안에 있어서 내부스타일)을 작성하고 연결
+사용하는 이유? 각각의 html파일에서 똑같은 형식으로 지정하는 스타일을 외부 파일로 작성하면
+여러 html파일의 스타일에 일괄적으로 적용시킬 수 있다
+예시)&lt;link rel="stylesheet" type="text/css" href=""&gt;
+
+계산 버튼을 클릭하면 calc()사용자 함수를 호출한다.
+function calc(){
+	//body안의 html태그(요소)에 접근하기 위한 방법
+	document.getElementById('price').value
+	
+	//접근요소에서 값 가져오기
+	var price = document.getElementById('price').value;
+	var su = document.getElementById('su').value;
+		
+	alert(price * su + "원 입니다");
+}
+
+</pre>
+	<form action="">
+		가격 : <input type="text" name="price" id="price"><br>
+		수량 : <input type="text" name="su" id="su"><br>
+		
+		<br>
+		<input type="button" value="계산" onclick="calc()">
+		
+	</form>
+</body>
+</html>

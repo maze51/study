@@ -24,12 +24,15 @@ public class ArrayListTest {
 		System.out.println(list3);
 		
 		
-		System.out.println(list3.remove(1)); // delete 자동으로 오토박싱을 해줄 수 없는 상태
+		System.out.println(list3.remove(1));
+		// delete. 자동으로 오토박싱을 해줄 수 없는 상태. 이러면 1번 자리의 값을 삭제한다
 		System.out.println(list3.remove(new Integer(1)));
+		// ArrayList에서 1값을 찾아 삭제
 		
 		System.out.println(list3.get(1)); // select
 		
-		list3.add(1, 15); // insert 해당 번째에 넣어주고 뒤로 밀기. 아직 안 채워넣은 맨 뒷칸은 지정해서 채워넣을 수 없다.
+		list3.add(1, 15);
+		// insert 해당 번째에 넣어주고 해당 위치 뒤에 있던 기존 값은 뒤로 민다. 아직 값이 채워지지 않은 맨 뒷칸은 지정해서 채워넣을 수 없다.
 		System.out.println();
 		
 		list3.set(2, 22); // update
