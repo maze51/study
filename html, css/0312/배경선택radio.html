@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>배경선택radio</title>
+	<style>
+	div{
+		width : 70%;
+		height : 600px;
+		overflow : auto; /*auto는 넘치면 스크롤바가 생긴다 scroll hidden*/
+		margin : 20px;
+		padding : 20px;
+		border : 2px solid orange;
+		
+		background-image: url(../images/back.jpg);
+		}
+	</style>
+	
+<script>
+	function attachpro(){
+		/*요소에 접근하는 방법*/
+		//document.getElementById getElementsByTagName getElementsByName getElementsByClassName
+		if(document.getElementsByName('attach')[0].checked){
+			document.getElementById('content').style.backgroundAttachment = 'scroll';
+		} else {
+			document.getElementById('content').style.backgroundAttachment = 'local';
+		}
+	}
+	function repeatpro(){
+		if(document.getElementsByName('repeat')[0].checked){
+			document.getElementById('content').style.backgroundRepeat = 'no-repeat';
+		} else if(document.getElementsByName('repeat')[1].checked){
+			document.getElementById('content').style.backgroundRepeat = 'repeat-x';
+		} else {
+			document.getElementById('content').style.backgroundRepeat = 'repeat-y';
+		}
+	}
+	function positionxpro(){
+		if(document.getElementsByName('positionx')[0].checked){
+			document.getElementById('content').style.backgroundPosition = 'top';
+		} else if(document.getElementsByName('positionx')[1].checked){
+			document.getElementById('content').style.backgroundPosition = 'bottom';
+		} else {
+			document.getElementById('content').style.backgroundPosition = 'center';
+		}
+	}
+	function positionypro(){
+		if(document.getElementsByName('positiony')[0].checked){
+			document.getElementById('content').style.backgroundPosition = 'left';
+		} else if(document.getElementsByName('positiony')[1].checked){
+			document.getElementById('content').style.backgroundPosition = 'center';
+		} else {
+			document.getElementById('content').style.backgroundPosition = 'right';
+		}
+	}
+
+</script>
+</head>
+<body>
+	<h1>선택</h1>
+	
+	<input type="radio" name="attach" value="scroll" onclick="attachpro()">scroll 움직이지 않음
+	<input type="radio" name="attach" value="local" onclick="attachpro()">local 움직임
+	
+	<br><br>
+	<input type="radio" name="repeat" value="no" onclick="repeatpro()">no-repeat
+	<input type="radio" name="repeat" value="x" onclick="repeatpro()">repeat-x
+	<input type="radio" name="repeat" value="y" onclick="repeatpro()">repeat-y
+	
+	<br><br>
+	<input type="radio" name="positionx" value="top" onclick="positionxpro()">top
+	<input type="radio" name="positionx" value="bottom" onclick="positionxpro()">bottom
+	<input type="radio" name="positionx" value="center" onclick="positionxpro()">center
+	
+	<br><br>
+	<input type="radio" name="positiony" value="left" onclick="positionypro()">left
+	<input type="radio" name="positiony" value="center" onclick="positionypro()">center
+	<input type="radio" name="positiony" value="right" onclick="positionypro()">right
+	<br><br>
+	<div id="content">
+	 삶이 그대를 속일지라도, 슬퍼하거나 노여워하지 말라<br>
+슬픔의 날 참고 견디면, 기쁨의 날이 오리니<br>
+마음은 미래에 살고, 현재는 늘 슬픈 것<br>
+모든 것은 순간에 지나가고, 지나간 것은 다시 그리워지나니<br>
+
+삶이 그대를 속일지라도, 노하거나 서러워하지 말라<br>
+절망의 나날 참고 견디면, 기쁨의 날 반드시 찾아오리라<br>
+마음은 미래에 살고, 현재는 언제나 슬픈 법<br>
+모든 것은 한순간에 사라지지만, 가버린 것은 마음에 소중하리니<br>
+
+삶이 그대를 속일지라도, 슬퍼하거나 노하지 말라<br>
+우울한 날들을 견디며 믿으라, 기쁨의 날이 오리니<br>
+마음은 미래에 살고, 현재는 슬픈 것<br>
+모든 것은 순간적인 것, 지나가는 것이니<br>
+그리고 지나가는 것은 훗날 소중하게 되리니<br>
+
+삶이 그대를 속일지라도, 슬퍼하거나 노하지 말라<br>
+설움의 날을 참고 견디면, 기쁨의 날이 오고야 말리니<br>
+	
+삶이 그대를 속일지라도, 슬퍼하거나 노여워하지 말라<br>
+슬픔의 날 참고 견디면, 기쁨의 날이 오리니<br>
+마음은 미래에 살고, 현재는 늘 슬픈 것<br>
+모든 것은 순간에 지나가고, 지나간 것은 다시 그리워지나니<br>
+
+<p>삶이 그대를 속일지라도, 노하거나 서러워하지 말라<br>
+절망의 나날 참고 견디면, 기쁨의 날 반드시 찾아오리라<br>
+마음은 미래에 살고, 현재는 언제나 슬픈 법<br>
+모든 것은 한순간에 사라지지만, 가버린 것은 마음에 소중하리니<br></p>
+
+<p>삶이 그대를 속일지라도, 슬퍼하거나 노하지 말라<br>
+우울한 날들을 견디며 믿으라, 기쁨의 날이 오리니<br>
+마음은 미래에 살고, 현재는 슬픈 것<br>
+모든 것은 순간적인 것, 지나가는 것이니<br>
+그리고 지나가는 것은 훗날 소중하게 되리니<br></p>
+
+<p>삶이 그대를 속일지라도, 슬퍼하거나 노하지 말라<br>
+설움의 날을 참고 견디면, 기쁨의 날이 오고야 말리니<br></p> 
+	</div>
+</body>
+</html>

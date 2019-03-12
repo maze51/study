@@ -9,11 +9,11 @@ public class EnumTest2 {
 		가을("9월부터 11월까지"),
 		겨울("12월부터 2월까지");
 		
-		private String span;
+		private final String span; // 다른값이 저장될 변수 선언. final을 붙이는 경우가 많지만 필수는 아님
 		
-		// 생성자(괄호 속에 뭐가 들어있느냐? 만 따진다) ==> 열겨형의 생성자는 묵시적으로 private이다. 굳이 안 써도 자동으로 붙여준다
+		// 생성자(괄호 속에 뭐가 들어있느냐? 만 따진다. 변수에 괄호 안 값이 세팅되도록 하는 역할) ==> 열겨형의 생성자는 묵시적으로 private이다. 굳이 안 써도 자동으로 붙여준다
 		Season(String span){
-			this.span = span;
+			this.span = span; // 다른값을 변수에 초기화
 		}
 		
 		public String getSpan(){ // private이므로 꺼내 쓰기 위한 getter도 만들어 줘야
@@ -22,7 +22,19 @@ public class EnumTest2 {
 	}
 
 	public static void main(String[] args) {
+		Season ss = Season.valueOf("봄");
+		System.out.println("name : " + ss.name());
+		System.out.println("ordinal : " + ss.ordinal());
+		System.out.println("span : " + ss.getSpan());
 		
+		// 열거형명.values() ==> 열거형의 상수값들을 배열로 가져온다.
+		for (Season time : Season.values()) {
+			System.out.println(time.name() + " - " + time.getSpan()); // 앞은 time만 써도 무방
+		}
 	}
 
 }
+
+
+
+

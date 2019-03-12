@@ -101,6 +101,41 @@ WHERE PROD.PROD_SALE > P.AVG_SALE;
 
 --회원TABLE에서 나이가 평균나이보다 많은 회원 검색
 --회원ID, 성명, 주민번호앞자리, 나이, 평균나이
+
+--회원나이구하기 방법들(첨부)
+SELECT A.MEM_ID 회원ID
+      ,A.MEM_NAME 성명
+      ,A.MEM_REGNO1 주민번호앞자리
+      ,(EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM MEM_BIR)) 나이
+      ,B.AVG_YEAR 평균나이
+FROM MEMBER A,(SELECT ROUND(AVG(EXTRACT(YEAR FROM SYSDATE)
+              -EXTRACT(YEAR FROM MEM_BIR))) AVG_YEAR FROM MEMBER)B
+WHERE (EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM MEM_BIR))
+      > B.AVG_YEAR;
+      
+SELECT A.MEM_ID 회원ID
+      ,A.MEM_NAME 성명
+      ,A.MEM_REGNO1 주민번호앞자리
+      ,(EXTRACT(YEAR FROM SYSDATE)-TO_CHAR(TO_DATE(SUBSTR(MEM_REGNO1,1,2),'YY'),'"19"YY')) 나이
+      ,B.AVG_YEAR 평균나이
+FROM MEMBER A,(SELECT ROUND(AVG((EXTRACT(YEAR FROM SYSDATE)-TO_CHAR(TO_DATE(SUBSTR(MEM_REGNO1,1,2),'YY'),'"19"YY')))) AVG_YEAR FROM MEMBER)B
+WHERE (EXTRACT(YEAR FROM SYSDATE)-TO_CHAR(TO_DATE(SUBSTR(MEM_REGNO1,1,2),'YY'),'"19"YY'))
+      > B.AVG_YEAR;
+      
+SELECT MEM_ID 회원ID 
+     , MEM_NAME 성명
+     , MEM_REGNO1 주민번호앞자리
+     , 116-SUBSTR(MEM_REGNO1,1,2) 나이
+     , A.AAA 평균나이
+FROM MEMBER, (
+SELECT ROUND(AVG(NVL(119-SUBSTR(MEM_REGNO1,1,2),0)),2) AAA
+FROM MEMBER
+) A
+WHERE 116-SUBSTR(MEM_REGNO1,1,2)>A.AAA
+;
+
+
+/*
 SELECT MEM_ID
      , MEM_NAME
      , MEM_REGNO1
@@ -123,7 +158,7 @@ WHERE (EXTRACT(YEAR FROM SYSDATE
      , (SELECT ROUND(AVG(SYSDATE - TO_DATE(MEM_BIR))/365),0 FROM MEMBER) B
 FROM MEMBER
 WHERE ;
-
+*/
 
 --(SELECT * FROM MEMEBER) 집합
 --(SELECT  ROUND(AVG(MEM_MILEAGE),2) AVG_MIL FROM MEMBER) A  집합  A
@@ -523,6 +558,7 @@ FROM MEMBER;
 
 --파일저장방법 실습
 --회원테이블에 회원의 사진 첨부파일을 저장하기
+/*
 ALTER TABLE MEMBER
 ADD(
     MEM_PATH VARCHAR2(1000),
@@ -532,7 +568,7 @@ ADD(
 UPDATE MEMBER
 SET     MEM_PATH = '\\Sem-pc\공유폴더\', MEM_IMG = '힘내요.png'
 WHERE   MEM_ID = 'a001';
-
+*/
 --RATIO_TO_REPORT 전체 대비 해당ROW의 값이 차지하는 비율
 SELECT T1.VAL
      , RATIO_TO_REPORT(T1.VAL) OVER() * 100 || '%'
@@ -1148,9 +1184,14 @@ WHERE REMAIN_YEAR = 2003
 AND (NVL(REMAIN_I,0) + NVL(REMAIN_O,0)) >= 20;
 
 -------------------------------------------
---PPT 352P VIEW객체
---VIEW는 논리적이다(물리적 X)
---VIEW는 쇼윈도의 유리와 같은 존재. VIEW를 통해 실제 데이터를 바라본다.
+/*
+PPT 352P VIEW객체
+VIEW는 논리적이다(물리적 X)
+VIEW는 쇼윈도의 유리와 같은 존재. VIEW를 통해 실제 데이터를 바라본다.
+VIEW를 쓰는 이유? 필요해서 데이터를 넘겨주고 받을 때, 민감한 정보를 가림 처리해서 넘길 수 있다
+VIEW테이블을 통해 UPDATE, SELECT, DELETE,...많은 기능이 가능하지만, 제한이 있다
+CREATE OR REPLACE로 생성한다. 이때 REPLACE는 '테이블이 이미 있다면 새롭게 정의하라'는 의미(JAVA의 OVERRIDING처럼)
+*/
 
 --LPROD테이블의 LPROD_GU, LPROD_NM컬럼만 추출, 가상의 테이블인 VW_LPROD 뷰 생성
 CREATE OR REPLACE VIEW VW_LPROD
@@ -1159,9 +1200,279 @@ SELECT LPROD_GU
      , LPROD_NM
 FROM LPROD;
 
+CREATE OR REPLACE VIEW VW_PEO -- MEMBER라는 걸 유추할 수 없도록 지을 수도 있다
+AS
+SELECT MEM_ID       NO
+     , MEM_NAME     NAME
+     , MEM_REGNO1   REG
+     , MEM_BIR      BIR
+FROM MEMBER;
+
+SELECT * FROM VW_PEO;
+
+SELECT * FROM MEMBER;
+
+--VIEW_MEMBER 생성
+--회원명, 아이디, 마일리지, 생일, 직업
+CREATE OR REPLACE VIEW VIEW_MEMBER
+(memName,memId,memPass,memMile,memBir,memJob,memLike) -- 컬럼명이 여기 지정한 이름으로 바뀐 상태. SELECT문 등에서 이 이름으로 불러야
+AS
+SELECT MEM_NAME
+     , MEM_ID
+     , MEM_PASS
+     , MEM_MILEAGE
+     , MEM_BIR
+     , MEM_JOB
+     , MEM_LIKE
+FROM MEMBER
+WHERE MEM_MILEAGE > 1000
+WITH CHECK OPTION;
+-- WITH CHECK OPTION걸고 UPDATE 실행 시 WHERE구문에 위반이 일어났다고 뜸.
+-- 왜? WHERE에 1000이상을 걸었는데 900을 설정해서
+-- 조건에 맞는 1000초과 UPDATE는 정상적으로 실행된다
+
+UPDATE VIEW_MEMBER
+SET memMile = 1001
+WHERE memId = 'c001';
+-- VIEW를 통해서 실제 DATA가 업데이트될 수 있다. DELETE, INSERT도 가능
+
+--not null을 null로 바꿔야 INSERT가 편하다
+INSERT INTO VIEW_MEMBER(memName,memId,memPass,memMile,memBir,memJob,memLike)
+AS VALUES('개똥이','a011','1111',2014,'2015/12/13','프로그래머','자바');
+
+SELECT * FROM MEMBER WHERE MEM_ID = 'a011';
+
+--DELETE
+DELETE FROM VIEW_MEMBER
+WHERE memId = 'a011';
+
+-- WITH READ ONLY(VIEW테이블을 통해 입력,수정,삭제 불가. WITH CHECK OPTION과 함께 쓸 수 없다)
+CREATE OR REPLACE VIEW VIEW_MEMBER
+(memName,memId,memPass,memMile,memBir,memJob,memLike)
+AS
+SELECT MEM_NAME
+     , MEM_ID
+     , MEM_PASS
+     , MEM_MILEAGE
+     , MEM_BIR
+     , MEM_JOB
+     , MEM_LIKE
+FROM MEMBER
+WHERE MEM_MILEAGE > 1000
+WITH READ ONLY;
+
+--회원아이디, 회원명, 나이, 주문번호, 주문상품명, 가격, 수량, 판매금액을 보여주는 읽기전용
+--VIEW생성(객체명: VIEW_CART, 판매금액=수량*상품판매가)
+CREATE OR REPLACE VIEW VIEW_CART
+(memId,memName,memBir,cartNo,prodName,prodSale,cartQty,cartSale)
+-- ALIAS는 기존처럼 SELECT쪽에 써도 무방
+AS
+SELECT MEM_ID
+     , MEM_NAME
+     , EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM MEM_BIR) -- 간단 나이구하기
+     , CART_NO
+     , PROD_NAME
+     , SUM(PROD_SALE)
+     , SUM(CART_QTY)
+     , SUM(CART_QTY * PROD_SALE)
+FROM MEMBER, CART, PROD
+WHERE PROD_ID = CART_PROD
+AND MEM_ID = CART_MEMBER
+GROUP BY MEM_ID,MEM_NAME,EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM MEM_BIR)
+     ,CART_NO,PROD_NAME
+WITH READ ONLY;
+
+SELECT * FROM USER_VIEWS; -- 지금까지 생성한 VIEW를 확인
+
+--          PPT 357P SEQUENCE객체         프로젝트에도 쓰인다(서브쿼리로 대체도 가능)
+--중복값 걱정없이 값을 쭉 뽑아낼 수 있다
+
+CREATE SEQUENCE LPROD_SEQ -- OR REPLACE 없음
+INCREMENT BY 1 -- 1씩 증가한다
+START WITH 1; -- 1에서 시작한다
+
+DROP SEQUENCE LPROD_SEQ;
+
+--1증가
+SELECT LPROD_SEQ.NEXTVAL FROM DUAL; -- VAL은 VALUE의 약자. SEQUENCE의 다음 값을 가져와라
+
+--현재번호확인
+SELECT LPROD_SEQ.CURRVAL FROM DUAL;
+
+--사용방법
+CREATE TABLE TESTSEQ(
+    TS_ID   NUMBER NOT NULL,
+    TS_NAME VARCHAR2(10),
+    CONSTRAINT PK_TESTSEQ PRIMARY KEY(TS_ID)
+);
+
+CREATE SEQUENCE TESTSEQ_SEQ
+INCREMENT BY 1
+START WITH 1;
+
+SELECT * FROM USER_SEQUENCES; -- 지금까지 생성한 SEQUENCE를 확인
+
+SELECT TESTSEQ_SEQ.CURRVAL FROM DUAL;
+-- 초기값은 NULL, 정의가 안 돼서 에러난다. 아래처럼 한 번이라도 NEXTVAL을 해 줘야 정상작동
+SELECT TESTSEQ_SEQ.NEXTVAL FROM DUAL;
+
+INSERT INTO TESTSEQ(TS_ID, TS_NAME)
+VALUES(TESTSEQ_SEQ.NEXTVAL,'글1');
+INSERT INTO TESTSEQ(TS_ID, TS_NAME)
+VALUES(TESTSEQ_SEQ.NEXTVAL,'글2');
+INSERT INTO TESTSEQ(TS_ID, TS_NAME)
+VALUES(TESTSEQ_SEQ.NEXTVAL,'글3');
+
+SELECT * FROM TESTSEQ;
+
+--PPT 361P SEQUENCE가 사용, 제한되는 경우(가볍게 참고만)
+
+--다음 요건을 만족하는 시퀀스 생성    CART_SEQ    시작1 증가1 최소1 최대21 순환가능
+CREATE SEQUENCE CART_SEQ
+INCREMENT BY 1
+START WITH 1 -- 변경불가. 바꾸고 싶다면 DROP하고 다시 만들어야 한다
+MINVALUE 1
+MAXVALUE 21 -- MAXVALUE와 MINVALUE사이의 간격은 20보다 커야 한다
+CYCLE; -- MAXVALUE에 도달했을 때 처음으로 돌아가는지의 여부
+
+------------------------------------------
+--책54P PPT365P                 INDEX
+--PK는 자동으로 INDEX가 걸린다
+
+SELECT SUBSTR(ROWID,-3)
+     , MEM_ID
+FROM MEMBER;
+
+--B-TREE INDEX 가장 많이 사용      먼저 정렬되어 있어야 사용 가능
+--뿌리(ROOT) 줄기(BRANCH) 잎(LEAF) 3단계로 구성되어 있다. 각 단계에는 원 데이터의 중간값이 위치
+--검색할 데이터가 r001이라면, r001의 ROWID ..AAR(목차의 페이지번호)을 찾는다는 것
+--뿌리에서 큰가 작은가 비교하고 줄기 단계로. 줄기 단계에서 다시 큰가 작은가 비교하고 잎 단계로
+
+SELECT ROWID, MEM_BIR
+FROM MEMBER
+WHERE MEM_BIR = '1974-12-20'
+ORDER BY MEM_BIR;
+
+CREATE INDEX IDX_MEMBER_BIR
+ON MEMBER(MEM_BIR);
+
+SELECT * FROM USER_INDEXES;
+
+SELECT ROWID
+     , MEM_ID
+     , MEM_NAME
+     , MEM_JOB
+     , MEM_BIR
+FROM MEMBER
+WHERE MEM_BIR = '74/12/20';
+
+--RULE BASED OPTIMIZER : 검색방식이 법률처럼 정해져 있는
+--COST BASED OPTIMIZER : ROWID로 검색할 때보다 다른 방식이 빠르다면, 그걸 쓰는 것
+--OPTIMIZER는 ORACLE에 내장. 알아서 검색한다.
+
+CREATE INDEX IDX_MEMBER_BIR_YEAR
+ON MEMBER(TO_CHAR(MEM_BIR, 'YYYY'));
+--FUNCTION BASE INDEX : FUNCTION 자체에 INDEX를 건다
+SELECT MEM_ID
+     , MEM_NAME
+     , MEM_JOB
+     , MEM_BIR
+FROM MEMBER
+WHERE TO_CHAR(MEM_BIR, 'YYYY') = '1975';
 
 
+CREATE INDEX IDX_MEMBER_BIR_YEAR
+ON MEMBER(MEM_BIR);
 
+--REBUILD : 매핑 테이블을 재정비. 빠져나가고 새로 들어온 데이터를 처음 상태처럼 정비하는 것
+ALTER INDEX IDX_MEMBER_BIR_YEAR REBUILD;
 
+DROP INDEX IDX_MEMBER_BIR_YEAR;
 
+--PPT 372P  INDEX KEY 컬럼에 변형을 막는 QUERY문 사용 권장
+--INDEX가 깨지면 효율성이 낮아진다
+--INDEX걸린 컬럼을 변형하지 말 것
+SELECT BUY_DATE
+     , BUY_PROD
+     , BUY_QTY
+FROM BUYPROD
+WHERE BUY_DATE - 10 = TO_DATE('2005-01-29'); -- INDEX에 변형이 생긴다
+
+--재구성
+SELECT BUY_DATE
+     , BUY_PROD
+     , BUY_QTY
+FROM BUYPROD
+WHERE BUY_DATE = TO_DATE('2005-01-29') + 10; -- INDEX에 변형이 생기지 않는다
+
+--0222 책61P          자료사전
+
+DESC ALL_OBJECTS;
+
+SELECT * FROM ALL_OBJECTS
+WHERE OWNER = 'PC10';
+
+SELECT DISTINCT OBJECT_TYPE
+FROM ALL_OBJECTS
+WHERE OWNER = 'PC10';
+
+SELECT * FROM DICTIONARY
+WHERE TABLE_NAME = 'ALL_USERS';
+
+SELECT * FROM DICTIONARY
+WHERE COMMENTS LIKE '%users%';
+
+SELECT * FROM ALL_USERS;
+
+--DICTIONARY 뷰에서 ALL_로 시작하는 모든 테이블 조회
+SELECT * FROM DICTIONARY
+WHERE TABLE_NAME LIKE 'ALL_%';
+
+--현재 로그인한 사용자가 만든 모든 객체 정보 출력
+SELECT OBJECT_NAME
+     , OBJECT_TYPE
+     , CREATED
+FROM ALL_OBJECTS
+WHERE OWNER = 'PC10'
+ORDER BY OBJECT_TYPE;
+
+--각 테이블 전체 레코드 개수를 출력(테이블명, 레코드 수)
+SELECT TABLE_NAME   테이블명
+     , NVL(NUM_ROWS,0)  레코드수
+FROM USER_TABLES
+ORDER BY 2 DESC;
+
+--USER_CONSTRAINTS, USER_CONS_COLUMNS의 컬럼 상세를 확인하고 상품 테이블의 제약조건 출력
+--(컬럼명, 제약명, 타입, 제약내용)
+SELECT B.COLUMN_NAME        컬럼명
+     , A.CONSTRAINT_NAME    제약명
+     , A.CONSTRAINT_TYPE    타입
+     , A.SEARCH_CONDITION   제약내용
+FROM USER_CONSTRAINTS A, USER_CONS_COLUMNS B
+WHERE A.TABLE_NAME = B.TABLE_NAME
+AND A.TABLE_NAME = 'PROD'; -- DATA는 대소문자를 구별한다
+
+--PPT 자주 사용되는 USER뷰
+------------------------------------------------------
+--ROLE : 사용자에게 허가할 수 있는 권한들의 집합
+--권한 부여와 회수를 쉽게 할 수 있다
+
+--권한 보자기 생성
+CREATE ROLE MYROLE;
+--MYROLE보자기에 다양한 권한 담기
+GRANT CREATE TABLE, SELECT ANY TABLE TO MYROLE;
+--USER1 사용자에게 MYROLE 권한보자기를 부여
+GRANT MYROLE TO USER1;
+--MYROLE에 로그인 권한 부여하기
+GRANT CONNECT, CREATE TABLE, SELECT ANY TABLE TO MYROLE;
+--USER1 사용자에게 MYROLE 권한보자기를 부여(다시 부여하지 않아도 바구니에 추가된 권한이 이미 부여되어 있다)
+GRANT MYROLE TO USER1;
+
+--권한부여 연습
+--korea계정 생성
+--cmd를 통해 korea계정으로 접속 시도
+--관리자cmd에서 myrole2 생성
+--myrole2에 connect, resource권한 할당
+--2개의 권한이 담긴 myrole2를 korea계정에 부여
+--cmd를 통해 korea계정으로 접속 시도
 

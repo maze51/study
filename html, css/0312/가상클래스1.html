@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>가상클래스</title>
+<style>
+	a{
+		font-size : 2.0em;
+		margin : 10px;
+		// border : 1px solid blue;
+		text-decoration: none;
+	}
+	
+	a:Link{
+		color : green;
+	}
+	a:visited{
+		color : crimson;
+	}
+	a:hover{
+		color : blue;
+		text-decoration: line-through;	/* underline overline*/
+	}
+	a:active{
+		color : yellow;
+		font-size : 2.5em;
+	}
+	/* link~active 속성 부여시 순서는 위 순서로 정해져 있다. */
+	td,th {
+		width : 300px;
+		height : 40px;
+		text-align : center;
+	}
+	
+	#tab1 tr:nth-child(even){ /* 2n도 가능. 홀수는 odd or 2n-1 */
+		background : lime;
+	}
+	
+	#tab1 tr:nth-child(odd){
+		background : lightblue;
+	}
+	
+	#tab1 tr:nth-child(1){ /* 이렇게 순서를 정해줘야 1행을 노란색으로 지정 가능 */
+		background : yellow;
+	}
+	
+	#tab2 tr:nth-child(even){ /* 2n도 가능. 홀수는 odd or 2n-1 */
+		background : lightgreen;
+	}
+	
+	#tab2 tr:nth-child(odd){
+		background : pink;
+	}
+	
+	#tab2 tr:nth-child(1){ /* 이렇게 순서를 정해줘야 1행을 노란색으로 지정 가능 */
+		background : black;
+		color : white;
+	}
+	
+	#tab3 td:nth-child(2n-1){
+		background : orange;
+	}
+	
+	#tab3 td:nth-child(2n){
+		background : lightgray;
+	}
+	
+	#tab3 th{
+		background : purple;
+		color : white;
+	}
+</style>
+</head>
+<body>
+	<h1>의사클래스</h1>
+	<p> 이미 정의되어 있는 클래스이고 
+	:을 이용한다. </p>
+	<br>
+	
+	<a href="http://www.naver.com" target="_blank">네이버</a>
+	<a href="http://www.daum.net" target="_blank">다음</a>
+	<a href="http://w3schools.com" target="_blank">w3School</a>
+	
+	<br><br>
+	
+<pre>
+부모 table에서 자식인 tr의 몇번째를 선택한다
+tr:nth-child(1)
+tr:nth-child(even)
+tr:nth-child(2n)
+tr:nth-child(odd)
+tr:nth-child(2n+1)
+
+</pre>
+	<table id="tab1" border="1">
+		<tr>
+			<th>이름</th>
+			<th>전화번호</th>
+		</tr>
+		
+		<tr>
+			<td>홍길동</td>
+			<td>010-1111-2222</td>
+		</tr>
+		
+		<tr>
+			<td>개나리</td>
+			<td>010-1234-5678</td>
+		</tr>
+		
+		<tr>
+			<td>진달래</td>
+			<td>010-3124-3143</td>
+		</tr>
+		
+		<tr>
+			<td>무궁화</td>
+			<td>010-5555-6666</td>
+		</tr>
+<!-- 		테이블의 자식은 tr 후손은 td. 후손은 자식을 포함한다. -->
+	</table>
+	<br><br>
+	
+	<table id="tab2" border="1">
+		<tr>
+			<th>이름</th>
+			<th>전화번호</th>
+		</tr>
+		
+		<tr>
+			<td>홍길동</td>
+			<td>010-1111-2222</td>
+		</tr>
+		
+		<tr>
+			<td>개나리</td>
+			<td>010-1234-5678</td>
+		</tr>
+		
+		<tr>
+			<td>진달래</td>
+			<td>010-3124-3143</td>
+		</tr>
+		
+		<tr>
+			<td>무궁화</td>
+			<td>010-5555-6666</td>
+		</tr>
+	</table>
+	
+	<br><br>
+<pre>
+부모 table에서 자식인 td의 몇번째를 선택한다
+td:nth-child(1)
+td:nth-child(even)
+td:nth-child(2n)
+td:nth-child(odd)
+td:nth-child(2n+1)
+
+</pre>
+	<table id="tab3" border="1">
+		<tr>
+			<th>이름</th>
+			<th>전화번호</th>
+			<th>주소</th>
+		</tr>
+		
+		<tr>
+			<td>홍길동</td>
+			<td>010-1111-2222</td>
+			<td>서울</td>
+		</tr>
+		
+		<tr>
+			<td>개나리</td>
+			<td>010-1234-5678</td>
+			<td>부산</td>
+		</tr>
+		
+		<tr>
+			<td>진달래</td>
+			<td>010-3124-3143</td>
+			<td>대전</td>
+		</tr>
+		
+		<tr>
+			<td>무궁화</td>
+			<td>010-5555-6666</td>
+			<td>대구</td>
+		</tr>
+	</table>
+</body>
+</html>

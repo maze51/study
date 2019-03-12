@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>속성선택</title>
+	<style>
+		img{
+			width : 200px;
+			height : 180px;
+		}
+		
+		img{
+			border : 2px solid blue;
+		}
+		
+		img:hover{
+			width : 250px;
+			height : 200px;
+			border : none;
+		}
+		
+		img[title="수국1"]{ /* 속성 선택자 */
+			border : 5px solid crimson;
+		}
+		
+		input[type=password]{
+			background : yellow;
+		}
+		
+		input[type=button]{
+			width : 100px;
+			color : red;
+		}
+		
+		input[type=reset]{
+			width : 100px;
+			background : turquoise;
+		}
+	</style>
+</head>
+<body>
+	<img src="../images/수국1.jpg" alt="수국1" title="수국1">
+	<img src="../images/수국2.jpg" alt="수국2" title="수국2">
+	<img src="../images/수국3.jpg" alt="수국3" title="수국3">
+	<img src="../images/수국4.jpg" alt="수국4" title="수국4">
+	<img src="../images/수국5.jpg" alt="수국5" title="수국5">
+<!-- 	src alt title... => 모두 속성들 -->
+<br><br>
+	<form>
+	이름<input type="text" autofocus><br>
+	비밀번호<input type="password"><br>
+	<input type="button" value="확인">
+	<input type="reset" value="취소">
+	</form>
+</body>
+</html>

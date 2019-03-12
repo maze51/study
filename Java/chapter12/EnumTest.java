@@ -66,6 +66,11 @@ public class EnumTest {
 			System.out.println("city1은 대전입니다");
 			break;
 		}
+		
+		System.out.println();
+		for(City ci : City.values()){
+			System.out.println(ci.name() + " ==> " + ci.ordinal());
+		}
 	}
 
 }
