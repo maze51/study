@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ColorChange</title>
+	<style>
+		p{
+			font-size : 1.5em;
+		}
+	
+	</style>
+<script>
+	window.onload = function(){
+		// window : 브라우저에서 실행되는 객체 중 최상위 객체.
+		// 메서드 호출시 window객체는 생략 가능하다
+		// setInterval(); 매 시간 간격(millisecond으로 반복적으로 기능을 수행하도록 한다
+		ss = setInterval(function(){
+			
+		r = parseInt(Math.random() * 101);
+		g = parseInt(Math.random() * 101);
+		b = parseInt(Math.random() * 101);
+		
+		document.getElementById("bb").style.backgroundColor = 'rgb(' + r + '%,' + g + '%,' + b + '%)';
+		
+		}
+		,2000);
+		console.log(ss);
+	}
+	
+	
+		/*
+		r = parseInt(Math.random() * 256);
+		g = parseInt(Math.random() * 256);
+		b = parseInt(Math.random() * 256);
+		
+		r1 = r.toString(16);
+		g1 = g.toString(16);
+		b1 = b.toString(16);
+		*/
+// 		document.getElementById("bb").style.backgroundColor =  '#' + r1 + g1 + b1;
+		
+	function change(a){
+		
+		r = parseInt(Math.random() * 256);
+		g = parseInt(Math.random() * 256);
+		b = parseInt(Math.random() * 256);
+		
+		r1 = r.toString(16);
+		g1 = g.toString(16);
+		b1 = b.toString(16); // 각각을 16진수로 변환
+		
+		//a.style.color = '#' + r1 + g1 + b1;
+		a.style.color = 'rgb(' + r + ',' + g + ',' + b + ')';
+		/*
+		a.style.color = 'red';
+		a.style.color = '#ff0000';
+		a.style.color = 'rgb(255,67,200)';
+		a.style.color = 'rgb(100%,0%,0%)';
+		*/
+	}
+	
+	function stop(){
+		clearInterval(ss);
+	}
+</script>
+</head>
+<body id="bb">
+
+	<p onclick="change(this)">무궁화 꽃이 피었습니다 </p>
+	<p onclick="change(this)">우리집 강아지는 복슬강아지 </p>
+	<p onclick="change(this)">무궁화 꽃이 피었습니다 </p>
+	
+	<br>
+	<button type="button" onclick="stop()">중지</button>
+</body>
+</html>

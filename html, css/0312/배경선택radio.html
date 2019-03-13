@@ -17,6 +17,11 @@
 	</style>
 	
 <script>
+ window.onload = function(){ // 이벤트가 발생하지 않아도 페이지 시작할 때 부터 실행
+ 	document.getElementById('content').style.backgroundAttachment ='scroll';
+ 	document.getElementById('content').style.backgroundRepeat ='no-repeat';
+ 	document.getElementById('content').style.backgroundPosition ='top left';
+ 	}
 	function attachpro(){
 		/*요소에 접근하는 방법*/
 		//document.getElementById getElementsByTagName getElementsByName getElementsByClassName
@@ -31,26 +36,36 @@
 			document.getElementById('content').style.backgroundRepeat = 'no-repeat';
 		} else if(document.getElementsByName('repeat')[1].checked){
 			document.getElementById('content').style.backgroundRepeat = 'repeat-x';
-		} else {
+		} else if(document.getElementsByName('repeat')[2].checked){
 			document.getElementById('content').style.backgroundRepeat = 'repeat-y';
+		} else {
+			document.getElementById('content').style.backgroundRepeat = 'repeat';
 		}
 	}
+	xx="left";
+	yy="top";
 	function positionxpro(){
 		if(document.getElementsByName('positionx')[0].checked){
-			document.getElementById('content').style.backgroundPosition = 'top';
+			document.getElementById('content').style.backgroundPosition = yy + ' left';
+			xx = "left";
 		} else if(document.getElementsByName('positionx')[1].checked){
-			document.getElementById('content').style.backgroundPosition = 'bottom';
+			document.getElementById('content').style.backgroundPosition = yy + ' center';
+			xx = "center";
 		} else {
-			document.getElementById('content').style.backgroundPosition = 'center';
+			document.getElementById('content').style.backgroundPosition = yy + ' right';
+			xx = "right";
 		}
 	}
 	function positionypro(){
 		if(document.getElementsByName('positiony')[0].checked){
-			document.getElementById('content').style.backgroundPosition = 'left';
+			document.getElementById('content').style.backgroundPosition = xx + ' top';
+			yy="top";
 		} else if(document.getElementsByName('positiony')[1].checked){
-			document.getElementById('content').style.backgroundPosition = 'center';
+			document.getElementById('content').style.backgroundPosition = xx + ' bottom';
+			yy="bottom";
 		} else {
-			document.getElementById('content').style.backgroundPosition = 'right';
+			document.getElementById('content').style.backgroundPosition = xx + ' center';
+			yy="center";
 		}
 	}
 
@@ -58,24 +73,25 @@
 </head>
 <body>
 	<h1>선택</h1>
-	
-	<input type="radio" name="attach" value="scroll" onclick="attachpro()">scroll 움직이지 않음
+<!-- 	checked - 실행시 기본적으로 선택되어 있는 상태로 만드는 것. 이름과 값이 같다 -->	
+	<input type="radio" name="attach" value="scroll" checked onclick="attachpro()">scroll 움직이지 않음
 	<input type="radio" name="attach" value="local" onclick="attachpro()">local 움직임
 	
 	<br><br>
-	<input type="radio" name="repeat" value="no" onclick="repeatpro()">no-repeat
+	<input type="radio" name="repeat" value="no" checked onclick="repeatpro()">no-repeat
 	<input type="radio" name="repeat" value="x" onclick="repeatpro()">repeat-x
 	<input type="radio" name="repeat" value="y" onclick="repeatpro()">repeat-y
+	<input type="radio" name="repeat" value="repeat" onclick="repeatpro()">repeat
 	
 	<br><br>
-	<input type="radio" name="positionx" value="top" onclick="positionxpro()">top
-	<input type="radio" name="positionx" value="bottom" onclick="positionxpro()">bottom
+	<input type="radio" name="positionx" value="left" checked onclick="positionxpro()">left
 	<input type="radio" name="positionx" value="center" onclick="positionxpro()">center
-	
+	<input type="radio" name="positionx" value="right" onclick="positionxpro()">right
+
 	<br><br>
-	<input type="radio" name="positiony" value="left" onclick="positionypro()">left
+	<input type="radio" name="positiony" value="top" checked onclick="positionypro()">top
+	<input type="radio" name="positiony" value="bottom" onclick="positionypro()">bottom
 	<input type="radio" name="positiony" value="center" onclick="positionypro()">center
-	<input type="radio" name="positiony" value="right" onclick="positionypro()">right
 	<br><br>
 	<div id="content">
 	 삶이 그대를 속일지라도, 슬퍼하거나 노여워하지 말라<br>
