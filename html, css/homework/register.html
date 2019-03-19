@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+<body>
+	<form>
+	회원정보입력<br>
+	<label>아이디</label>
+	<input type="text" name="id" id="id" required autofocus>
+	<input type="button" value="중복검사" onclick="중복 아이디가 아닙니다"><br>
+	<label>패스워드</label>
+	<input type="password" name="pass" id="pass" required><br>
+	<label>패스워드 확인</label>
+	<input type="password" name="pass" id="pass2" required><br>
+	<label>이름</label>
+	<input type="text" name="name" id="name"><br>
+	<label>휴대폰 번호</label>
+	<input type="text" name="tel" id="tel" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}"> <br>
+	<label>이메일</label>
+	<input type="email" name="email" id="email"><br>
+	<label>생일</label>
+	<input type="text" name="birth" id="birth"><br>
+	<label>홈페이지</label>
+	<input type="text" name="hp" id="hp"><br>
+	
+	<input type="radio" name="gender" id="man" class="gene" value="남성">남성<br>
+	<input type="radio" name="gender" id="woman" class="gene" value="여성">여성<br>
+	
+	<input type="submit" class="rgr" value="제출">
+	<input type="reset" class="rgr" value="초기화"><br>
+	
+	</form>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>리스트 스타일</title>
+	<style>
+		ul, ol{
+			width : 30%;
+			border : 2px solid pink;
+		}
+		li{
+			font-size : 1.5em;
+/* 			border : 2px solid gray; */
+		}
+		#ulist2{
+			list-style-type: circle;
+		}
+		#ulist3{
+			list-style-position:inside;
+			list-style-type: square;
+		}
+		#ulist4{
+			list-style-image: url(../images/hongs.jpg);
+		}
+		ol{
+			border-color: lightgreen;
+		}
+		#olist2{
+			list-style-type: lower-roman;
+		}
+		#olist3{
+			list-style-type: hangul-consonant;
+		}
+		#olist4{
+			list-style-type: lower-greek;
+		}
+		#olist5{
+			list-style-type: hangul;
+		}
+		#olist6{
+			list-style-position:inside;
+			list-style-type: korean-hangul-formal;
+		}
+		span{
+  			display : inline-block;
+/* 			블럭 요소로 바꾸기-크기 조절 가능.
+			inline-block: 안떨어지게 하면서(줄바꿈하지 않으면서)
+			크기조절 가능 */
+			width : 40%;
+			height : 50px;
+			font-size : 2.0em;
+			font-weight : bold;
+			font-style : italic;
+			border : 2px solid crimson;
+		}
+		#list{
+			/*list-style-type: none;*/
+			width : 70%;
+			padding : 20px;
+			border-left : none;
+			border-right : none;
+			text-align: center;
+		}
+ 		#list  li{ 
+ 			border : 1px solid blue; 
+ 			display : inline; 
+ 			margin : 10px; 
+ 			padding : 10px; 
+ 			letter-spacing: 10px; 
+ 		} 
+ 		#list li a{ 
+ 			text-decoration:underline; 
+			
+ 		} 
+ 		#list li a:hover{ 
+ 			color: green;  
+ 		} 
+	</style>
+</head>
+<body>
+	<span>리스트 스타일 타입</span> <span>테스트 </span>
+	
+	<ul id="ulist1">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ul>
+	
+	list-style-type: circle;
+	<ul id="ulist2">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ul>
+	
+	list-style-position:inside;<br>
+	list-style-type: square;
+	<ul id="ulist3">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ul>
+	
+	list-style-image: url(../images/hongs.jpg);
+	<ul id="ulist4">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ul>
+	
+	<ol id="olist1">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ol>
+	
+	list-style-type: lower-roman;
+	<ol id="olist2">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ol>
+	
+	list-style-type: hangul-consonant;
+	<ol id="olist3">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ol>
+	
+	list-style-type: lower-greek;
+	<ol id="olist4">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ol>
+	
+	list-style-type: hangul;
+	<ol id="olist5">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ol>
+	
+	list-style-position:inside;<br>
+	list-style-type: korean-hangul-formal;
+	<ol id="olist6">
+		<li>개나리</li>
+		<li>진달래</li>
+		<li>산수유</li>
+		<li>홍매화</li>
+	</ol>
+<pre>
+수평 리스트 예제
+#list{
+	width : 70%;
+	padding : 20px;
+	border-left : none;
+	border-right : none;
+	text-align: center;
+}
+#list  li{
+	//border : 1px solid blue;
+	display : inline;
+	margin : 10px;
+	//padding : 10px;
+	letter-spacing: 10px;
+}
+</pre>
+	<ul id="list">
+		<li><a href="http://www.naver.com">개나리</a></li>
+		<li><a href="#">진달래</a></li>
+		<li><a href="#">산수유</a></li>
+		<li><a href="#">홍매화</a></li>
+	</ul>
+</body>
+</html>

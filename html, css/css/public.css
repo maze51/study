@@ -3,5 +3,13 @@
 pre{
 	font-size : 1.2em;
 	color : blue;
-	border : 1px dotted red;
+	border : 1px solid red;
+}
+
+div{
+	width: 500px;
+	height: auto;
+	border: 1px solid blue;
+	margin: 10px;
+	padding: 10px;
 }

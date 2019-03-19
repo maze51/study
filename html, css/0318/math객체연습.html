@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Math객체연습</title>
+<script>
+	function proc1(){
+		rand = Math.floor(Math.random()*10 + 1);
+// 		floor는 소수점 이하 버리는 함수
+		count = 0;
+		inputs = "";
+		
+		while(true){
+			
+			input = prompt("수를 입력", "1~10사이");
+			count++;
+			inputs += input + "&nbsp;";
+			if(input == rand){
+				break;
+			}else if(input > rand){
+				alert("더 작은 수를 입력하세요");
+			}else if(input < rand){
+				alert("더 큰 수를 입력하세요");
+			}
+		}
+		
+		res = "랜덤 수 :" + rand + "<br>";
+		res += "입력한 수 " + inputs + "<br>";
+		res += count + "번 만에 맞췄습니다 ";
+		
+		document.getElementById('result1').innerHTML = res;
+	}
+</script>
+	<style>
+		div{
+			width: 500px;
+			height: 50px;
+			border: 2px dotted red;
+			margin: 50px;
+			padding: 5px;
+			overflow: auto;
+			font-size: 1.2em;
+		}
+	</style>
+</head>
+<body>
+1 ~ 10 사이의 난수를 발생 후 사용자가 이 값을 맞추는 프로그램을 작성하시오<br>
+<br>
+<button type="button" onclick="proc1()">실행1</button><br>
+<div id="result1"></div>
+</body>
+</html>

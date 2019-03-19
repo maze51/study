@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>input_prompt</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function promptpro(){
+		//두 개의 수를 입력받아서 더하기 후 출력
+		var input1 = parseInt(prompt("첫번째 수를 입력하세요"));
+		input2 = parseInt(prompt("두번째 수를 입력하세요"));
+		
+		sum = input1 + input2;
+		
+		ele = document.getElementById('result1');
+		
+		ele.innerHTML = "수1 : " + input1 + "<br>";
+		ele.innerHTML += "수2 : " + input2 + "<br>";
+		ele.innerHTML += "결과 : " + sum + "<br>";
+	}
+	
+	function inputpro(){
+		xvalue = document.getElementById("x").value;
+		yvalue = document.getElementById("y").value;
+		
+		sumvalue = parseInt(xvalue) + parseInt(yvalue);
+		//parseInt없으면 문자열간 결합이 된다
+		document.getElementById('sum').value = sumvalue;
+	}
+	</script>
+</head>
+<body>
+버튼을 클릭하면 두 개의 수를 입력받아서 더하기 후 출력<br>
+	<button type="button" onclick="promptpro()">실행</button><br>
+	<div id="result1"></div>
+	<br>
+	<hr color="red">
+	<br>
+입력한 값을 script에서 가져갈 때or대입할 때 value로 사용<br>	
+	
+첫번째 수 : <input type="text" id="x"><br>
+두번째 수 : <input type="text" id="y"><br>
+합계 : 		<input type="text" id="sum" readonly><br>
+<button type="button" onclick="inputpro()">실행</button><br>
+
+</body>
+</html>

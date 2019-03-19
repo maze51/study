@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>if-else test</title>
+<!-- 외부 스타일시트 연결 -->
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		input = prompt("수를 입력하세요");
+		str = "";
+		if(input>=60){
+			str = "합격";
+		} else {
+			str = "불합격";
+		}
+		
+		res = "입력한 수 : " + input + "<br>";
+		res += "결과 : " + str;
+		document.getElementById("result1").innerHTML = res;
+	}
+	function proc2(){
+		input1 = prompt("수를 입력하세요");
+		str1 = "";
+		if(input1%2==0){
+			str1 = "짝수";
+		} else {
+			str1 = "홀수";
+		}
+		
+		res1 = "입력한 수 : " + input1 + "<br>";
+		res1 += "결과 : " + str1;
+		document.getElementById("result2").innerHTML = res1;
+	}
+	function proc3(){
+		input2 = prompt("수를 입력하세요");
+		str2 = "";
+		if(input2>=90){
+			str2 = "수";
+		} else if(input2>=80){
+			str2 = "우";
+		} else if(input2>=70){
+			str2 = "미";
+		} else if(input2>=60){
+			str2 = "양";
+		} else {
+			str2 = "가";
+		}
+		res2 = "입력한 수 : " + input2 + "<br>";
+		res2 += "결과 : " + str2;
+		document.getElementById("result3").innerHTML = res2;
+	}
+	function proc4(){
+		input10 = parseInt(prompt("첫번째 과목점수를 입력하세요"));
+		input11 = parseInt(prompt("두번째 과목점수를 입력하세요"));
+		input12 = parseInt(prompt("세번째 과목점수를 입력하세요"));
+		input13 = parseInt(prompt("네번째 과목점수를 입력하세요"));
+		input14 = parseInt(prompt("다섯번째 과목점수를 입력하세요"));
+		str3 = "";
+		suma = input10+input11+input12+input13+input14;
+		avg = suma/5;
+		
+		if(avg>=60 && input10>=60 && input11>=60 && input12>=60 
+				&& input13>=60 && input14>=60){
+			str3 = "합격";
+		} else {
+			str3 = "불합격";
+		}
+		
+		res3 = "입력한 과목점수 : " + "&nbsp;" + input10 + "&nbsp;" + input11 + "&nbsp;" + input12 + "&nbsp;" + input13 + "&nbsp;" + input14 + "<br>";
+		res3 += "합계 : " + suma + "<br>";
+		res3 += "평균 : " + avg + "<br>";
+		res3 += "결과 : " + str3;
+		document.getElementById("result4").innerHTML = res3;
+	}
+	function proc5(){
+		input3 = prompt("첫번째 수를 입력하세요");
+		input4 = prompt("두번째 수를 입력하세요");
+		str4 = "";
+		
+		if(input3>input4){
+			str4 = "큰 수 : " + input3 + "<br>" + "작은 수 : " + input4
+		} else {
+			str4 = "큰 수 : " + input4 + "<br>" + "작은 수 : " + input3
+		}
+		
+		document.getElementById("result5").innerHTML = str4;
+	}
+	function proc6(){
+		input = parseInt(prompt("첫번째 숫자를 입력하세요"));
+		input1 = parseInt(prompt("두번째 숫자를 입력하세요"));
+		oper = prompt("연산자를 입력하세요.","+,-,*,/,% 중 하나");
+		
+		str = "";
+		
+		if(oper == "+"){
+			str = input + input1;
+		} else if(oper == "-"){
+			str = input - input1;
+		} else if(oper == "*"){
+			str = input * input1;
+		} else if(oper == "/"){
+			if(input1 != 0){
+				str = input / input1;
+			} else {
+				input1 = prompt("0이 아닌 수로 입력");
+				str = input / input1;
+			}
+		} else if(oper == "%"){
+			str = input % input1;
+		} else {
+			str = "연산자 오류 입니다";
+		}
+		
+		res =  + input + oper + input1 + "=" + str;
+		document.getElementById("result6").innerHTML = res;
+	}
+	</script>
+</head>
+
+<body>
+숫자를 입력받아 60점 이상이면 합격 아니면 불합격<br> 
+<button type="button" onclick="proc1()">실행</button><br>
+<div id="result1"></div>
+<br>
+<hr color="red">
+<br>
+
+숫자를 입력받아 홀수인지 짝수인지 출력 <br> 
+<button type="button" onclick="proc2()">실행</button><br>
+<div id="result2"></div>
+<br>
+<hr color="red">
+<br>
+
+숫자를 입력받아 수우미양가를 출력<br> 
+<button type="button" onclick="proc3()">실행</button><br>
+<div id="result3"></div>
+<br>
+<hr color="red">
+<br>
+
+5개의 과목점수를 입력받아 평균이 60점이고 모든과목이  60점 이상이면 합격 <br>
+<button type="button" onclick="proc4()">실행</button><br>
+<div id="result4"></div>
+<br>
+<hr color="red">
+<br>
+ 
+두개의 수를 입력하여 큰수와 작은수를  출력 <br> 
+<button type="button" onclick="proc5()">실행</button><br>
+<div id="result5"></div>
+<br>
+<hr color="red">
+<br>
+
+숫자 2개와 연산자 1개를 입력 받아 연산자에 맞는 계산결과를 출력하는 프로그램을 작성하시오.
+<button type="button" onclick="proc6()">실행</button><br>
+<div id="result6"></div>
+<br>
+<hr color="red">
+<br>
+</body>
+</html>

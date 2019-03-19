@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="UTF-8">
+<title>Web shop Page</title>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+<body>
+	<header>
+	<br>
+	<img alt="메인" id="mainimg" src="../images/shop.png">
+	<h1><a href="main.html">Web Shop</a></h1>
+	</header>
+	<nav>
+		<ul id="list">
+			<li><a href="#">HOME</a></li>
+			<li><a href="#">ABOUT US</a></li>
+			<li><a href="#">NEWS</a></li>
+			<li><a href="#">MY ACCOUNT</a></li>
+			<li><a href="#">CONTACTS</a></li>
+			
+		</ul>
+	</nav>
+	<aside id="left">
+		<table id="maintable">
+		<caption>카테고리</caption>
+			<tr>
+				<td><a href="computer.html" target="ifr">컴퓨터</a></td>
+			</tr>
+			
+			<tr>
+				<td><a href="clothing.html" target="ifr">의류</a></td>
+			</tr>
+			
+			<tr>
+				<td><a href="music.html" target="ifr">음악</a></td>
+			</tr>
+			
+			<tr>
+				<td><a href="movie.html" target="ifr">영화</a></td>
+			</tr>
+			
+			<tr>
+				<td><a href="sports.html" target="ifr">스포츠/레저</a></td>
+			</tr>
+			
+			<tr>
+				<td><a href="furniture.html" target="ifr">가구/인테리어</a></td>
+			</tr>
+			
+			<tr>
+				<td><a href="food.html" target="ifr">식품</a></td>
+			</tr>
+		</table>
+	</aside>
+	
+	<section>
+		<iframe src="computer.html" name="ifr"></iframe>
+		<h6>제품</h6>
+	</section>
+	<aside id="right">
+		<div id="cart">
+		<span>Shopping Cart</span><br>
+		현재 쇼핑카트에 물품이 없습니다<br>
+		<a href="shopcart.html">쇼핑카트 보기</a>
+		</div>
+		<br><br><br>
+		<div id="login">
+		
+		<form>
+		<span>Log In</span><br>
+		<label>아이디</label><br>
+		<input type="text" name="id" id="id" required><br>
+		<label>패스워드</label><br>
+		<input type="password" name="pass" id="pass"><br>
+		<input type="submit" value="로그인">
+		<input type="reset" value="초기화"><br>
+		
+		<a href="register.html">회원가입</a>
+		<a href="main.html">비밀번호 분실</a><br>
+		</form>
+		
+		</div>
+	</aside>
+	<footer>
+	<br>
+	Copyright(c) 2019 Web Shop
+	</footer>
+</body>
+</html>

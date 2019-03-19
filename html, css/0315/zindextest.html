@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>z-index test</title>
+	<style>
+	div{
+		width: 100px;
+		height: 100px;
+		position: absolute;
+	}
+	#d1{
+		background: yellow;
+		top: 50px;
+		left: 30px;
+		z-index: 10;
+/* 		겹쳐져 있을 때 z-index를 쓴다. 큰 값을 주면 앞에 보인다 */
+	}
+	#d2{
+		background: blue;
+		top: 70px;
+		left: 50px;
+	}
+	#d3{
+		background: green;
+		top: 90px;
+		left: 70px;
+	}
+	</style>
+</head>
+<body>
+	<div id="d1">1</div>
+	<div id="d2">2</div>
+	<div id="d3">3</div>
+</body>
+</html>

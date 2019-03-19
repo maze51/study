@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>script1</title>
+
+<style>
+	div{
+		width: 500px;
+/* 		width안주면 알아서 한 줄 전체를 차지한다 */
+		height: auto;
+		border: 1px solid blue;
+		margin: 10px;
+		padding: 10px;
+	}
+</style>
+<script>
+	function datepro(){ // 함수를 정의한다
+
+	var now = new Date();
+	//document.write(now + "<br>");
+	// 	var은 생략 가능. 단 차이점이 있다(지역변수, 전역변수)
+	dateString = now.toLocaleString();
+	//document.write(dateString + "<br>");
+	
+	date = now.toLocaleDateString(); // 날짜만 뽑고 싶으면 사용
+	time = now.toLocaleTimeString(); // 시각만 뽑고 싶으면 사용
+	//document.write(date + "<br>");
+	//document.write(time + "<br>");
+	
+	//div요소에 출력 방법 - innerHTML(HTML요소를 안쪽에 출력하라. 내용 안에 HTML이 포함된 경우),
+	//textContent
+	//div요소에 접근하는 방법
+// 	elediv = document.getElementsByTagName('div')[0];
+	elediv = document.getElementById('result1');
+// 	elediv = document.getElementsByClassName('aa')[1];
+	// 여러 대상을 지정할 경우(Elements) 몇번째인가 지정해 준다.
+	
+	elediv.innerHTML = dateString + "<br>";
+	elediv.innerHTML += date + "<br>";
+	elediv.innerHTML += time + "<br>";
+	}
+</script>
+
+</head>
+<body>
+버튼을 클릭하면 오늘의 날짜를 출력 <br>
+오늘의 날짜 : var now = new Date() <br>
+now.toLocaleString(); <br>
+now.toLocaleDateString(); <br>
+now.toLocaleTimeString(); <br><br>
+div요소에 출력 - innerHTML(HTML요소를 안쪽에 출력. 내용 안에 HTML이 포함된 경우), textContent <br>
+script에서 div요소에 접근하는 방법 - document.getElementById('result1');<br><br>
+
+<!-- 	function이 정의되어 있을 경우, 호출해야만 실행된다. -->
+	<button class="aa" type="button" onclick="datepro()">실행</button><br>
+	<div id="result1" class="aa">
+	</div>
+	
+</body>
+</html>
+<!-- 브라우저 하나에 document는 하나뿐.  -->
+<!-- document.write는 이미 생성된 documnet를 모두 덮어써버린다 -->
+<!-- 사용하지 않음 -->

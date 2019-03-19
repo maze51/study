@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>for & while test</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		sum = 0;
+		for(i = 1 ; i < 11 ; i++){
+			sum += i;
+		}
+		res1 = "결과 : " + sum;
+		document.getElementById("result1").innerHTML = res1;
+	}
+	function proc2(){
+		sum = 0;
+		for (int = 1; int < 201; int++) {
+			if(int%2!=0){
+				continue;
+			} 
+			sum += int;
+		}
+		res1 = "결과 : " + sum;
+		document.getElementById("result2").innerHTML = res1;
+	}
+	function proc3(){
+		sum = 0;
+		inputss = "";
+		while(true){
+			input = parseInt(prompt("더할 값을 입력하세요. 0을 입력하면 합계를 출력합니다"));
+			if(input==0){
+				break;
+			}
+			sum += input;
+			inputss += input + "&nbsp;" ;
+		}
+		
+		res = "입력 값: " + inputss + "<br>";
+		res += "누적 합계 : " + sum;
+		document.getElementById("result3").innerHTML = res;
+	}
+	function proc4(){
+		sum = 0;
+		res = "";
+		for (i = 1; i < 101; i++) {
+			sum += i;
+			res += i + "&nbsp;" + sum + "<br>";
+			if(sum>=3000){
+				break;
+			}
+		}
+		res += "i= " + i + "<br>" + "합 : " + sum + "<br>";
+		document.getElementById("result4").innerHTML = res;
+	}
+	</script>
+</head>
+<body>
+1. 1부터 10까지의 합을 구하는 프로그램을 작성하시오.
+<button type="button" onclick="proc1()">실행</button><br>
+<div id="result1"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+
+2. 1부터 200까지 1씩 증가하면서 짝수의 합을 구하는 프로그램을 작성하시오.(break나 continue를 이용)
+<button type="button" onclick="proc2()">실행</button><br>
+<div id="result2"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+
+3. 사용자가 입력한 값을 계속 더하고, 사용자가 0을 입력하면 그때까지 누적된 값을 출력하는 프로그램을 작성하시오.
+<button type="button" onclick="proc3()">실행</button><br>
+<div id="result3"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+
+4. 1~100까지의 합을 구하는데, 합이 3000 이상이면 종료하시오(break 사용)
+<button type="button" onclick="proc4()">실행</button><br>
+<div id="result4"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+
+</body>
+</html>

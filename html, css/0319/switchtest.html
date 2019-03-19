@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Switch test</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		input1 = parseInt(prompt("첫번째 숫자를 입력하세요"));
+		input2 = parseInt(prompt("두번째 숫자를 입력하세요"));
+		input3 = prompt("연산자를 입력하세요.","+,-,*,/,% 중 하나");
+		
+		switch(input3){
+		case "+" :
+			str = input1 + input2;
+			break;
+		case "-" :
+			str = input1 - input2;
+			break;
+		case "*" :
+			str = input1 * input2;
+			break;
+		case "/" :
+			str = input1 / input2;
+			break;
+		case "%" :
+			str = input1 % input2;
+			break;
+		default :
+			str = "연산자 오류 입니다"
+		}
+		
+		res =  + input1 + input3 + input2 + "=" + str;
+		document.getElementById("result1").innerHTML = res;
+	}
+	
+	function proc2(){
+		input = prompt("점수 입력", "1~100사이");
+		res = "입력한 점수 : " + input + "<br>";
+		input = parseInt(input/10);
+		
+		switch(input){
+		case 10:
+		case 9:
+			str = "A";
+			break;
+		case 8:
+			str = "B";
+			break;
+		case 7:
+			str = "C";
+			break;
+		case 6:
+			str = "D";
+			break;
+		default:
+			str = "F";
+		}
+		
+		res += "학점 : " + str + "<br>";
+		document.getElementById("result2").innerHTML = res;
+	}
+	
+	function proc3() {
+		// 변수 선언시 var을 붙이지 않으면 전역변수
+		// 전역변수는 현재 함수 뿐만 아니라 다른 함수에서도 사용 가능하다
+		input1 = prompt("첫번째 가위바위보 입력");
+		input2 = prompt("두번째 가위바위보 입력");
+		
+		if(input1 == input2){
+			str = "비겼습니다"
+		} else if(input1 == "가위" && input2 == "보"
+				|| input1 == "바위" && input2 == "가위"
+				|| input1 == "보" && input2 == "바위"){
+			str = "첫번째 사람이 이겼습니다";
+		} else {
+			str = "두번째 사람이 이겼습니다";
+		}
+		
+		res = "첫번째 사람 : " + input1 + "<br>";
+		res += "두번째 사람 : " + input2 + "<br>";
+		res += "결과 : " + str;
+		document.getElementById("result3").innerHTML = res;
+	}
+	</script>
+</head>
+<body>
+1. 숫자 2개와 연산자 1개를 입력 받아 연산자에 맞는 계산결과를 출력하는 프로그램을 작성하시오.
+<button type="button" onclick="proc1()">실행</button><br>
+<div id="result1"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+
+2. 점수를 입력받아 학점을 출력하시오.<br>
+출력은 A B C D F
+<button type="button" onclick="proc2()">실행</button><br>
+<div id="result2"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+
+3. 두 사람의 가위, 바위, 보를 입력 받아 승자를 출력하는 프로그램을 작성하시오.<br>
+<button type="button" onclick="proc3()">실행</button><br>
+<div id="result3"></div>
+<br>
+<hr color="red">
+<br>
+<br>
+</body>
+</html>

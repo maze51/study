@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /*
-
 	10마리의 말들이 경주하는 경마 프로그램 작성하기
 
 	말은 Horse라는 이름의 클래스로 구성한다.
@@ -25,6 +24,7 @@ import java.util.Collections;
  */
 
 public class ThreadTest14 {
+	static int rank = 1;
 	public static ArrayList<Horse> hList = new ArrayList<Horse>();
 	public static ArrayList<Horse> result = new ArrayList<Horse>();
 
@@ -33,7 +33,7 @@ public class ThreadTest14 {
 		a.setDaemon(true);
 
 		for (int i = 1; i < 11; i++) {
-			hList.add(new Horse(i+"번말", 0, 0));
+			hList.add(new Horse(i+"번말"));
 		}
 		a.start();
 		for (int i = 0; i < hList.size(); i++) {
@@ -50,11 +50,11 @@ public class ThreadTest14 {
 		System.out.println();
 		System.out.println("경기 결과");
 
-		Collections.sort(result);
+		Collections.sort(hList);
 
-		for (int i = 0; i < ThreadTest14.result.size(); i++) {
-			System.out.println(ThreadTest14.result.get(i).getRank() + "위 " + 
-					ThreadTest14.result.get(i).getHorseName());
+		for (int i = 0; i < ThreadTest14.hList.size(); i++) {
+			System.out.println(ThreadTest14.hList.get(i).getRank() + "위 " + 
+					ThreadTest14.hList.get(i).getHorseName());
 
 		}
 	}
@@ -65,11 +65,8 @@ class Horse extends Thread implements Comparable<Horse>{
 	private int rank;
 	private int cposition;
 
-	public Horse(String horseName, int rank, int cposition) {
-		super();
+	public Horse(String horseName) {
 		this.horseName = horseName;
-		this.rank = rank;
-		this.cposition = cposition;
 	}
 
 	public String getHorseName() {
@@ -100,44 +97,39 @@ class Horse extends Thread implements Comparable<Horse>{
 	public void run() {
 		for (int i = 1; i <= 50; i++) {
 			try {
-				Thread.sleep((int)(Math.random()*301 + 100));
+				Thread.sleep((int)(Math.random()*101 + 100));
 			} catch (InterruptedException e) {
 			}
 			cposition++;
 		}
 		//System.out.println(horseName + "도착");
-		
 
 		for (int i = 0; i < ThreadTest14.hList.size(); i++) {
 			if(ThreadTest14.hList.get(i).getHorseName().equals(horseName)){
-				ThreadTest14.result.add(ThreadTest14.hList.get(i));
+				ThreadTest14.hList.get(i).setRank(ThreadTest14.rank);
+				ThreadTest14.rank++;
 			}
 		}
-		int rank = 1;
-		for (int i = 0; i < ThreadTest14.result.size(); i++) {
-			ThreadTest14.result.get(i).setRank(rank);
-			rank++;
-		}
-	} // end of run
+	}
 
 	@Override
 	public int compareTo(Horse o) {
 		return Integer.compare(this.rank, o.rank);
 	}
+
 }
 
 class CPosition extends Thread{ // 현재 위치를 출력할 데몬 쓰레드
 	public void showPosition(){
 		System.out.println("현재 위치");
 		for (int i = 0; i < ThreadTest14.hList.size(); i++) {
-			System.out.print(ThreadTest14.hList.get(i).getHorseName()+"\t");
+			System.out.print(ThreadTest14.hList.get(i).getHorseName());
 			for (int j = 0; j < ThreadTest14.hList.get(i).getCposition()-1; j++) {
 				System.out.print("-");
 			}
 			System.out.print(">");
 			for (int j = 0; j < 50-ThreadTest14.hList.get(i).getCposition(); j++) {
 				System.out.print("-");
-
 			}
 			System.out.println();
 		}

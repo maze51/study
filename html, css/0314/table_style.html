@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>테이블 스타일</title>
+	<style>
+		table{
+			//border-collapse: collapse;
+			border-spacing: 10px;
+/* 			collapse가 설정되면 spacing은 실행되지 않는다 */
+
+			empty-cells: show;
+			margin-left: 20%;
+		}
+		td{
+			width : 200px;
+			height : 50px;
+			text-align: center;
+		}
+		th{
+			height : 50px;
+/* 			width는 td에 주면 자동으로 같아진다. text-align은 원래 center */
+		}
+		caption{
+			font-size: 1.5em;
+			margin: 20px;
+			border: 1px solid blue;
+			caption-side: bottom;
+		}
+		
+		.alt{
+			background : yellow;
+		}
+		tr:nth-child(odd){
+			background: lightgreen;
+		}
+		tr:nth-child(1){
+			/*th에 아이디를 붙이는 식으로 지정할 수도 있다
+			1번째는 밑으로 가야 정상적으로 지정할 수 있다*/
+			background: crimson;
+		}
+		form#ff1{/*ff1만 쓰던지, 이렇게 붙여써야 제대로 인식한다*/
+			
+			/*이런 옵션은 스크립트에서 주로 준다. 동작에 따른 변화를 주기 위해*/
+			visibility: hidden;
+		}
+		#ff2{
+			display : none;
+		}
+		/*visibility: hidden은 브라우저 화면에 보이지 않지만
+		실행 화면에서 영역을 차지하고 있다
+		
+		반면 display : none은 영역도 없다
+		
+		inputtype="hidden"은 사용자 정보를 들고 여러 페이지에
+		접근할 수 있게 하는 세션 등에 사용한다*/
+	</style>
+</head>
+<body>
+
+<form id="ff1">
+	이름: <input type="text"><br>
+	비밀번호: <input type="password"><br>
+	<input type="hidden"><br>
+</form>
+
+<form id="ff2">
+	이름2: <input type="text"><br>
+	비밀번호2: <input type="password"><br>
+	<input type="hidden"><br>
+</form>
+<br>
+border-spacing: 10px;<br>
+empty-cells: hide;<br><br>
+	<table border="1">
+	<caption>VIP리스트</caption>
+		<tr>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+		</tr>
+		
+		<tr class="alt">
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+		</tr>
+		
+		<tr>
+			<td>1</td>
+			<td>2</td>
+			<td></td>
+		</tr>
+		
+		<tr class="alt">
+			<td>1</td>
+			<td>2</td>
+			<td></td>
+		</tr>
+		
+		<tr>
+			<td>1</td>
+			<td>2</td>
+			<td></td>
+		</tr>
+	</table>
+</body>
+</html>
