@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Array</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		arr1 = ["사과", "바나나", "복숭아", "참외", "수박", "메론", "망고"];
+		
+		//document.getElementById("result1").innerHTML = arr1;
+		result = document.getElementById("result1");
+		print(arr1);
+// 		res = "";
+// 		for(i=0; i<arr1.length;i++){ // 출력 내용을 안에서 만들고, 
+// 			//출력문에서는 res만 찍는다. 왜? 반복문 안이면 result1번에 계속 접근해야 하기 때문
+// 			res += (i+1) + "번째요소 : " + arr1[i] + "<br>";
+// 		}
+// 		document.getElementById("result1").innerHTML = res;
+	}
+	function print(arr){
+		res = "";
+		for(i=0; i<arr.length;i++){
+			res += (i+1) + "번째요소 : " + arr[i] + "<br>";
+		}
+		result.innerHTML = res; // 이렇게 하면 각 함수의 result값이 알아서 대입-출력된다. 
+	}
+	
+	function proc2(){
+		arr2 = new Array();
+		arr2[0] = "무궁화";
+		arr2[1] = "진달래";
+		arr2[2] = "산수유";
+		arr2[3] = "매화꽃";
+		result = document.getElementById("result2");
+		print(arr2);
+	}
+	
+	function proc3(){
+		arr3 = new Array(100,200,500,250,150,330);
+		result = document.getElementById("result3");
+		print(arr3);
+	}
+	</script>
+</head>
+<body>
+리터럴에 의한 배열 생성<br>
+arr1 = ["사과", "바나나", "복숭아", "참외", "수박", "메론", "망고"];<br>
+<button type="button" onclick="proc1()">실행</button>
+<div id="result1"></div>
+<button></button>
+<!-- 이들의 차이점? 전송(submit)기능이 있느냐 없느냐 -->
+<!-- <form>안에서 type="button"은 기능이 없고
+(그냥 확인. onclick을 주면 기능 부여됨),
+그냥 button은 자동으로 전송 기능이 부여된다 -->
+
+<br>
+<br>
+<br>
+<br>
+Array객체에 의한 배열 생성 - 인수가 없는 생성자 <br>
+arr2 = new Array();<br>
+<button type="button" onclick="proc2()">실행</button>
+<div id="result2"></div>
+
+<br>
+<br>
+<br>
+<br>
+Array객체에 의한 배열 생성 - 생성자의 인수를 이용한 생성 <br>
+arr3 = new Array(100,200,500,250,150,330);<br>
+<button type="button" onclick="proc3()">실행</button>
+<div id="result3"></div>
+</body>
+</html>
