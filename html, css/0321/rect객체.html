@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>rect 객체</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		rect = {
+			width : 100,
+			height : 58,
+			getArea : function(){
+				return this.width * this.height;
+			}
+		};
+		
+		res = "객체 출력 <br>";
+		res += "가로 : " + rect.width + "<br>";
+		res += "세로 : " + rect.height + "<br>";
+		
+		//area = rect.getArea();
+		//res += "면적 : " + area;
+		res += "면적 : " + rect.getArea();
+		res += "<hr color='orange'>";
+		
+		document.getElementById("result1").innerHTML = res;
+		
+		//가로, 세로의 길이를 각각 2씩 증가해서 다시 면적을 구하기
+		res = "가로 세로 2씩 증가하기 <br>";
+		rect.name = "직사각형";
+		rect.width += 2;
+		rect.height += 2;
+		
+		res += "이름 : " + rect.name + "<br>";
+		res += "가로 : " + rect.width + "<br>";
+		res += "세로 : " + rect.height + "<br>";
+		res += "면적 : " + rect.getArea();
+		res += "<hr color='orange'>";
+		
+		document.getElementById("result1").innerHTML += res;
+		
+		// 함수추가 getCircum()둘레구하기
+		rect.getCircum = function(){
+			return (this.width+this.height)*2;
+		}
+		
+		res = "둘레 구하기 함수 추가 <br>";
+		rect.name = "네모네모";
+		
+		res += "이름 : " + rect.name + "<br>";
+		res += "가로 : " + rect.width + "<br>";
+		res += "세로 : " + rect.height + "<br>";
+		res += "면적 : " + rect.getArea() + "<br>";
+		res += "둘레 : " + rect.getCircum();
+		res += "<hr color='orange'>";
+		
+		document.getElementById("result1").innerHTML += res;
+	}
+	</script>
+</head>
+<body>
+버튼을 클릭하면 리터럴에 의한 rect객체를 생성한다 <br>
+속성으로 width height 함수로는 getArea(); 면적 구하기 <br>
+	<button type="button" onclick="proc1()">실행</button>
+	<br><br>
+	<div id="result1"></div>
+</body>
+</html>

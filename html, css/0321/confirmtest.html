@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Confirm test</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		
+		res = "입력한 값 : ";
+		while(true){
+			// 입력
+			input = prompt("숫자를 입력하세요");
+			// 입력한 값을 누적
+			res += input + "&nbsp;";
+			// confirm() 실행
+			con = confirm("계속 하시겠습니까?");
+			// if() break;
+			if(!con){ // con이 false이면 true가 된다. con==false보다 간단
+				break;
+			}
+		}
+		// 출력
+		document.getElementById("result1").innerHTML = res;
+	}
+	</script>
+</head>
+<body>
+버튼을 클릭하면 수를 입력받는다.<br>
+계속 할 것인지, 그만 할 것인지를 비교 판단한다.<br>
+confirm()함수를 이용한다.<br>
+confirm()함수가 실행되어 ok(true) 또는 cancel(false)을 선택한다.<br>
+	<button type="button" onclick="proc1()">실행</button>
+	<br><br>
+	<div id="result1"></div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gettime 메소드</title>
+	<script>
+	function proc1(){
+		myday = new Date(1986,2,30); // 1986.3.30
+		today = new Date();
+		
+		// 두 날짜 사이의 간격을 구한다 - getTime()을 이용
+		//today.getTime - myday.getTime()
+		//alert(today.getTime() - myday.getTime());
+		days = today.getTime() - myday.getTime();
+		
+		days = days/1000/60/60/24;
+		years = days/365;
+		
+		res = "태어난 날 : " + myday.toLocaleString() + "<br>";
+		res += "오늘까지 " + days + "일째 살고 있습니다<br>";
+		res += "오늘까지 " + years + "년째 살고 있습니다";
+		
+		document.getElementById("result1").innerHTML = res;
+	}
+	
+	function proc2(){
+		today = new Date();
+		
+		// 1. 오늘의 milliseconds 구하기
+		milli1 = today.getTime();
+		
+		// 2. 100일의 milliseconds 구하기
+		milli100 = 1000*60*60*24*100;
+		
+		// 3. 1 + 2 ; //milliseconds 값
+		result = milli100 + milli1;
+		
+		// 3번의 값으로 newday = new Date(1+2)객체를 새롭게 생성
+		newday = new Date(result);
+		
+		// newday로 출력(newday.toLocaleString())
+		res = newday + "<br>";
+		res += newday.toLocaleString();
+		
+		document.getElementById("result2").innerHTML = res;
+	}
+	
+	function proc3(){
+		
+		// 선택한 값(구입한 날)로부터 Date객체를 생성한다
+		buyday = new Date(document.getElementById("buy").value);
+		//id가 buy인 곳을 접근해서.value(value값을 가져와라)
+		
+		today = new Date();
+		
+		// 오늘과 구입한 날 사이의 간격을 구한다
+		days = today.getTime() - buyday.getTime();
+		
+		// 두 날의 간격에서 날 수를 구한다
+		days = days/1000/60/60/24;
+		
+		res = "구입날짜 : " + buyday.toLocaleDateString() + "<br>";
+		if(days>7){
+			res += "교환/반품이 불가능합니다.";
+		} else if(7 > days && days >= 0){
+			res += "교환/반품이 가능합니다.";
+		} else {
+			res += "잘못된 날짜입니다";
+		}
+		
+		document.getElementById("result3").innerHTML = res;
+ 		//id가 result3인 곳을 접근해서.innerHTML(찍어라)
+	}
+	</script>
+</head>
+<body>
+두 날짜 사이의 간격을 구한다 - getTime()을 이용<br>
+태어난 날로부터 오늘까지 몇년째 살고 있나<br><br>
+<button type="button" onclick="proc1()">실행</button><br>
+<br>
+<div id="result1"></div>
+<br>
+<br>
+<br>
+오늘부터 1일이면 100일 후는 언제일까?<br><br>
+<button type="button" onclick="proc2()">실행</button><br>
+<br>
+<div id="result2"></div>
+<br>
+<br>
+<br>
+선택한 구입날짜로부터 오늘까지 7일이 경과했는지 비교<br>
+7일이 경과했으면 교환/반품불가, 경과하지 않았으면 교환/반품가능<br>
+<br>
+구입날짜 : <input type="date" id="buy">
+<button type="button" onclick="proc3()">실행</button><br>
+<br>
+<div id="result3"></div>
+
+</body>
+</html>

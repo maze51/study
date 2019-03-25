@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>toString 연습</title>
+	<script>
+		window.onload = function(){
+			
+			setInterval(function(){
+				
+				r = Math.floor(Math.random() * 256);
+				g = Math.floor(Math.random() * 256);
+				b = Math.floor(Math.random() * 256);
+				//alert(r + " " + g + " " + b);
+				
+				r1 = r.toString(16);
+				g1 = g.toString(16);
+				b1 = b.toString(16);
+				//alert(r1 + " " + g1 + " " + b1);
+				
+				result = document.getElementById("result1");
+				result.style.borderColor = '#' + r1 + g1 + b1;
+				// 참고) script에서 style을 쓸 때는 지칭하는 방법이 달라진다
+				
+			}, 500);
+			
+		}
+	</script>
+	<style>
+	div{
+		width : 55%;
+		height : 500px;
+/* 		border : 1px solid red; */
+		border-width : 5px;
+		border-style: solid;
+		border-color: red;
+	}
+	</style>
+</head>
+<body>
+<div id="result1"></div>
+</body>
+</html>

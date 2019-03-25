@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>String 객체</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	str = " I Love Korea 우리나라 좋은나라 대한민국  ";
+	str2 = "봄봄봄  봄이  왔어요";
+	
+	function proc1(){
+		value = str.charAt(5);
+		res = "5번째 글자 : " + value + "<br>";
+		res += "<hr color='orange'>";
+		document.getElementById("result1").innerHTML = res;
+		
+		res = "";
+		
+		for(i=0 ; i<str.length ; i++){
+			res += (i+1) + "번째 문자 : " + str.charAt(i) + "<br>";
+		}
+		
+		document.getElementById("result1").innerHTML += res;
+	}
+	
+	function proc2(){
+		value = str.charCodeAt(5);
+		
+		res = "5번째 글자의 unicode " + value + "<br>";
+		res += "<hr color='orange'>";
+		document.getElementById("result2").innerHTML = res;
+		
+		res ="";
+		for (i = 0; i < str.length ; i++) {
+			res += (i+1) + "번째 문자 : " + str.charCodeAt(i) + "<br>";
+		}
+		
+		document.getElementById("result2").innerHTML += res;
+	}
+	
+	function proc3(){
+		value = str.indexOf("Korea");
+		
+		res = "Korea의 위치 : " + value + "<br>";
+		res += "<hr color='orange'>";
+		document.getElementById("result3").innerHTML = res;
+		
+		arr = new Array();
+		i = 0;
+		while(true){
+			index = str.indexOf("o", i);
+			arr.push(index);
+			i = index;
+			i++;
+			if(index==-1){
+				break;
+			}
+		}
+		arr.pop();
+		document.getElementById("result3").innerHTML += "'o'의 위치 : " + arr + "번째"
+		+ "<br>" + "<hr color='orange'>";
+		
+		arr = new Array();
+		i = 0;
+		while(true){
+			index = str.indexOf("나라", i);
+			arr.push(index);
+			i = index;
+			i++;
+			if(index==-1){
+				break;
+			}
+		}
+		arr.pop();
+		document.getElementById("result3").innerHTML += "'나라'의 위치 : " + arr + "번째";
+
+	}
+	
+	function proc4(){
+		res = "trim() 전의 문자 :" + str + "<br>";
+		res += "trim() 전의 길이 :" + str.length + "<br>";
+		res += "<hr color='orange'>";
+		value = str.trim();
+		res += "trim() 후의 문자 :" + value + "<br>";
+		res += "trim() 후의 길이 :" + value.length + "<br>";
+		
+		document.getElementById("result4").innerHTML = res;
+	}
+	
+	function proc5(){
+		res = "str : " + str + "<br>";
+		res += "str2 : " + str2 + "<br>";
+		res += "str의 길이 : " + str.length + "<br>";
+		res += "str2의 길이 : " + str2.length + "<br>";
+
+		sstr = str.concat(str2);
+		res += "합치기 : " + sstr + "<br>";
+		res += "합친 문자열의 길이 : " + sstr.length + "<br>";
+		document.getElementById("result5").innerHTML = res;
+	}
+	
+	function proc6(){
+		value = str.substring(3,10);
+		res = "원래 문자열 : " + str + "<br>";
+		res += "3~9까지의 문자열 추출 : " + value + "<br>";
+		document.getElementById("result6").innerHTML = res;
+		
+		//src="../images/가위_우.PNG"
+		
+		//img태그로 접근
+		imgs = document.getElementsByTagName("img");
+		for(i=0 ; i<imgs.length ; i++){
+			
+			//img태그의 src속성값을 가져온다 (getter)
+			srcvalue = imgs[i].getAttribute('src');
+			start = srcvalue.lastIndexOf('/');
+			end = srcvalue.lastIndexOf('.');
+			
+			titlevalue = srcvalue.substring(start+1, end);
+			
+			//titlevalue값을 img태그의 title속성으로 설정 (setter)
+			imgs[i].setAttribute("title", titlevalue);
+		}
+		
+		src.lastIndexOf("/"), src.lastIndexOf(".")
+	}
+	function proc7(){
+		value = str.slice(2, 10);
+		res = "원래 문자열 : " + str + "<br>";
+		res += "2~9까지의 문자열 자르기 : " + value + "<br>";
+		
+		document.getElementById("result7").innerHTML = res;
+		
+		// 우리나라 좋은나라 대한민국 문자를 추출한다(앞뒤공백은 제거한다)
+		start = str.indexOf("우");
+		end = str.length;
+		//end = str.lastIndexOf("국");
+		
+		value = str.slice(start, end+1);
+		value = value.trim();
+		res = "추출한 문자열 : " + value + "<br>";
+		document.getElementById("result7").innerHTML += res;
+	}
+	function proc8(){
+		value = str.substr(2,10);
+		res = "원래 문자열 : " + str + "<br>";
+		res += "2부터 10개의 문자열 추출 : " + value + "<br>";
+		
+		document.getElementById("result8").innerHTML = res;
+	}
+	function proc9(){
+		var str = "홍길동/개나리/임꺽정/진달래/무궁화"; 
+		strarr = str.split("/");
+		res = "원래 문자열 : " + str + "<br>";
+		res += "배열 생성 : " + strarr + "<br>";
+		res += "문자열의 길이 : " + str.length + "<br>";
+		res += "배열의 길이 : " + strarr.length + "<br>";
+		
+		document.getElementById("result9").innerHTML = res;
+		
+		// 이름을 입력
+		// 배열 안에서 입력한 이름을 검색해서 몇 번째에 있는지 출력하시오
+		
+		// str에서 indexOf를 찾으면 12번째, 배열에서는 4번째
+		
+	}
+	</script>
+	<style>
+		img{
+			width : 100px;
+			height : 80px;
+		}
+	</style>
+	
+</head>
+<body>
+str = " I Love Korea 우리나라 좋은나라 대한민국";<br>
+1. charAt(index) : 지정한 index위치의 글자를 얻는다<br>
+<button type="button" onclick="proc1()">charAt</button>
+<br>
+<div id="result1"></div>
+<br>
+<hr>
+<br>
+2. charCodeAt(index) : 지정한 index위치의 글자의 unicode값을 얻는다<br>
+<button type="button" onclick="proc2()">charCodeAt</button>
+<br>
+<div id="result2"></div>
+<br>
+<hr>
+<br>
+3. indexOf("검색값", start) : 지정한 검색값의 위치를 얻는다. 검색은 start위치에서 시작한다<br>
+<button type="button" onclick="proc3()">indexOf</button>
+<br>
+<div id="result3"></div>
+<br>
+<hr>
+<br>
+4. trim() : 문자열 앞 뒤 공백을 제거한다<br>
+<button type="button" onclick="proc4()">trim</button>
+<br>
+<div id="result4"></div>
+<br>
+<hr>
+<br>
+5. concat() : 문자열과 문자열을 합친다<br>
+<button type="button" onclick="proc5()">concat</button>
+<br>
+<div id="result5"></div>
+<br>
+<hr>
+<br>
+<br>
+6. substring(start, end) : start~end-1까지의 문자열을 추출한다<br>
+<button type="button" onclick="proc6()">substring</button>
+<br>
+<div id="result6"></div>
+이미지 위에 마우스를 올려놓으면 title이 뜬다<br>
+lastIndexOf('/'), lastIndexOf('.'),<br>
+getAttribute('src'), setAttribute('title', '값')<br>
+substring(start, end)<br>
+<img alt="가위" src="../images/가위_우.PNG">
+<img alt="바위" src="../images/바위_우.PNG">
+<img alt="보" src="../images/보_우.PNG">
+<br>
+<hr>
+<br>
+<br>
+7. slice(start, end) : start~end-1까지의 문자열을 자르기 추출한다<br>
+<button type="button" onclick="proc7()">slice</button>
+<br>
+<div id="result7"></div>
+<br>
+<hr>
+<br>
+<br>
+8. substr(start, length) : start에서부터 지정된 length만큼의 문자를 추출한다<br>
+<button type="button" onclick="proc8()">substr</button>
+<br>
+<div id="result8"></div>
+<br>
+<hr>
+<br>
+<br>
+9. split(구분자) : 구분자에 의해 문자열을 분리해서 배열로 만든다<br>
+<button type="button" onclick="proc9()">split</button>
+<br>
+<div id="result9"></div>
+<br>
+<hr>
+<br>
+<br>
+</body>
+</html>

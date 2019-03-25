@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Circle 객체</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		circle = {
+			r : 100,
+			getArea : function(){
+				return (Math.pow(this.r, 2) * Math.PI).toFixed(2);
+			}
+			
+		};
+		
+		res = "원 객체 출력 <br>";
+		res += "반지름 : " + circle.r + "<br>";
+		res += "면적 : " + circle.getArea();
+		res += "<hr color='crimson'>";
+		
+		document.getElementById("result1").innerHTML += res;
+		
+		res = "이름과 둘레 구하는 함수 추가 <br>";
+		circle.name = "동그라미";
+		circle.getCircum = function(){
+			return (2 * Math.PI * this.r).toFixed(2);
+		}
+		
+		res += "이름 : " + circle.name + "<br>";
+		res += "반지름 : " + circle.r + "<br>";
+		res += "면적 : " + circle.getArea() + "<br>";
+		res += "둘레 : " + circle.getCircum();
+		res += "<hr color='crimson'>";
+		
+		document.getElementById("result1").innerHTML += res;
+		
+	}
+	
+	function proc2(){
+		
+		// 객체정의
+		function Circle(name, r){
+			this.name = name;
+			this.r = r;
+			
+			this.getArea = function(){
+				area = Math.PI * Math.pow(this.r, 2);
+				
+				return area.toFixed(2);
+			}
+		}
+		
+		aa = new Circle("동글동글", 3);
+		res = "생성자를 활용한 객체 생성 <br>";
+		res += "이름 : " + aa.name + "<br>";
+		res += "반지름 : " + aa.r + "<br>";
+		res += "면적 : " + aa.getArea() + "<br>";
+		res += "<hr color='crimson'>";
+		
+		document.getElementById("result2").innerHTML = res;
+			
+		bb = new Circle();
+		bb.name = "동그으라미";
+		bb.r = 88;
+		
+		res = "매개변수 없는 생성자를 활용한 객체 생성 <br>";
+		res += "이름 : " + bb.name + "<br>";
+		res += "반지름 : " + bb.r + "<br>";
+		res += "면적 : " + bb.getArea() + "<br>";
+		res += "<hr color='crimson'>";
+		
+		document.getElementById("result2").innerHTML += res;
+		
+	}
+	</script>
+</head>
+<body>
+리터럴에 의한 객체 생성 <br>
+circle = {   } <br>
+	<button type="button" onclick="proc1()">실행</button>
+	<br><br>
+	<div id="result1"></div>
+	<br><br>
+생성자에 의한 객체 생성 <br>
+aa = new Circle() <br>
+aa = new Circle(4) <br>
+	<button type="button" onclick="proc2()">실행</button>
+	<br><br>
+	<div id="result2"></div>
+</body>
+</html>

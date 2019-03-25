@@ -33,7 +33,8 @@ public class MemberInfoTest {
 	PreparedStatement pstmt2 = null;
 	Statement stmt = null;
 	ResultSet rs = null;
-
+	// 이처럼 변수를 몰아서 재사용하는 것은 가능하나, 각 메서드의 try-catch문의 finally부분에서 반드시 close()할 것.
+	
 	String sqlIdSearch = "select count(*) cnt from mymember where MEM_ID = ?";
 
 	int count;
@@ -251,6 +252,10 @@ public class MemberInfoTest {
 			return;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if(conn!=null) try{ conn.close(); }catch(SQLException e){}
+			if(stmt!=null) try{ stmt.close(); }catch(SQLException e){}
+			if(rs!=null) try{ rs.close(); }catch(SQLException e){}
 		}
 	}
 }
