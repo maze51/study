@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Domtest1</title>
+	<script>
+		window.onload = function(){
+			
+			ullist = document.getElementsByTagName("ul")[0];
+			lilist = ullist.getElementsByTagName("li");
+			
+			res = "";
+			for(i=0;i<lilist.length;i++){
+				res += lilist[i].firstChild.data + "<br>";
+			}
+			
+			document.getElementById("result1").innerHTML = res;
+			
+		}
+		
+		function appImg(t){ // t: 클릭한 li객체
+			
+			// t(li)객체의 텍스트 글자를 얻는다
+			imgdata = t.firstChild.data; // 클릭한 객체가 넘어왔으므로 for문 돌릴 필요가 없다
+			
+			// 새로운 태그로 img를 생성한다
+			imgtag = document.createElement('img');
+			
+			// img태그에 src속성을 설정해 준다
+			imgtag.src = "../images/" + imgdata + ".gif";
+			
+			// 새로운 img태그를 t(li)객체의 자식으로 추가한다
+			t.appendChild(imgtag);
+		}
+	</script>
+	<style>
+		img {
+			width : 100px;
+			height : 100px;
+		}
+	</style>
+</head>
+<body>
+	<ul>
+		<li>List item 1</li>
+		<li>List item 2</li>
+		<li>List item 3</li>
+		<li>List item 4</li>
+		<li>List item 5</li>
+	</ul>
+	<br>
+	list의 텍스트문자를 출력한다<br>
+	<div id="result1"></div>
+	
+	<br>
+	<br>
+	list의 텍스트로 이미지를 생성한다<br>
+	&lt;img src='../images/nyanggif1.gif'&gt;<br>
+	태그 생성 : createElement('태그명');<br>
+	추가 : 부모노드(태그).appendChild('자식태그')<br>
+	<ul>
+		<li onclick="appImg(this)">nyanggif1</li>
+		<li onclick="appImg(this)">nyanggif2</li>
+		<li onclick="appImg(this)">nyanggif6</li>
+		<li onclick="appImg(this)">nyanggif4</li>
+		<li onclick="appImg(this)">nyanggif5</li>
+	</ul>
+</body>
+</html>

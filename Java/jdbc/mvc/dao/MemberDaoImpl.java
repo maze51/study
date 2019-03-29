@@ -12,6 +12,15 @@ import util.DBUtil3;
 import mvc.vo.MemberVO;
 
 public class MemberDaoImpl implements IMemberDao {
+	private static MemberDaoImpl dao;
+	
+	private MemberDaoImpl(){
+	}
+	
+	public static MemberDaoImpl getInstance(){
+		if(dao==null) dao = new MemberDaoImpl();
+		return dao;
+	}
 
 	// MemberVO의 내용을 DB에 insert하는 메서드
 	@Override

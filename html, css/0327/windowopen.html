@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Window Open</title>
+	<script>
+		function proc1(){
+			window.open("subwindow.html", "sub", 
+					"toolbar=yes, scrollbars=yes, resizable=yes, width=500, height=800");
+		}
+		
+		function proc2(){
+			window.open("subgugudan.html", "gugudan", "width=300 height=240");
+		}
+	</script>
+	<style>
+		div {
+			width : 300px;
+			height : auto;
+			border : 1px solid blue;
+			padding : 15px;
+		}
+	</style>
+</head>
+<body>
+	새로운 창을 열기 ==> window.open(url)<br>
+	새롭게 열리는 창을 자식창이라고 하고<br>
+	자식창에서 부모창을 가리치는 속성을 opener라고 한다<br>
+	<button type="button" onclick="proc1()">새창열기</button>
+	<br>
+	<br>
+	자식창에서 입력받은 내용을 받아서 출력한다<br>
+	<div id="result1"></div>
+	<form name="winform">
+		이름 : <input type="text" name="wname"><br>
+		아이디 : <input type="text" name="wid"><br>
+	</form>
+	
+	<br>
+	a태그로 페이지 이동이 가능하다<br>
+	<a href="http://www.naver.com" target="_blank">네이버</a>
+	<br>
+	새로운 창을 열어서 수를 입력받아 구구단을 출력 <br>
+	<button type="button" onclick="proc2()">구구단 출력</button>
+	<div id="result2"></div>
+</body>
+</html>

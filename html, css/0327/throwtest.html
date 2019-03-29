@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Throw Test</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		rand = Math.floor(Math.random()*10 + 1);
+		count = 0;
+		inputs = "";
+		
+		while(true){
+			try{
+				input = prompt("1~10 사이의 수를 입력");
+				count++;
+				inputs += input + "&nbsp;";
+				if(input == rand) break;
+				else if(input == "") throw "입력값이 없습니다";
+				else if(input < 1 || input >10) throw "범위를 벗어난 수입니다";
+				else if(isNaN(input)) throw "숫자가 아닙니다";
+				else if(input > rand) throw "더 작은 수를 입력하세요";
+				else if(input < rand) throw "더 큰 수를 입력하세요";
+				
+			} catch(error) {
+				alert(error);
+			}
+		}
+		
+		res = "랜덤 수 : " + rand + "<br>";
+		res += "입력한 수 : " + inputs + "<br>";
+		res += count + "번 만에 맞췄습니다 ";
+		
+		document.getElementById('result1').innerHTML = res;
+	}
+	
+	</script>
+</head>
+<body>
+	1 ~ 10 사이의 난수를 발생 후 사용자가 이 값을 맞추는<br>
+	프로그램을 작성하시오.<br>
+	throw 문장을 사용해서 예외 처리를 한다<br>
+	<button type="button" onclick="proc1()">실행</button>
+	<br>
+	<div id="result1"></div>
+	<br>
+	<hr>
+</body>
+</html>

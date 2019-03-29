@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>subgugudan</title>
+	<script>
+	window.onload = function(){
+		document.danform.dan.focus();
+// 		input창 안의 autofocus 옵션과 같은 기능을 수행
+	}
+	
+	function gugudan(){
+		inputdan = document.danform.dan.value;
+		
+		res = "==== " + inputdan + "단 ====<br>"
+		for(i=1;i<10;i++){
+			res += inputdan + " * " + i + " = " + inputdan*i + "<br>";
+		}
+		opener.document.getElementById("result2").innerHTML = res;
+		
+		close();
+	}
+	</script>
+</head>
+<body>
+숫자를 입력받아<br>
+해당 단의 구구단을 출력한다<br>
+	<form name="danform">
+		단 : <input type="text" name="dan" id="dan"><br>
+		<input type="button" value="확인" onclick="gugudan()">
+	</form>
+</body>
+</html>

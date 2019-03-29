@@ -1,25 +1,18 @@
 package mvc.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Scanner;
 
 import mvc.service.IMemberService;
 import mvc.service.MemberServiceImpl;
 import mvc.vo.MemberVO;
-import util.DBUtil;
-import util.DBUtil3;
 
 public class MemberController {
 	Scanner scan = new Scanner(System.in);
 	private IMemberService service;
 	
 	public MemberController() {
-		//service = new MemberServiceImpl();
+		//service = new MemberServiceImpl(); // 싱글턴 패턴 사용시 불가능
 		service = MemberServiceImpl.getInstance();
 	}
 	
@@ -35,6 +28,7 @@ public class MemberController {
 		System.out.println("  2. 자료 삭제 ");
 		System.out.println("  3. 자료 수정 ");
 		System.out.println("  4. 전체 자료 출력 ");
+		System.out.println("  5. 자료 검색 ");
 		System.out.println("  0. 작업 끝. ");
 		System.out.println("-------------------");
 		System.out.print("작업 선택 >> ");
@@ -59,6 +53,9 @@ public class MemberController {
 				case 4 :  // 전체 자료 출력
 					displayAllMember();
 					break;
+				case 5: // 자료 검색
+					searchMember();
+					break;
 				case 0 :  // 작업 끝.
 					System.out.println("작업을 마칩니다.");
 					return;
@@ -68,6 +65,56 @@ public class MemberController {
 		}
 	}
 	
+	// 
+	public void searchMember() {
+		System.out.println();
+		System.out.println("검색할 항목을 선택하세요.");
+		System.out.println(" 1. ID");
+		System.out.println(" 2. 이    름");
+		System.out.println(" 3. 전화번호");
+		System.out.println(" 4. 주    소");
+		System.out.println("=================");
+		System.out.print(" 항목 선택 >> ");
+		int num = scan.nextInt();
+		String fieldName = "";
+		switch(num){
+			case 1:
+				fieldName = "mem_id";
+				break;
+			case 2:
+				fieldName = "mem_name";
+				break;
+			case 3:
+				fieldName = "mem_tel";
+				break;
+			case 4:
+				fieldName = "mem_addr";
+				break;
+			default:
+				System.out.println("잘못 선택");
+				return;
+		}
+		
+		System.out.print("검색할 내용 입력 >> ");
+		String value = scan.next();
+		
+		System.out.println();
+		System.out.println("------------------------------------------------");
+		System.out.println("  ID     이름      전화번호       주소");
+		System.out.println("------------------------------------------------");
+		List<MemberVO> memList = service.getSearchMember(fieldName, value);
+		for(MemberVO memVo : memList){
+			String memId = memVo.getMem_id();
+			String memName = memVo.getMem_name();
+			String memTel = memVo.getMem_tel();
+			String memAddr = memVo.getMem_addr();
+			System.out.println( memId + "    " + memName + "    " 
+						+ memTel + "    " + memAddr);
+		}
+		System.out.println("------------------------------------------------");
+		System.out.println("출력 작업 끝...");
+	}
+
 	// 회원 정보를 수정하는 메서드
 	public void updateMember(){
 		

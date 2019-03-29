@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Domtest2</title>
+	<script>
+	window.onload = function(){
+		divtag = document.getElementsByTagName('div')[0];
+		// 이렇게 처리해야 공통문장을 먼저 실행할 수 있다.
+		// 그냥 빼면 먼저 로드되지 않음
+	}
+	function getProc(){
+		alert(divtag.innerHTML);
+	}
+	
+	function setProc(){
+		str = ["Hello", "Good", "HAPPY", "둥근해가 떴습니다", "진달래꽃"]
+		
+		rand = Math.floor(Math.random()*str.length);
+		divtag.innerHTML = str[rand];
+		
+	}
+	
+	function imgchange(){
+		imgs = ["nyanggif1","nyanggif2","nyanggif3","nyanggif4",
+		        "nyanggif5","nyanggif6","nyanggif7",]
+		
+		rand = Math.floor(Math.random()*imgs.length);
+		
+		document.getElementById("img1").src = "../images/" + imgs[rand] + ".gif";
+	}
+	</script>
+	<style>
+		img{
+			width : 200px;
+			height : 200px;
+		}
+	</style>
+</head>
+<body>
+	<div>무궁화 꽃이 피었습니다</div>
+	
+	<a href="#" onclick="getProc()">div내용 가져오기(출력)</a>
+	<br>
+	<a href="#" onclick="setProc()">div내용 변경하기</a>
+	<br>
+	<br>
+	<br>
+	<img id="img1" src = "../images/doggif1.gif">
+	<button type="button" onclick="imgchange()">이미지 변경</button>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>String 객체 연습</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		// prompt를 이용해 입력받는다
+		input = prompt("주민등록번호를 입력하세요", "-을 포함하여 입력하세요");
+		today = new Date();
+		
+		year = input.substring(0,2); // substr(0,2)
+		month = input.substring(2,4); // substr(2,2)
+		date = input.substring(4,6); // substr(4,2)
+		gender = input.charAt(7);
+		birthdecade = "";
+		genderstring = "";
+		
+		if(gender==1 || gender==2){
+			birthdecade = 19;
+		} else {
+			birthdecade = 20;
+		}
+		
+		age = today.getFullYear() - parseInt(birthdecade + year) + 1;
+		
+		if(gender==1 || gender==3){
+			genderstring = "남자";
+		} else {
+			genderstring = "여자";
+		}
+		
+		res = "생일 : " + birthdecade + year + "년 " + month + "월 " + date + "일" + "<br>";
+		res += "성별 : " + genderstring + " 나이: " + age + "<br>";
+		
+		document.getElementById("result1").innerHTML = res;
+	}
+	
+	function proc2(){
+		//입력 110326-4123456
+		input = prompt("주민등록번호를 입력하세요", "-을 포함하여 입력하세요");
+		num = input.split('-'); // num[0]=110326 num[1]=4123456
+		nums = num[0].concat(num[1]);
+		
+		//str = "234567892345"
+		sum = 0;
+		
+		// 또는 str.length
+		for(i=0;i<nums.length-1;i++){
+			//sum += nums[i] * str.charAt(i); 
+			sum += nums[i] * (i % 8 + 2); 
+		}
+		
+		result = 11 - ( sum % 11); // 0~11
+// 		if(result==10){
+// 			result = 0;
+// 		} else if(result==11){
+// 			result = 1;
+// 		}
+		result %= 10;
+		
+		if(nums[nums.length-1] == result){
+			str = "진짜입니다";
+		} else {
+			str = "가짜입니다";
+		}
+		res = "입력번호 : " + num[0] + "-" + num[1].slice(0,1) + "****** <br>";
+		// num[1].charAt(0)도 가능
+		res += "결과 : " + str;
+		document.getElementById("result2").innerHTML = res;
+	}
+	</script>
+</head>
+<body>
+	주민등록번호를 입력 받아 생년월일과 성별을 출력하는 프로그램을 작성하시오.<br>
+	(입력은 prompt로 입력받는다.)<br>
+	
+	<button type="button" onclick="proc1()">실행</button>
+	<br>
+	<div id="result1"></div>
+	
+	주민등록번호를 입력 받아 주민등록번호의 유효성을 검사하는<br>
+	프로그램을 작성하시오.(ABCDEF-GHIJKLM)<br>
+	
+	<button type="button" onclick="proc2()">실행</button>
+	<br>
+	<div id="result2"></div>
+</body>
+</html>

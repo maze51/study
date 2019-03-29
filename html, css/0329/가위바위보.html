@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>가위바위보</title>
+	<style>
+		table{
+ 			border : 1px solid black; 
+			border-collapse: collapse;
+		}
+		td{
+			width : 300px;
+			height : 40px;
+			text-align: center;
+			font-size: 1.2em;
+		}
+		#person{
+			background-color: yellow;
+		}
+		#computer{
+			background-color: rgb(255,98,85);
+		}
+		.pic{
+			height : 200px;
+		}
+		
+	</style>
+	<script>
+		function start(){
+			// 컴퓨터는 랜덤
+			arr = ["가위","바위","보"];
+			rand = Math.floor(Math.random()*arr.length);
+			com = arr[rand];
+			
+			// 사람은 prompt로 입력
+			man = prompt("가위, 바위, 보 중 하나를 입력하세요");
+			
+			// 이미지 변경
+			document.getElementById("cimg").src = "../images/" + com + "_우.PNG";
+			document.getElementById("mimg").src = "../images/" + man + "_좌.PNG";
+			
+			// 승부 비교
+			if(man == com){
+				str = "비겼습니다"
+			} else if(man == "가위" && com == "보"
+					|| man == "바위" && com == "가위"
+					|| man == "보" && com == "바위"){
+				str = "당신 승!!";
+			} else {
+				str = "당신 패!!!";
+			}
+			
+			//result.innerText = "결과: " + str;
+			//document.getElementById("result").innerHTML 도 동일하다
+			result.innerHTML = "결과: " + str;
+			// 이렇게 입력하면 함수 내에서 result를 먼저 찾고,
+			// 없으면 전역변수에서 찾는다
+			// 그래도 없으면 document에서 찾는다
+		}
+	</script>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<td colspan="2"><button type="button" onclick="start()">게임시작</button></td>
+		</tr>
+		
+		<tr>
+			<td id="person">사    람</td>
+			<td id="computer">컴 퓨 터</td>
+		</tr>
+		
+		<tr>
+			<td class="pic"><img id="mimg" src="../images/가위_좌.PNG"></td>
+			<td class="pic"><img id="cimg" src="../images/가위_우.PNG"></td>
+		</tr>
+		
+		<tr>
+			<td id="result" colspan="2"></td>
+		</tr>
+	</table>
+</body>
+</html>

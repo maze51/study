@@ -138,9 +138,9 @@ public class JdbcBoardDaoImpl implements IJdbcBoardDao {
 		try {
 			conn = DBUtil3.getConnection();
 			String sql = "select board_no, board_title, board_writer, "
-					+ "to_char(board_date, 'YYYY-MM-DD') board_date, "
+					+ "to_char(board_date, 'YYYY-MM-DD') board_date, " // 처음부터 가져올 때 원하는 형식을 지정해서(변환해서) 가져오는 것이 좋다. Date to Date(java형식)는 문제가 생길 가능성이 있다.
 					+ "board_cnt, board_content from jdbc_board "
-					+ "where board_title like '%' || ? || '%'"
+					+ "where board_title like '%' || ? || '%'" // 검색어가 없다면 %%만 들어가고, 모든 컬럼이 나온다. 여기의 ||은 or가 아니라 문자를 연결하는 오라클 연산자.
 					+ "order by board_no desc ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, jBoardTitle);
@@ -169,7 +169,7 @@ public class JdbcBoardDaoImpl implements IJdbcBoardDao {
 		
 		return boardList;
 	}
-
+	// 글번호로 하나의 레코드를 가져오는 메서드
 	@Override
 	public JdbcBoardVO getBoard(int boardNo) {
 		JdbcBoardVO jBoardVo = new JdbcBoardVO();
@@ -201,7 +201,7 @@ public class JdbcBoardDaoImpl implements IJdbcBoardDao {
 		}
 		return jBoardVo;
 	}
-
+	// 조회수 증가 메서드
 	@Override
 	public int setCountIncrement(int boardNo) {
 		int cnt = 0;

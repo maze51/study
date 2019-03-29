@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>setInterval Test</title>
+	<style>
+		p{
+			font-size : 1.3em;
+			background : yellow;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			//p태그로 접근
+			ptag = document.getElementsByTagName("p")[0];
+			
+// 			setTimeout(function(){
+// 				//css 옵션 항목을 js에서 쓸 때는 fontSize처럼 뒤를 대문자로 쓴다
+// 				ptag.style.backgroundColor = 'green';
+// 			}, 1000);
+			
+			a = setInterval(function(){
+				ptag.style.backgroundColor = 
+				ptag.style.backgroundColor == 'green' ? 'yellow' : 'green';
+				
+// 				if(ptag.style.backgroundColor=='red')
+// 					ptag.style.backgroundColor = 'yellow';
+// 				 else if(ptag.style.backgroundColor=='yellow')
+// 					ptag.style.backgroundColor = 'red';
+			}, 500);
+
+			// 여러가지 색상으로 변경한다 - 랜덤을 이용
+			// 색상을 지정하는 방법 - rgb(255,128,200); rgb(100%,88%,50%); #ffd4f5
+			// r.toString(16)
+			
+// 			a = setInterval(change, 300);
+			// 함수 내에서 변수처럼 다른 함수를 사용(호출)할 때
+			// ()는 붙이지 않는다
+			
+		}
+		
+		function change(){
+			r = Math.floor(Math.random()*256);
+			g = Math.floor(Math.random()*256);
+			b = Math.floor(Math.random()*256);
+			
+			//ptag.style.backgroundColor= 'rgb('+r+','+g+','+b+')';
+			ptag.style.backgroundColor= '#'+r.toString(16)+g.toString(16)+b.toString(16);
+		}
+		
+		function stop(){
+			clearInterval(a);
+		}
+	</script>
+</head>
+<body>
+<p>무궁화 꽃이 피었습니다</p>
+<br>
+<button type="button" onclick="stop()">중지</button>
+</body>
+</html>

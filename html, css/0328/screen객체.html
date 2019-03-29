@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>screen 객체</title>
+	<script>
+		function maxopen(url, spec){
+			window.open(url, "윈도우", spec);
+			win.moveTo(0,0);
+			win.resizeTo(screen.availWidth, screen.availHeight);
+		}
+	</script>
+</head>
+<body>
+<a href="#" onClick="maxopen('http://www.google.com', 
+		'resizeable=0, scrollbars=0, status=1'); return false;">전체 화면 보기</a>
+</body>
+</html>

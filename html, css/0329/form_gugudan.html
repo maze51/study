@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form 구구단</title>
+	<style>
+		form{
+			width : 50%;
+			border : 1px solid blue;
+			padding : 10px;
+			margin : 10px auto;
+			text-align: center;
+		}
+		textarea{
+			overflow: auto;
+			font-size: 1.4em;
+			text-align: center;
+		}
+		#result{
+			font-size: 1.3em;
+			text-align: center;
+		}
+	</style>
+	<script>
+		function proc1(){
+			//document.gelElementsByName('dan')
+			//form이 있는 입력 양식에서의 요소 접근: 
+			//직접 이름을 사용한다
+			danvalue = document.ff.dan.value;
+			res = "***" + danvalue + "단*** \n\n";
+			
+			for(i=1;i<10;i++){
+				res += danvalue + " * " + i + " = " + danvalue*i + "\n";
+			}
+			document.ff.area.value = res;
+		}
+		
+		function proc2(){
+			danvalue2 = document.ff2.dan.value;
+			
+			res2 = "<br>***" + danvalue2 + "단*** <br><br>";
+			for(i=1;i<10;i++){
+				res2 += danvalue2 + " * " + i + " = " + danvalue2*i + "<br>";
+			}
+			document.getElementById('result').innerHTML = res2;
+		}
+	</script>
+</head>
+<body>
+	<form name="ff">
+		<input type="text" size="3" name="dan">
+		단<button type="button" onclick="proc1()">출력</button>
+		<br>
+		<br>
+		<textarea name="area" rows="15" cols="30"></textarea>
+		<br>
+	</form>
+	
+	<br>
+	<br>
+	<form name="ff2">
+		<select name="dan" onchange="proc2()">
+			<option value="1">1단</option>
+			<option value="2">2단</option>
+			<option value="3">3단</option>
+			<option value="4">4단</option>
+			<option value="5">5단</option>
+			<option value="6">6단</option>
+			<option value="7">7단</option>
+			<option value="8">8단</option>
+			<option value="9">9단</option>
+		</select>
+	
+		<div id="result"></div>
+	</form>
+</body>
+</html>

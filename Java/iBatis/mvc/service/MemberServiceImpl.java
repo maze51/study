@@ -46,4 +46,9 @@ public class MemberServiceImpl implements IMemberService {
 		return dao.getMember(memId);
 	}
 
+	@Override
+	public List<MemberVO> getSearchMember(String fieldName, String value) {
+		return dao.getSearchMember(fieldName, value);
+	}
+
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Window 메서드</title>
+	<script>
+	window.onload = function(){
+		win = window.open("subwindow.html", "window", "width=400 height=400");
+	}
+	
+	function moveByPro(){ // 현재 위치에서 설정한 좌표만큼 이동한다
+		//win = window.open("subwindow.html", "window", "width=400 height=400");
+		win.moveBy(100,100);
+	}
+	
+	function moveToPro(){ // 무조건 설정한 위치로 이동한다
+		//win = window.open("subwindow.html", "window", "width=400 height=400");
+		win.moveTo(200,200);
+	}
+	
+	function resizeByPro(){ // 현재 크기에서 설정한 사이즈만큼 커진다
+		win.resizeBy(100,100);
+	}
+	
+	function resizeToPro(){ // 무조건 설정한 사이즈로 변경됨
+		win.resizeTo(200,200);
+	}
+	</script>
+</head>
+<body>
+<button type="button" onclick="moveByPro()">moveBy</button>
+<button type="button" onclick="moveToPro()">moveTo</button>
+
+<button type="button" onclick="resizeByPro()">resizeBy</button>
+<button type="button" onclick="resizeToPro()">resizeTo</button>
+</body>
+</html>

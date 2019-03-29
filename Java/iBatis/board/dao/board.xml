@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 문서는 SQL문을 직접 처리할 수 있는 내용을 기술하는 문서입니다. -->
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<!-- 
+	namespace속성 : 아래에서 작성한 SQL문을 호출할 때 같이 사용한다.
+ -->
+<sqlMap namespace="board">
+	<!-- 개별 sql문 처리 문서에서 사용할 typeAlias를 지정할 수 있다. -->
+	 <typeAlias alias="boardVo" type="board.vo.JdbcBoardVO"/>
+	 
+	 <!-- 새 게시물 작성 -->
+	 <insert id="insertBoard" parameterClass="boardVo">
+	 	insert into jdbc_board(board_no, board_title, 
+	 	board_writer, board_date, board_cnt, board_content)
+		values(board_seq.nextval, #board_title#, 
+		#board_writer#, sysdate, 0, #board_content#)
+	 </insert>
+	 
+	 <!-- 게시물 삭제 -->
+	 <delete id="deleteBoard" parameterClass="int">
+	 	delete from jdbc_board where board_no = #board_no#
+	 </delete>
+	 
+	 <!-- 게시물 수정 -->
+	 <update id="updateBoard" parameterClass="boardVo">
+	 	update jdbc_board set board_title = #board_title#, 
+	 	board_date = sysdate, board_content = #board_content# 
+	 	where board_no = #board_no# 
+	 </update>
+	 
+	 <!-- 모든 게시물 읽어오기 -->
+	 <select id="getAllBoard" resultClass="boardVo">
+	 	select board_no, board_title, board_writer, 
+	 	to_char(board_date, 'YYYY-MM-DD') board_date, 
+	 	board_cnt, board_content from jdbc_board 
+	 	order by board_no desc
+	 </select>
+	 
+	 <!-- 검색어와 일치하는 게시물 읽어오기 -->
+	 <select id="getSearchBoard" parameterClass="string" resultClass="boardVo">
+	 	select board_no, board_title, board_writer, 
+	 	to_char(board_date, 'YYYY-MM-DD') board_date, board_cnt, 
+	 	board_content from jdbc_board 
+	 	where board_title like '%' || #board_title# || '%'
+		order by board_no desc
+	 </select>
+	 
+	 <!-- 글번호로 하나의 레코드 읽어오기 -->
+	 <select id="getBoard" parameterClass="int" resultClass="boardVo">
+	 	select board_no, board_title, board_writer, 
+	 	to_char(board_date, 'YYYY-MM-DD') board_date, 
+	 	board_cnt, board_content from jdbc_board
+	 	where board_no = #board_no#
+	 </select>
+	 
+	 <!-- 조회수 증가 -->
+	 <update id="setCountIncrement" parameterClass="int">
+	 	update jdbc_board set board_cnt = board_cnt + 1 
+		where board_no = #board_no#
+	 </update>
+	 
+</sqlMap>

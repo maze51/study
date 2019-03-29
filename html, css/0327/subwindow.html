@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>subwindow</title>
+	<script>
+	function inputPro(){
+		//입력받은 값을 가져온다. 
+		//inputtype의 값을 가져올 때는 innerHTML이 아닌 value값을 이용한다
+		//namevalue = document.getElementById("name").value;
+		//idvalue = document.getElementById("id").value;
+		
+		//form에 준 id를 활용해 ff.name처럼 접근할 수도 있다.
+		//위, 아래 두 방법 모두 가능하다.
+		f= document.ff; //반복 부분을 간단하게 쓰기
+		namevalue = f.name.value;
+		idvalue = f.id.value;
+		
+		//부모창의 요소에 출력한다.
+		res = " 이름 : " + namevalue + "<br>";
+		res += " 아이디 : " + idvalue + "<br>";
+		res += namevalue + "님 환영합니다.";
+		opener.document.getElementById("result1").innerHTML = res;
+		
+		opener.document.winform.wname.value = namevalue;
+		opener.document.winform.wid.value = idvalue;
+		
+		window.close(); // window.은 생략 가능
+	}
+	</script>
+</head>
+<body>
+	<h1>Hello~~</h1>
+	새로운 창이 열렸습니다<br>
+	이 창은 자식창입니다<br>
+	자식창에서 입력받은 내용을 부모창으로 전달할 수 있습니다<br>
+	부모창을 나타내는 속성은 opener입니다<br>
+	
+	<form name="ff">
+		이름 : <input type="text" name="name" id="name"><br>
+		아이디 : <input type="text" name="id" id="id"><br>
+		<input type="button" value="확인" onclick="inputPro()">
+		<!-- input type='button'일 때는 value에 출력될 값을 준다 -->
+	</form>
+</body>
+</html>

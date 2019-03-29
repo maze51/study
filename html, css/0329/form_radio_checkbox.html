@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form_radio_checkbox</title>
+	<script type="text/javascript">
+		function print(){
+			f = document.ff;
+			
+			name = f.name.value;
+			gender = f.gender.value;
+			like ="";
+			for(i=0 ; i<f.like.length ; i++){
+				if(f.like[i].checked){
+					like += f.like[i].value+" ";
+				}
+			}
+			
+			res = name + "씨!\n\n";
+			res += "당신은 " + gender + "자이고\n\n";
+			res += "취미는 " + like + "이군요!";
+			
+			f.area.value = res;
+		}
+	</script>
+</head>
+<body>
+	<form name="ff">
+		이름: <input type="text" name="name"><br><br>
+		성별: <input type="radio" name="gender" value="남" checked>남
+			  <input type="radio" name="gender" value="여">여 <br><br>
+		취미:  <input type="checkbox" name="like" value="여행">여행
+			   <input type="checkbox" name="like" value="독서">독서
+			   <input type="checkbox" name="like" value="영화감상">영화감상
+			   <input type="checkbox" name="like" value="바둑">바둑
+			   <input type="checkbox" name="like" value="장기">장기
+			   <input type="checkbox" name="like" value="등산">등산
+			   <input type="checkbox" name="like" value="낚시">낚시
+			   <br><br>
+		<button type="button" onclick="print()">결과출력</button><br><br>
+		<textarea name="area" rows="20" cols="50"></textarea>
+		
+	</form>
+</body>
+</html>

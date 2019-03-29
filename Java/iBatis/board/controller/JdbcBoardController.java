@@ -5,17 +5,19 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
+import util.BuildedSqlMapClient;
 import board.service.IJdbcBoardService;
 import board.service.JdbcBoardServiceImpl;
 import board.vo.JdbcBoardVO;
 
 public class JdbcBoardController {
-	private IJdbcBoardService service;
 	private Scanner scan;
+	private IJdbcBoardService service;
 	
 	// 생성자
 	public JdbcBoardController() {
-		service = new JdbcBoardServiceImpl();
+		// 서비스 가는 길을 뚫기 위해 이렇게 한다
+		service = JdbcBoardServiceImpl.getInstance();
 		scan = new Scanner(System.in);
 	}
 	

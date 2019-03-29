@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Random 객체 연습</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		rand = Math.floor(Math.random()*10 + 1);
+// 		floor는 소수점 이하 버리는 함수
+		count = 0;
+		inputs = "";
+		
+		while(true){
+			try{
+				input = prompt("수를 입력", "1~10사이");
+				count++;
+				inputs += input + "&nbsp;";
+				if(input == rand){
+					break;
+				} else if(input > rand || input < rand){
+					throw "오답입니다";
+				}
+			} catch(error) {
+				if(input > rand){
+					alert("더 작은 수를 입력하세요");
+				} else if(input < rand){
+					alert("더 큰 수를 입력하세요");
+				}
+			}
+		}
+		
+		res = "랜덤 수 :" + rand + "<br>";
+		res += "입력한 수 " + inputs + "<br>";
+		res += count + "번 만에 맞췄습니다 ";
+		
+		document.getElementById('result1').innerHTML = res;
+	}
+	
+	function proc2(){
+		arr = ["가위","바위","보"];
+		rand = Math.floor(Math.random()*3);
+		com = arr[rand];
+		
+		user = prompt("가위바위보 중 하나를 입력하세요");
+		
+		// 비교
+		str = "";
+		if(user=="가위" && com=="보"
+		|| user=="바위" && com=="가위"
+		|| user=="보" && com=="바위"){
+			str = "당신이 이겼습니다";
+		} else if(user==com){
+			str = "비겼습니다";
+		} else {
+			str = "컴퓨터가 이겼습니다";
+		}
+		
+		// 출력
+		res = "com: " + com + "<br>";
+		res += "user: " + user + "<br>";
+		res += "결과: " + str + "<br>";
+		
+		document.getElementById("result2").innerHTML = res;
+	}
+	count=0; // 전체반복수
+	function proc3(){
+		arr = new Array();
+		
+		while(arr.length<6){
+			// true대신 조건을 부여할 경우, 반복문 안에 조건 줄 때와 반대로 준다.
+			
+			rand = Math.floor(Math.random()*45+1);
+			count++;
+			if(arr.indexOf(rand)==-1){
+				arr.push(rand);
+			} 
+		}
+		res = "발생 수 : " + arr + "<br>";
+		arr.sort(function(a,b){return a-b});
+		
+		res += "오름차순 정렬 : " + arr + "<br>";
+		res += "반복횟수: " + count;
+		document.getElementById("result3").innerHTML = res;
+		
+		count=0;
+	}
+	
+	</script>
+</head>
+<body>
+	1 ~ 10 사이의 난수를 발생 후 사용자가 이 값을 맞추는<br>
+	프로그램을 작성하시오.<br><br>
+	<button type="button" onclick="proc1()">실행</button>
+	<br>
+	<div id="result1"></div>
+	<br>
+	<hr>
+	가위 바위 보 게임을 할 수 있는 프로그램을 작성하시오.<br>
+	(단, 컴퓨터는 랜덤을 이용하고, 사용자는 prompt로<br>
+	입력 받아서 처리)<br>
+	arr = ["가위","바위","보"];<br>
+	com = arr[random] : 배열의 인덱스를 랜덤으로 발생<br><br>
+	<button type="button" onclick="proc2()">실행</button>
+	<br>
+	<div id="result2"></div>
+	<br>
+	<hr>
+	로또 번호를 생성하는 프로그램을 작성하시오.<br>
+	(1번 ~ 45번 중 6개의 번호를 추첨) <br>
+	중복되는 수는 없어야 한다 <br>
+	<button type="button" onclick="proc3()">실행</button>
+	<br>
+	<div id="result3"></div>
+	<br>
+</body>
+</html>
