@@ -12,7 +12,7 @@ public class MemberController {
 	private IMemberService service;
 	
 	public MemberController() {
-		//service = new MemberServiceImpl(); // 싱글턴 패턴 사용시 불가능
+		//service = new MemberServiceImpl(); // 싱글턴 패턴 사용시 이렇게 생성할 수 없다
 		service = MemberServiceImpl.getInstance();
 	}
 	
@@ -96,7 +96,9 @@ public class MemberController {
 		}
 		
 		System.out.print("검색할 내용 입력 >> ");
-		String value = scan.next();
+		scan.nextLine();
+		String value = scan.nextLine();
+		value = value.trim();
 		
 		System.out.println();
 		System.out.println("------------------------------------------------");

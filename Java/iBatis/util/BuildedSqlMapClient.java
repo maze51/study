@@ -8,6 +8,8 @@ import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapClientBuilder;
 
+	// 여러곳에서 반복되는 작업을 간단하게 사용하기 위한 클래스
+
 public class BuildedSqlMapClient {
 	private static SqlMapClient client;
 	

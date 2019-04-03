@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>select 객체</title>
+	<style>
+		table{
+			text-align: center;
+		}
+		td{
+			width : 300px;
+			height : 100px;
+		}
+		#center{
+			width : 70px;
+		}
+		select{
+			width : 200px;
+		}
+		.btn{
+			height : 33px;
+			width : 55px;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			document.ff.data.focus();
+		}
+		
+		function add(){
+			// 입력한 값의 공백을 제거한 후 가져온다
+			// name속성을 이용해서 요소에 접근하는 방법
+// 			datavalue = document.getElementsByName("data")[0].value;
+			datavalue = document.ff.data.value;
+			
+			if(datavalue.trim().length < 1){
+				alert('데이터를 입력하세요');
+				document.ff.data.focus();
+				return;
+			}
+			
+			// option 태그를 생성
+			opt = document.createElement('option');
+			
+			// value와 text를 설정
+			opt.value = datavalue;
+			opt.text = datavalue;
+			
+			// select lList에 추가(appendChild)
+			document.ff.lList.appendChild(opt);
+			document.ff.data.value = "";
+			document.ff.data.focus();
+		}
+		
+		function toRight(){
+			// lList에서 선택한 항목을 rList로 이동하기
+			// lList에서 삭제된다. rList에 추가한다
+			
+			// 선택한 항목의 인덱스를 가져온다
+			idx = document.ff.lList.selectedIndex; // selectedIndex는 선택된 값이 없으면 -1을 반환한다
+			
+			if(idx == -1){
+				alert("선택한 항목이 없습니다");
+				return;
+			}
+			
+			// 오른쪽에 추가할 option 태그를 생성한다
+			opt=document.createElement('option');
+			optvalue = document.ff.lList.options[idx].value; // 왼쪽에서 선택한 번째의 값
+			
+			//options 내장 객체를 활용한다
+			opt.value = optvalue;
+			opt.text = optvalue;
+			
+			document.ff.rList.appendChild(opt);
+			
+			// 왼쪽에서 지우기 - 왼쪽에서 선택한 항목의 번째를
+			document.ff.lList.removeChild(document.ff.lList.options[idx]);
+		}
+		
+		function toRightAll(){
+			
+			f = document.ff;
+			length = f.lList.length;
+			//이동중 length값이 바뀌고 반복횟수가 달라지지 않도록 고정하는 용도
+			
+			for(i=0;i<length;i++){
+				// 왼쪽에서 값을 선택
+				temp = f.lList.options[0].value;
+				
+				// 오른쪽으로 이동 - 새로운 option을 생성
+				opt = document.createElement('option');
+				opt.value = temp;
+				opt.text = temp;
+				f.rList.appendChild(opt);
+				
+				// 왼쪽에서 제거
+				f.lList.removeChild(f.lList.options[0]);
+			} // end of for
+		
+		}
+		
+		function toLeft(){
+			idx2 = document.ff.rList.selectedIndex;
+			
+			if(idx2 == -1){
+				alert("선택한 항목이 없습니다");
+				return;
+			}
+			
+			opt2=document.createElement('option');
+			optvalue2=document.ff.rList.options[idx2].value;
+			
+			opt2.value = optvalue2;
+			opt2.text = optvalue2;
+			
+			document.ff.lList.appendChild(opt2);
+			document.ff.rList.removeChild(document.ff.rList.options[idx2]);
+		}
+		
+		function toLeftAll(){
+			
+			f = document.ff;
+			length = f.rList.length;
+			
+			for(i=0;i<length;i++){
+				temp = f.rList.options[0].value;
+				
+				opt = document.createElement('option');
+				opt.value = temp;
+				opt.text = temp;
+				f.lList.appendChild(opt);
+				
+				f.rList.removeChild(f.rList.options[0]);
+			}
+		}
+	</script>
+</head>
+<body>
+	<form name="ff">
+	<table>
+	
+		<tr>
+			<td colspan="3"><h1>select객체 예제</h1></td>
+		</tr>
+		
+		<tr>
+			<td>
+				<select name="lList" id="lList" multiple size=15>
+				</select>
+			</td>
+			
+			<td id="center">
+				<input type="button" class="btn" value=">" onclick="toRight()"></input><br><br>
+				<input type="button" class="btn" value=">>" onclick="toRightAll()"></input><br><br>
+				<input type="button" class="btn" value="<" onclick="toLeft()"></input><br><br>
+				<input type="button" class="btn" value="<<" onclick="toLeftAll()"></input>
+			</td>
+			
+			<td>
+				<select name="rList" id="rList" multiple size=15>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="3">
+				<input type="text" name="data">
+				<input type="button" name="inputb" onclick="add()" value="추가하기">
+			</td>
+		</tr>
+	
+	</table>
+	</form>
+</body>
+</html>

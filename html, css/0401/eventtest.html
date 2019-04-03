@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Event Test</title>
+	<script>
+		function changeColor(c){
+			document.getElementById('target').style.backgroundColor = c;
+		}
+		function changeColor2(){
+			c = document.ff.inradio2.value; 
+			// name을 이용해 value값에 접근하고자 form을 추가했다.
+			
+// 			list = document.getElementsByName('inradio2') // 이 때는 개수만큼 배열로 가져온다.
+// 			if(list[0].checked){ // 이런 식으로 비교해서 true라면? list해당 번호에서 value를 가져온다 
+// 			} else if(list[1].checked){
+// 			}
+// 			for(i=0;i<list.length;i++){
+// 				if(list[i].checked)
+// 			}
+			
+			document.getElementById('target').style.backgroundColor = c;
+		}
+		function onBody(){
+			//alert("시작");
+			document.ff.data.focus();
+		}
+		function sub(){
+			// text에 입력한 값을 가져온다
+			// 소문자로 변경
+			text1 = document.inputForm.text.value.toLowerCase(); // form이 있을 때
+			// text = document.getElementsByName('text')[0].value // 값이 1개일 때 name으로 가져오기
+			
+			document.inputForm.text.value = text1;
+		}
+		function downPro(t){
+			t.style.backgroundColor = 'yellow';
+		}
+		function upPro(t){
+			t.style.width = '300px';
+		}
+		function clickPro(t){
+			t.style.color = 'green';
+		}
+	</script>
+	<style>
+		button:hover{
+			background : crimson;
+		}
+		button:active{
+			font-size : 2.0em;
+		}
+	</style>
+</head>
+<body id="target" onload="onBody()">
+	<input type="radio" name="inradio" value="lightgreen" onclick="changeColor('lightgreen')">green
+	<input type="radio" name="inradio" value="lightblue" onclick="changeColor('lightblue')">blue
+	<br>
+	<br>
+	<br>
+	<form name="ff">
+		<input type="radio" name="inradio2" value="lightgreen" onclick="changeColor2()">green
+		<input type="radio" name="inradio2" value="turquoise" onclick="changeColor2()">blue
+	</form>
+	
+	<form name="inputForm">
+	<br>
+	<hr>
+	<br>
+	영어단어: <input type="text" id="name" name="text" onchange="sub()">
+	<p>입력필드를 벗어나면 소문자로 변경됩니다.</p>
+	</form>
+	<br>
+	<hr>
+	<br>
+	<button type="button" onmousedown="downPro(this)">실행 mousedown</button>
+	<button type="button" onmouseup="upPro(this)">실행 mouseup</button>
+	<button type="button" onclick="clickPro(this)">실행 click</button>
+	
+</body>
+</html>

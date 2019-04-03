@@ -10,15 +10,21 @@ import util.BuildedSqlMapClient;
 import board.vo.JdbcBoardVO;
 
 public class JdbcBoardDaoImpl implements IJdbcBoardDao {
+	
+	// 자기 클래스의 참조값을 저장할 변수 선언
 	private static JdbcBoardDaoImpl dao;
 	
+	// SqlMapClient 생성/저장용 변수
 	private SqlMapClient smc;
 	
 	private JdbcBoardDaoImpl(){
+		// SqlMapClient 객체 생성 후 저장
 		smc = BuildedSqlMapClient.getSqlMapClient();
 	}
 	
+	// 자기 클래스의 객체를 생성해서 반환하는 메서드
 	public static JdbcBoardDaoImpl getInstance(){
+		// 참조값을 저장할 변수가 비었다면 인스턴스화 작업을 수행하고 변수에 담아 저장한다
 		if(dao==null) dao = new JdbcBoardDaoImpl();
 		return dao;
 	}

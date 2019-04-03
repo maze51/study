@@ -30,28 +30,29 @@
 	 	where board_no = #board_no# 
 	 </update>
 	 
-	 <!-- 모든 게시물 읽어오기 -->
-	 <select id="getAllBoard" resultClass="boardVo">
-	 	select board_no, board_title, board_writer, 
+	 <!-- 반복되는 sql문을 별도 지정 -->
+	 <sql id="selectItem">
+		select board_no, board_title, board_writer, 
 	 	to_char(board_date, 'YYYY-MM-DD') board_date, 
 	 	board_cnt, board_content from jdbc_board 
+	 </sql>
+	 
+	 <!-- 모든 게시물 읽어오기 -->
+	 <select id="getAllBoard" resultClass="boardVo">
+	 	<include refid="selectItem"/> 
 	 	order by board_no desc
 	 </select>
 	 
 	 <!-- 검색어와 일치하는 게시물 읽어오기 -->
 	 <select id="getSearchBoard" parameterClass="string" resultClass="boardVo">
-	 	select board_no, board_title, board_writer, 
-	 	to_char(board_date, 'YYYY-MM-DD') board_date, board_cnt, 
-	 	board_content from jdbc_board 
+		<include refid="selectItem"/> 
 	 	where board_title like '%' || #board_title# || '%'
 		order by board_no desc
 	 </select>
 	 
 	 <!-- 글번호로 하나의 레코드 읽어오기 -->
 	 <select id="getBoard" parameterClass="int" resultClass="boardVo">
-	 	select board_no, board_title, board_writer, 
-	 	to_char(board_date, 'YYYY-MM-DD') board_date, 
-	 	board_cnt, board_content from jdbc_board
+	 	<include refid="selectItem"/> 
 	 	where board_no = #board_no#
 	 </select>
 	 

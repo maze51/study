@@ -9,14 +9,19 @@ import board.vo.JdbcBoardVO;
 
 public class JdbcBoardServiceImpl implements IJdbcBoardService{
 	private IJdbcBoardDao dao;
+	
+	// 자기 클래스의 참조값을 저장할 변수 선언
 	private static JdbcBoardServiceImpl service;
 	
+	// 생성자의 접근제어자는 private으로 설정
 	private JdbcBoardServiceImpl(){
-		//여기는 dao와 연결하기 위해 JdbcBoardDaoImpl꺼를 인스턴스화. 연결하는 길을 뚫기.
+		// dao와 연결하기 위해 JdbcBoardDaoImpl을 인스턴스화. 연결하는 길을 뚫기.
 		dao = JdbcBoardDaoImpl.getInstance();
 	}
 	
+	// 자기 클래스의 객체를 생성해서 반환하는 메서드
 	public static JdbcBoardServiceImpl getInstance(){
+		// 참조값을 저장한 변수가 비었다면 인스턴스화 작업을 수행하고 변수에 담아 반환한다
 		if(service==null) service = new JdbcBoardServiceImpl();
 		return service;
 	}

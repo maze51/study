@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form check</title>
+<!-- 외부 js 사용하기 -->
+<script type="text/javascript" src="../js/formcheck.js"></script>
+</head>
+<body>
+	<form name="ff" action="inputPro.jsp" method="post">
+	이름: <input type='text' id='name' name='name' autofocus><br>
+	주소: <input type='text' id='addr' name='addr'><br>
+	생일: <input type='date' id='birthday' name='bday'><br>
+	아이디(6-8 문자): 
+	<input type='text' id='username' name='id'><br>
+	이메일: <input type='email' id='email' name='email'><br>
+	휴대폰: <input type='tel' id='phone' name='phone'><br>
+	<input type='button' value='확인' onclick="inputPro()"><br>
+	</form>
+</body>
+</html>
