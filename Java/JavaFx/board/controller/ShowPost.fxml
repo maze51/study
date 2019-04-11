@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="board.controller.ShowPostController">
+   <children>
+      <Label text="게시글 내용 보기">
+         <font>
+            <Font size="30.0" />
+         </font>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" spacing="30.0">
+         <children>
+            <Label text="작성자 : " />
+            <Label fx:id="writerLabel" text="작성자">
+               <HBox.margin>
+                  <Insets right="170.0" />
+               </HBox.margin>
+            </Label>
+            <Label text="작 성 날 짜 : " />
+            <Label fx:id="dateLabel" text="날짜" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <Label text="제  목 : ">
+               <HBox.margin>
+                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="readTitle" prefWidth="476.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="250.0" prefWidth="200.0">
+         <children>
+            <Label text="내  용 : ">
+               <HBox.margin>
+                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+               </HBox.margin>
+            </Label>
+            <TextArea fx:id="readContent" prefHeight="100.0" prefWidth="476.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+         <children>
+            <Button fx:id="readModifyB" mnemonicParsing="false" onAction="#readModify" text="수정" />
+            <Button fx:id="readDeleteB" mnemonicParsing="false" onAction="#readDelete" text="삭제" />
+            <Button fx:id="readListViewB" mnemonicParsing="false" onAction="#readListView" text="리스트보기" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

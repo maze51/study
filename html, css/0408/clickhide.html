@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Clickhide</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			//$기호는 jQuery의 약자. $대신 jQuery라고 써도 무방
+			//변수를 제외하고 태그 등에는 모두 따옴표('', "")를 붙인다
+			
+			/*
+			$('p').on('click',function(){})
+			$('p').click(function(){})
+			이미 만들어진 것은 둘 중 어떻게 쓰나 상관없음
+			새로 만들어지는 것은 위 방식으로 구분해서 써야 한다
+			(새로 만들어서 이벤트를 줄 때)
+			*/
+			$('p').on('click',function(){
+				//$(this).hide();
+				//this.style.display = 'none';
+				$(this).css('display','none');
+				
+				//다 사라지면 버튼이 나타난다
+				//다 사라졌는지? 보이는 p태그의 갯수가 0개인지?
+				if($('p:visible').length == 0){ // 필터링. :기호를 사용한다
+					$('button').show();
+				}
+			})
+			
+			$('button').click(function(){
+				$('p').show();
+				$(this).hide();
+			})
+		})
+	</script>
+	<style>
+	p{
+		font-size: 1.5em;
+	}
+	button{
+		display: none;
+	}
+	</style>
+</head>
+<body>
+콜백함수 : 백그라운드에서 자동으로 호출되는 함수<br>
+$(function(){}) 여기서 function이 콜백함수<br>
+<p>클릭하면 사라집니다1</p>
+<p>클릭하면 사라집니다2</p>
+<p>클릭하면 사라집니다3</p>
+<p>클릭하면 사라집니다4</p>
+<p>클릭하면 사라집니다5</p>
+<p>클릭하면 사라집니다6</p>
+<p>클릭하면 사라집니다7</p>
+<p>클릭하면 사라집니다8</p>
+<p>클릭하면 사라집니다9</p>
+<p>클릭하면 사라집니다10</p>
+<p>클릭하면 사라집니다11</p>
+<br>
+<button type="button">보이기</button>
+
+</body>
+</html>

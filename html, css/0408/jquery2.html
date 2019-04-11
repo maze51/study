@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery #2</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 	<script src="../js/jquery-3.3.1.min.js"></script> -->
+
+	<script>
+		// $ 대신 jQuery라고 쓸 수도 있다
+		$(function() { // window.onload = function(){} 과 같다
+			// 이렇게 써도 되고, 원래 방식대로 써도 된다.
+			
+			// 전체 p를 선택 - document.getElementsByTagName('p')
+			$('p').css('font-size', '1.5em').css('color', 'cyan');
+			
+			// id접근 - 이벤트 설정
+			// document.getElementById('p2')
+			$('#p2').on('click', function(){
+				$(this).css('font-size', '+=4px'); // this는 클릭하고 있는 객체. 단 jQuery에서는 $(this)로 쓴다
+// 				this.style.fontSize = '30px';
+			})
+		})
+		
+		
+		function proc1(p1){ // p1은 변수 이름
+			// jQuery 코드
+			$(p1).css('font-size', '+=3px'); // script 스타일에서는 += 식으로 줄 수 없다
+			
+			// script 코드
+  			//p1.style.fontSize = '30px';
+			
+			
+		}
+	</script>
+
+</head>
+<body>
+jQuery를 이용하여 document에 접근<br>
+$(function() { })<br>
+window.onload = function(){} 과 같은 기능<br>
+<br>
+CDN 방식: 직접 다운받지 않는다<br>
+p태그 문장을 클릭하면 글자크기가 커진다<br><br>
+1) 태그 안에 onclick=proc1(this)코드로 실행<br>
+<p id="p1" onclick="proc1(this)"> 미세먼지 없는 화창한 봄날1 ~~</p>
+<br>
+2) jQuery함수 안에서 아이디로 접근 $('#p2').on('click', function(){  }) 
+<p id="p2"> 미세먼지 없는 화창한 봄날2 ~~</p>
+</body>
+</html>

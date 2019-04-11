@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>sale</title>
+	<style>
+		div{
+			width : 620px;
+			height : 200px;
+			background : lightgray;
+		}
+		.guess_box{
+			width : 145px;
+			height : 190px;
+			float : left;
+			margin : 4px;
+		}
+		img{
+			width : 100%;
+			height : 70%;
+		}
+		img:hover{
+			border : 3px solid blue;
+		}
+		
+	</style>
+	<script>
+		window.onload=function(){
+			// 이벤트를 일괄 등록 - class가 guess_box인 요소에 접근
+			box = document.getElementsByClassName('guess_box');
+			for( i=0 ; i<box.length ; i++ ){
+				
+				// 이벤트 듣는 기능을 추가하라 - 이벤트리스너를 등록.
+				// click은 이벤트의 종류, boxSale은 실행함수(호출형식이 아니라 변수형식으로 사용한다. 그래서 ()가 없다)
+				box[i].addEventListener('click', boxSale);
+			}
+		}
+		ptag = null;
+		function boxSale(){
+			
+			if(ptag != null){
+				pp = document.getElementById('pp');
+				//pp = document.getElementsByTagName('p')[0];
+				pp.parentNode.removeChild(pp);
+			}
+			
+			// event라는 내장객체를 사용해서 이벤트의 대상을 얻는다
+			// 현재 클릭한 div가 뭔가? this
+			// alert(event.target); // image객체
+			// alert(this); // div
+			
+			rand = Math.floor(Math.random()*6+5);
+			ptag = document.createElement('p');
+			ptag.setAttribute('id', 'pp');
+			
+			ptext = document.createTextNode("할인율 : " + rand + "%");
+			ptag.appendChild(ptext);
+			this.appendChild(ptag);
+			
+			// 이벤트 제거
+			this.removeEventListener('click', boxSale);
+		}
+	
+		function setTag(t){
+			if(t.getElementsByTagName("p").length > 0) return;
+			
+			if(div1.childNodes[2] != null) div1.removeChild(div1.childNodes[2]);
+			if(div2.childNodes[2] != null) div2.removeChild(div2.childNodes[2]);
+			if(div3.childNodes[2] != null) div3.removeChild(div3.childNodes[2]);
+			if(div4.childNodes[2] != null) div4.removeChild(div4.childNodes[2]);
+			
+			rand = Math.floor(Math.random()*6+5);
+			text = "할인율 : " + rand + "%";
+			
+			p = document.createElement('p');
+			itext = document.createTextNode(text);
+			p.appendChild(itext);
+			t.appendChild(p);
+		}
+	</script>
+</head>
+<body>
+	<h2 id="h2id">수행내용<br>Jump For Joy Sale</h2>
+	<!-- <div id="zzz">
+		<div class="inner" id="div1" onclick="setTag(this)">
+		<img src="../images/풍차.jpg">
+		</div>
+		<div class="inner" id="div2" onclick="setTag(this)">
+		<img src="../images/대나무숲.jpg">
+		</div>
+		<div class="inner" id="div3" onclick="setTag(this)">
+		<img src="../images/Lighthouse.jpg">
+		</div>
+		<div class="inner" id="div4" onclick="setTag(this)">
+		<img src="../images/산.png">
+		</div>
+	</div> -->
+	
+	<div>
+		<div class="guess_box" id="div1"><img src="../../images/풍차.jpg"></div>
+		<div class="guess_box" id="div2"><img src="../../images/대나무숲.jpg"></div>
+		<div class="guess_box" id="div3"><img src="../../images/Lighthouse.jpg"></div>
+		<div class="guess_box" id="div4"><img src="../../images/산.png"></div>
+	</div>
+</body>
+</html>

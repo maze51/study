@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>form 정규식</title>
+	<script>
+		function regPro(){
+			// 정규식 패턴 검사하기
+			/*
+			정규식객체(or패턴).exec(검사할 문자열)
+				: 맞으면 문자 반환. 없으면 null반환
+			정규식객체(or패턴).test(검사할 문자열)
+				: 문자열이 정규식 패턴에 맞으면 true
+				틀리면 false를 반환
+			검사할 문자열 match("정규식 패턴문자") 
+				: 패턴에 맞는 문자가 있으면 문자를 반환한다
+				없으면 null을 반환한다
+			*/
+			f = document.ff;
+			
+			// 입력한 값. 검사할 문자열에 해당한다.
+			vname = f.name.value;
+			vid = f.id.value;
+			vemail = f.email.value;
+			vphone = f.phone.value;
+			vpass = f.pass.value;
+			
+			// 정규식 패턴
+			
+			/*
+			// 전방탐색(일치하는 문자를 앞에서 찾아라)
+			// \w+(?=:) ?=뒤에 찾는 문자
+			// 찾는 문자(:)를 기준으로 1개 이상 나오는 문자나 숫자를 탐색한다  
+			aa = "https://www.naver.com";
+			aa = "fttp://";
+			aa = "mailto:"			이것들은 프로토콜
+			reg = /\w+(?=:)/;
+			
+			bb = aa.match(reg);
+			if(bb == "http"){
+				alert("http 접속입니다");
+			} else if(bb == "https"){
+				alert("https 접속입니다");
+			}
+			*/
+			
+			// 0개 이상의 문자 다음에 영문 대문자를 기준으로
+			// 전방에 있는 글자를 탐색하겠다
+			// 그런데 전방에 지정한 패턴글자가 없다
+			// 즉, 영문 대문자로 시작할 수 있다
+			
+			// 비밀번호 : 영문대소문자 숫자 특수문자가 반드시 포함되어야 한다
+			pwpattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,20}$/;
+			if(!(pwpattern.test(vpass))){
+ 				alert("비밀번호 형식 오류");
+ 				return;
+ 			} 
+			
+			// 아이디 : 영문자로 시작. 영문자와 숫자를 조합해서 6~12자로 한다.
+			// 시작은 대소문자, 다음 자리는 대소문자숫자기호 5~11개
+			idpattern = /^[a-zA-Z][a-zA-Z0-9@#$%^()]{5,11}$/;
+			
+			if(!(idpattern.test(vid))){
+				alert("id 형식 오류");
+				return;
+			} 
+			// 이름 : 한글로 2~4 또는 영문 5~15
+			namepattern = /^[가-힣]{2,4}$|^[a-zA-Z]{5,15}$/;
+			if(!(namepattern.test(vname))){
+				alert("이름 형식 오류");
+				return;
+			}
+			
+			// 이메일
+			emailpattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){1,2}$/;	
+			if(!(emailpattern.test(vemail))){
+				alert("이메일 형식 오류");
+				return;
+			}
+			//emailpattern = ^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$;
+				
+			// 전화번호 : 숫자 2~3자리 - 숫자 4자리 - 숫자 4자리
+			phonepattern = /^\d{2,3}-\d{4}-\d{4}$/;
+			if(!(phonepattern.test(vphone))){
+				alert("전화번호 형식 오류");
+				return;
+			}
+			
+			alert("입력성공");
+// 			f.submit();
+		}
+	</script>
+</head>
+<body>
+	<form name="ff" action="inputPro.jsp" method="post">
+	이름: <input type='text' name='name' autofocus><br>
+	주소: <input type='text' name='addr'><br>
+	생일: <input type='date' name='bday'><br>
+	아이디(6-12 문자): 
+	<input type='text' name='id'><br>
+	비밀번호: <input type='password' name="pass"><br>
+	이메일: <input type='email' name='email'><br>
+	휴대폰: <input type='tel' name='phone'><br>
+	<input type='button' value='확인' onclick="regPro()"><br>
+	</form>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery 기본 선택자</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			$('#p1').css('color', 'crimson');
+			$('.pp').css('background', 'yellow');
+			$('p').css('font-size', '1.5em');
+			
+			// 이벤트 등록 - script방식
+			/*
+			plist = document.getElementsByTagName('p');
+			for(i=0 ; i<plist.length ; i++){
+				plist[i].addEventListener('click', proc1);
+			}
+			*/
+			
+			$('p').on('click', function(){
+				$(this).css('font-size', '+=5px');
+			})
+			
+			//$('*').css('border', '1px solid blue');
+			
+			// 여러개를 동시에 선택하는 방법: ,를 사용
+			$('p, span').css('font-size', '2.0em');
+			// 또는 공통 클래스 이름을 사용
+			$('.fp').css('background', 'dodgerblue');
+		})
+		
+		function proc1(){
+ 			//this.style.fontSize = '50px'; // script쓸 때
+			//$(this).css('font-size', '+=5px'); // jQuery쓸 때
+		}
+	</script>
+
+</head>
+<body>
+아이디를 이용한 선택 - $('#아이디이름') - $('#p2')<br>
+태그이름을 이용한 선택 - $('태그이름') - $('p')<br>
+클래스이름을 이용한 선택 - $('.클래스이름') - $('.sample')<br>
+전체 선택 - $('*')<br>
+<br>
+<h1>기본 선택자에 대하여</h1>
+<p class="fp" id="p1">무궁화 꽃이 피었습니다</p>
+<p class="pp fp">진달래 꽃이 피었습니다</p>
+<p class="fp"> 벚꽃이 피었습니다</p>
+<span class="fp">무궁화</span>
+<br>
+<span class="fp">진달래</span>
+<br>
+<span class="fp">개나리</span>
+<br>
+</body>
+</html>

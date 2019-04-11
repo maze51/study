@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>base filter 1</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('li:first, li:last').css('background', 'yellow');
+				
+				$('li:eq(5)').css('background', 'red');
+				
+// 				$('li:lt(4)').css('font-size', '25px').css('font-weight', 'bold');
+				
+				// 여러 css속성 한 번에 주기
+				$('li:lt(4)').css({'font-size':'25px', 'font-weight':'bold'});
+				
+				$('#tab1 tr:even').css('background', 'lightgray');
+				
+				$('#tab1 tr:odd').css('background', '#dfd6f3');
+				
+				$('#tab1 tr:first').css({'background':'#00004d', 'color':'white',
+					'font-weight':'bold'});
+				
+				$('#tab2 tr:even').css('background', '#ffccb3');
+				
+				$('#tab2 tr:odd').css('background', '#ccffff');
+				
+				$('#tab2 tr:first').css({'background':'#001a1a', 'color':'white',
+					'font-weight':'bold'});
+				
+				
+			})
+		</script>
+		<style>
+			td{
+				width: 200px;
+				height: 30px;
+				text-align: center;
+				font-size: 1.2em;
+			}
+		</style>
+	</head>
+<body>
+	<ul>
+		<li> one </li>
+		<li> two </li>
+		<li> three </li>
+		<li> four </li>
+		<li> five </li>
+		<li> six</li>
+		<li> seven</li>
+		<li> eight</li>
+		<li> nine</li>
+	</ul>
+	<br>
+	<table id="tab1">
+		<tr>
+			<td>상품</td>
+			<td>가격</td>
+		</tr>
+		<tr>
+			<td>one</td>
+			<td>62만원</td>
+		</tr>
+		<tr>
+			<td>two</td>
+			<td>45만원</td>
+		</tr>
+		<tr>
+			<td>three</td>
+			<td>33만원</td>
+		</tr>
+		<tr>
+			<td>four</td>
+			<td>72만원</td>
+		</tr>
+		<tr>
+			<td>five</td>
+			<td>77만원</td>
+		</tr>
+		<tr>
+			<td>six</td>
+			<td>54만원</td>
+		</tr>
+		<tr>
+			<td>seven</td>
+			<td>61만원</td>
+		</tr>
+		<tr>
+			<td>eight</td>
+			<td>52만원</td>
+		</tr>
+		<tr>
+			<td>nine</td>
+			<td>88만원</td>
+		</tr>
+	</table>
+	
+	<hr>
+	<table id="tab2">
+		<tr>
+			<td>상품</td>
+			<td>가격</td>
+		</tr>
+		<tr>
+			<td>one</td>
+			<td>62만원</td>
+		</tr>
+		<tr>
+			<td>two</td>
+			<td>45만원</td>
+		</tr>
+		<tr>
+			<td>three</td>
+			<td>33만원</td>
+		</tr>
+		<tr>
+			<td>four</td>
+			<td>72만원</td>
+		</tr>
+		<tr>
+			<td>five</td>
+			<td>77만원</td>
+		</tr>
+		<tr>
+			<td>six</td>
+			<td>54만원</td>
+		</tr>
+		<tr>
+			<td>seven</td>
+			<td>61만원</td>
+		</tr>
+		<tr>
+			<td>eight</td>
+			<td>52만원</td>
+		</tr>
+		<tr>
+			<td>nine</td>
+			<td>88만원</td>
+		</tr>
+	</table>
+</body>
+</html>

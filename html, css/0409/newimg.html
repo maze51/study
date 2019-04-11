@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>newImg</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+	imgarr = ["nyanggif9.gif","nyanggif7.gif","nyanggif5.gif","nyang.jpg","111.gif"];
+	
+	$(function(){
+		$('button').on('click', function(){
+			index = Math.floor(Math.random()*5);
+			nimg = $('<img/>', {
+				'width' : '150px',
+				'height' : '150px',
+				'src' : '../images/' + imgarr[index],
+				'title' : function(){
+					// 현재 이미지에서 src값을 얻어온다
+					a = this.getAttribute("src");
+					// 시작, 종료값을 구한다
+					start = a.lastIndexOf('/');
+					dot = a.lastIndexOf('.');
+					// 결과값 = 변수.substring(start, end)
+					name = a.substring(start+1, dot);
+					return name;
+				},
+				'click' : function(){
+					$(this).css('border','2px solid red');
+				}
+			})
+			$('body').append(nimg);
+		})
+	})
+	</script>
+</head>
+<body>
+이미지추가 버튼을 클릭하면 새로운 이미지 태그를 생성한다<br>
+새로운 이미지를 클릭하면 이미지에 테두리를 설정한다<br> 
+<button type="button">이미지추가</button>
+</body>
+</html>

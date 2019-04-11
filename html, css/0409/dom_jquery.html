@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dom & jQuery</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+	$(function(){
+		//dom요소
+		vp1 = document.getElementsByTagName('p')[0];
+		vp1.style.background = 'lime';
+
+		//dom객체요소가 css jQuery메소드를 사용할 수 없다
+// 		vp1.css('font-size', '2.0em');
+	
+		//dom객체요소를 $()로 감싸주면 jQuery객체로 변환되어
+		//css jQuery메소드를 사용할 수 있다
+		$(vp1).css('font-size', '2.0em');
+		
+		//jQuery객체
+		vp2 = $('p:eq(1)');
+		vp2.css('font-size', '2.0em'); // $기호를 붙이지 않고도 사용가능
+ 		//vp2.style.color = 'red'; //jQuery객체는 dom방식으로 사용불가
+		
+ 		//jQuery객체로부터 dom객체를 얻기
+		vp3 = $('p')[1];
+		vp3.style.color = 'red'; //다시 사용가능
+		
+		//vp3이 dom객체이기 때문에 css메소드를 사용할 수 없다
+// 		vp3.css('color', 'green'); 
+		
+		//dom객체에 $()함수로 감싸면 css메소드를 사용할 수 있다
+		$(vp3).css('color', 'green');
+		
+	})
+	</script>
+	<style>
+		pre{
+			font-size: 1.5em;
+		}
+	</style>
+</head>
+<body>
+<pre>
+	vp1 = document.getElementsByTagName('p')[0];
+	vp1.style.background = 'lime';
+	
+	<strong>dom객체요소가 css jQuery메소드를 사용할 수 없다</strong>
+	vp1.css('font-size', '2.0em');
+	
+	<strong>dom객체요소를 $()로 감싸주면 jQuery객체로 변환되어
+	css jQuery메소드를 사용할 수 있다</strong>
+	$(vp1).css('font-size', '2.0em');
+
+	<strong>jQuery객체로부터 dom객체를 얻기</strong>
+	vp3 = $('p')[1];
+	vp3.style.color = 'red';
+
+</pre>
+	<p>진달래 꽃이 피었습니다</p>
+	<p>개나리 꽃이 피었습니다</p>
+</body>
+</html>

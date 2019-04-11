@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Date 객체</title>
+	<script>
+		window.onload = function(){
+			
+			today1 = new Date();
+			today2 = new Date(10000000002000);
+			today3 = new Date("2012.2.14");
+			today4 = new Date(2019, 2, 15, 12, 20, 32);
+			
+			result = document.getElementById('result1');
+			
+			result.innerHTML = "new Date();==>  " + today1 + "<br>";
+			result.innerHTML += "new Date(10000000002000);==>  " + today2 + "<br>";
+			result.innerHTML += "new Date('2012.2.14');==>  " + today3 + "<br>";
+			result.innerHTML += "new Date(2019, 2, 15, 12, 20, 32);==>  " + today4 + "<br>";
+ 			//date클래스는 0월, 1월, 2월,...로 인식한다. 그래서 3월을 찍고 싶으면 2를 입력해야
+ 			//단 today3처럼 통째로 입력해 주면 입력한 대로 나온다
+			result.innerHTML += "<hr color='orange'>";
+			
+			result.innerHTML += "today1.toLocaleString()==>  " + today1.toLocaleString() + "<br>";
+			
+			
+			// window.setInterval()이지만 window가 생략된 것
+			// 정해진 시간 간격마다 매번 반복 실행
+			setInterval(function(){
+				today = new Date();
+				todayLocale = today.toLocaleString();
+				
+				res = "<h3>정해진 시간 간격마다 매번 반복 실행</h3>"
+				res += "setInterval(function() { 기능 }, 1000)<br>"
+				res += "toLocaleString() 함수를 이용해서 우리나라 형식으로 변환 :" + todayLocale;
+				document.getElementById("result2").innerHTML = res;
+				
+				year = today.getFullYear();
+				month = today.getMonth()+1;
+				date = today.getDate();
+				day = today.getDay();
+				hour = today.getHours();
+				min = today.getMinutes();
+				sec = today.getSeconds();
+				
+				switch(day){
+				case 0:
+					str = "일";
+					break;
+				case 1:
+					str = "월";
+					break;
+				case 2:
+					str = "화";
+					break;
+				case 3:
+					str = "수";
+					break;
+				case 4:
+					str = "목";
+					break;
+				case 5:
+					str = "금";
+					break;
+				case 6:
+					str = "토";
+					break;
+				}
+				
+				res = "<h3>get메서드를 이용한 결과</h3>"
+				res += year + "년 " + month + "월 " + date + "일 <br>";
+				res += hour + "시 " + min + "분 " + sec + "초 <br>" + str + "요일 입니다."
+				
+				document.getElementById("result3").innerHTML = res; 
+				
+				arrDay = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+				
+				
+				res = "<h3> 배열을 이용한 요일 구하기 </h3>"
+				res +=" getDay() 함수 실행결과 0~6이다. 각 값은 일요일, 월요일,...토요일을 나타낸다<br>"
+				
+				res += "오늘은 " + arrDay[day] + "입니다. <br>";
+				document.getElementById("result4").innerHTML = res; 
+				
+				
+				
+			}, 1000)
+		}
+	</script>
+	<style>
+	div{
+		font-size : 1.3em;
+	}
+	</style>
+</head>
+<body>
+Date 객체 사용<br>
+new Date() // 현재 날짜와 시간<br>
+new Date(milliseconds) //1970/01/01 이후의 밀리초<br>
+new Date(dateString)<br>
+new Date(year, month, date[, hours[, minutes[, seconds[,ms]]]])<br><br>
+<div id="result1"></div>
+<br><br>
+<hr color="orange">
+<br>
+1초마다 시간을 갱신해서 출력한다<br>
+<div id="result2"></div>
+<br>
+<hr color="orange">
+<br>
+<div id="result3"></div>
+<hr color="orange">
+<div id="result4"></div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Base Filter3-1</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		//id가 list인 요소의 테두리지정 2px solid orange 
+		//글자크기 30px ,  가로 길이지정 
+		function proc1(){
+			$('#list').css('border', '2px solid orange').css('font-size', '30px')
+			.css('width', '400px');
+		}
+		//p요소의 테두리 2px solid red 변경
+		function proc2(){
+			$('p').css('border', '2px solid red');
+		}		
+		//span 요소의 배경색 핑크, 글자색 레드  
+		function proc3(){
+			$('span').css('background-color', 'pink').css('color', 'red');
+		}
+		//span 요소의 후손  a 요소 overline   
+		function proc4(){
+			$('span a').css('text-decoration', 'overline');
+		}	
+		//class가 detail 요소의 글자색을 blue
+		function proc5(){
+			$('.detail').css('color', 'blue');
+		}
+		// div의 다음의 모든  형제인 span 요소의 배경색 lightgreen
+		function proc6(){
+			$('div~span').css('background-color', 'lightgreen');
+		}
+		//div 의 자식인 span 요소의 테두리 1px solid red
+		function proc7(){
+			$('div>span').css('border', '1px solid red');
+		}
+		//div 형제인 모든 b 요소의 테두리 2px solid blue 
+		function proc8(){
+			$('div~b').css('border', '2px solid blue');
+		}
+		
+	</script>
+</head>
+<body>
+	<div>
+		<span>It교육의 요람 <a href="http://www.ddit.or.kr"> (재)대덕인재개발원</a>으로
+			오세요</span><br> 
+			<a href="mailto:power2c@ddit.or.kr">빠워에게 메일보내기</a>
+
+		<p>
+			RIA기술 : <input type="checkbox" name="ria" value="플렉스" />플렉스 
+			<input type="checkbox" name="ria" value="실버라이트" />실버라이트
+			<input type="checkbox" name="ria" value="HTML5" />HTML5<br> 성 별 :
+			<input type="radio" name="gender" value="남자" />남자 
+			<input type="radio" name="gender" value="여자" />여자<br> 
+			<input type="button" value="클릭~" /><br>
+		</p>
+		<div id="list">selector의 종류들입니다.</div>
+		
+		<b>엘리먼트 : </b> 
+		<span class="detail"><b>태그명, ID속성값, CLASS속성값 이용</b></span><br>
+		
+		<br> <b>속성 : </b> 
+		<span class="detail">각 요소에 설정된 속성명과 속성값을 이용</span><br>
+		
+		<br> <b>form : </b> 
+		<span>input, select, textarea등의 특성을 이용</span>
+	</div>
+	<hr>
+	<br>
+	id가 list인 요소의 테두리지정 2px solid orange <br>
+	글자크기 30px ,  가로 길이지정 <br>
+	<button id="but1" onclick="proc1()">실행1</button> <br>
+	
+	p요소의 테두리 2px solid red 변경 <br>
+	<button id="but2" onclick="proc2()">실행2</button> <br>
+	
+	span 요소의 배경색 핑크, 글자색 레드 <br>
+	<button id="but3" onclick="proc3()">실행3</button> <br>
+	
+	span 요소의 후손  a 요소 overline <br>
+	<button id="but4" onclick="proc4()">실행4</button> <br>
+	
+	class가 detail 요소의 글자색을 blue <br>
+	<button id="but5" onclick="proc5()">실행5</button> <br>
+	
+	div의 다음의 모든  형제인 span 요소의 배경색 lightgreen <br>
+	<button id="but6" onclick="proc6()">실행6</button> <br>
+	
+	div 의 자식인 span 요소의 테두리 1px solid red <br>
+	<button id="but7" onclick="proc7()">실행7</button> <br>
+	
+	div 형제인 모든 b 요소의 테두리 2px solid blue <br>
+	<button id="but8" onclick="proc8()">실행8</button>
+
+</body>
+</html>

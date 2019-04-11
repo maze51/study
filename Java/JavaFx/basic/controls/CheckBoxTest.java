@@ -87,21 +87,25 @@ public class CheckBoxTest extends Application {
 		});
 		
 		VBox vbox = new VBox(5);
-		vbox.getChildren().addAll(chkboxs);	// 체크박스를 담음
+		vbox.getChildren().addAll(chkboxs);
 		vbox.getChildren().add(btn0k);
+		// 체크박스 chkboxs, 버튼 btn0k
 		
 		HBox hbox = new HBox();
 		hbox.getChildren().addAll(icons);
+		// 아이콘 3개
 		hbox.setPadding(new Insets(0,0,0,5));
 		
 		StackPane stack = new StackPane();
 		stack.getChildren().addAll(rect, hbox);
+		// 둥근모서리 창 rect, 아이콘들이 있는 hbox
 		StackPane.setAlignment(rect, Pos.TOP_CENTER);
 		
 		HBox root = new HBox();
 		root.setPadding(new Insets(20,10,10,20));
 		root.setSpacing(40);
 		root.getChildren().addAll(vbox, stack);
+		// 체크박스와 버튼이 있는 vbox, 둥근모서리 창과 아이콘이 있는 StackPane
 		
 		Scene scene = new Scene(root);
 		

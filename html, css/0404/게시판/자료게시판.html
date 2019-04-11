@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Array Method</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	str = ["사과", "바나나", "사과", "복숭아", "참외", "수박", "사과", "메론", "망고", "복숭아", "바나나", "사과"];
+	// 함수 밖에서 선언된 변수는 var을 붙이든 말든 전역변수이다.
+	
+	function proc1(){
+		/*
+		input = prompt("이름을 입력하세요.");
+		
+		idx = str.indexOf(input);
+		res = "검색할 이름 : " + input + "<br>";
+		
+		if(idx == -1){
+			res += "없는 이름입니다.";
+		} else {
+			res += idx + "번째에 있습니다.";
+		}
+		*/
+		input = prompt("이름을 입력하세요.");
+		idx = 0;
+		res = "검색 할 이름 : " + input + "<br>";
+		
+		for(i=0;i<str.length;i++){
+			
+			idx = str.indexOf(input, idx)
+			//alert(idx);
+			if(idx==-1){
+				break;
+			}
+			res += idx +"&nbsp;&nbsp;";
+			idx++;
+		}
+		document.getElementById("result1").innerHTML = res;
+	}
+	
+	function proc2(){
+		input = prompt("이름을 입력하세요.");
+		
+		idx = str.lastIndexOf(input);
+		res = "검색할 이름 : " + input + "<br>";
+		
+		if(idx == -1){
+			res += "없는 이름입니다.";
+		} else {
+			res += idx + "번째에 있습니다.";
+		}
+		document.getElementById("result2").innerHTML = res;
+	}
+	
+	function proc3(){
+		input = prompt("추가할 이름을 입력하세요.");
+		str.push(input);
+		
+		res = "추가할 이름 : " + input + "<br>";
+		res += str;
+		
+		document.getElementById("result3").innerHTML = res;
+	}
+	
+	function proc4(){
+		str.pop();
+		
+		document.getElementById("result4").innerHTML = str;
+	}
+	
+	function proc5(){
+		str.reverse();
+		
+		document.getElementById("result5").innerHTML = str;
+		
+	}
+	
+	nums = [ 100, 17, 1, 200, 55, 500, 29, 7 ]; 
+	
+	function proc6(){
+		nums.sort();
+		
+		document.getElementById("result6").innerHTML = nums;
+	}
+	
+	function proc7(){
+		// a - b의 결과가 양수이면 자리바꿈, 음수이면 바꾸지 않는다.
+		nums.sort(function(a, b){
+			return a-b;
+		})
+		document.getElementById("result7").innerHTML = nums;
+	}
+	
+	function proc8(){
+		nums.sort(function(a, b){
+			return b-a;
+		})
+		document.getElementById("result8").innerHTML = nums;
+	}
+	
+	function proc9(){
+		res = "원래 배열: " + str + "<br>";
+		
+		ss = str.slice(1,5);
+		res += "1~5 사이의 값을 자르기 " + ss + "<br>";
+		
+		//바나나와 바나나 사이의 값을 자르기, 양쪽 바나나는 포함시키지 않는다.
+		ss = str.slice(str.indexOf("바나나")+1, str.lastIndexOf("바나나"));
+		res += "바나나 사이의 값 자르기: " + ss;
+		
+		document.getElementById("result9").innerHTML = res;
+	}
+	
+	function proc10(){
+		var fruits = ["Banana", "Orange", "Apple", "Mango"];
+		res = "원래 배열 : " + fruits + "<br>";
+		
+		fruits.splice(2, 0, "Lemon", "Kiwi");
+		
+		res += "바뀐 배열 : " + fruits + "<br>";
+		res += 'fruits.splice(2, 0, "Lemon", "Kiwi")<br>';
+		res += '배열의 두번째 위치에 Lemon과 Kiwi를 변경 없이 삽입한다<br>';
+		// 변경 없는 이유는? splice 두번째가 0이라서
+		res += "<hr color='orange'><br>";
+		document.getElementById("result10").innerHTML = res;
+		//--------------------------------------------------------
+		var fruits = ["Banana", "Orange", "Apple", "Mango"];
+		res = "원래 배열 : " + fruits + "<br>";
+		
+		fruits.splice(2, 1, "Lemon", "Kiwi");
+		
+		res += "바뀐 배열 : " + fruits + "<br>";
+		res += 'fruits.splice(2, 1, "Lemon", "Kiwi");<br>';
+		res += '배열의 두번째 위치에 한개의 값(Apple)을 Lemon, Kiwi로 변경한다<br>';
+		res += "<hr color='orange'><br>";
+		document.getElementById("result10").innerHTML += res;
+		//--------------------------------------------------------
+		var fruits = ["Banana", "Orange", "Apple", "Mango", "Kiwi"];
+		res = "원래 배열 : " + fruits + "<br>";
+		
+		fruits.splice(2, 2);
+		
+		res += "바뀐 배열 : " + fruits + "<br>";
+		res += 'fruits.splice(2, 2);<br>';
+		res += '배열의 두번째 위치에 두개의 값(Apple, Mango)을 삭제한다<br>';
+		res += "<hr color='orange'><br>";
+		document.getElementById("result10").innerHTML += res;
+	}
+	
+	function proc11(){
+		
+	}
+	
+	function proc12(){
+		
+	}
+	</script>
+	<style>
+	#result9{
+		width : 800px;
+	}
+	</style>
+</head>
+<body>
+str = ["사과", "바나나", "사과", "복숭아", "참외", "수박", "사과", "메론", "망고", "복숭아", "바나나", "사과"]; <br>
+1. indexOf: 지정된 값의 배열에서의 위치를 찾는다 <br>
+<button type="button" onclick="proc1()">indexOf</button>
+<div id="result1"></div>
+<br><br><hr>
+<br>
+
+2. lastIndexOf: 지정된 값을 뒤에서부터 검색하여 배열에서의 위치를 찾는다 <br>
+<button type="button" onclick="proc2()">lastIndexOf</button>
+<div id="result2"></div>
+<br><br><hr>
+<br>
+
+3. push: 배열의 맨 마지막으로 추가한다 <br>
+<button type="button" onclick="proc3()">push</button>
+<div id="result3"></div>
+<br><br><hr>
+<br>
+
+4. pop: 배열의 맨 마지막 값을 제거한다 <br>
+<button type="button" onclick="proc4()">pop</button>
+<div id="result4"></div>
+<br><br><hr>
+<br>
+
+5. reverse: 배열을 거꾸로 뒤집는다 <br>
+<button type="button" onclick="proc5()">reverse</button>
+<div id="result5"></div>
+<br><br><hr>
+<br>
+nums = [ 100, 17, 1, 200, 55, 500, 29, 7 ]; <br>
+6. sort: 배열의 값을 자리수로 정렬한다 <br>
+<button type="button" onclick="proc6()">sort</button>
+<div id="result6"></div>
+<br><br><hr>
+<br>
+
+7. sort_ascending: 배열의 값을 비교하여 오름차순으로 정렬한다 <br>
+<button type="button" onclick="proc7()">sort_ascending</button>
+<div id="result7"></div>
+<br><br><hr>
+<br>
+
+8. sort_descending: 배열의 값을 비교하여 내림차순으로 정렬한다 <br>
+<button type="button" onclick="proc8()">sort_descending</button>
+<div id="result8"></div>
+<br><br><hr>
+<br>
+
+9. slice: 지정된 위치의 값을 잘라서 새로운 배열을 만든다 <br>
+<button type="button" onclick="proc9()">slice</button>
+<div id="result9"></div>
+<br><br><hr>
+<br>
+
+10. splice: 지정된 위치의 값을 변경한다 <br>
+<button type="button" onclick="proc10()">splice</button>
+<div id="result10"></div>
+<br><br><hr>
+<br>
+
+11. concat: 두 개 이상의 배열을 하나의 배열로 합친다 <br>
+<button type="button" onclick="proc11()">concat</button>
+<div id="result11"></div>
+<br><br><hr>
+<br>
+
+12. join: 배열 각각의 요소를 하나의 문자열로 변환한다 <br>
+<button type="button" onclick="proc12()">join</button>
+<div id="result12"></div>
+<br><br><hr>
+<br>
+
+
+</body>
+</html>

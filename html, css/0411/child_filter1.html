@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>child filter 1</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('li:first').css('background', 'yellow');
+				$('li:first-child').css('border', '2px solid red');
+				
+				$('td:first-child').css({'background':'#4d4d4d','color':'white'});
+				$('td:nth-child(2)').css({'background':'#737373','color':'white'});
+				$('td:last-child').css('background', '#d9d9d9');
+				$('#tab2 tr:first td').css({'background':'black','color':'white'});
+			})
+		</script>
+		<style>
+		table{
+			border-collapse: collapse;
+		}
+		td{
+			width: 200px;
+			height: 50px;
+			text-align: center;
+			font-size: 1.1em;
+		}
+		th{
+			width: 200px;
+			height: 50px;
+			text-align: center;
+			font-size: 1.1em;
+		}
+		</style>
+	</head>
+<body>
+	<h3>여자에게 인기있는 남자들</h3>
+	<list>
+		<ol>
+			<li>능력</li>
+			<li>돈</li>
+			<li>잘</li>
+			<li>프</li>
+		</ol>
+	</list>
+	<h3>남자에게 인기있는 여자들</h3>
+	<list>
+		<ol>
+			<li>예쁜</li>
+			<li>귀여운</li>
+			<li>섹시한</li>
+		</ol>
+	</list>
+	
+	<hr>
+	
+	<table border="1">
+		<tr id="f">
+			<td>이름</td>
+			<td>주소</td>
+			<td>전화번호</td>
+		</tr>
+		<tr>
+			<td>홍길동</td>
+			<td>대전</td>
+			<td>010-222-333</td>
+		</tr>
+		<tr>
+			<td>진달래</td>
+			<td>서울</td>
+			<td>010-444-555</td>
+		</tr>
+		<tr>
+			<td>개나리</td>
+			<td>부산</td>
+			<td>010-777-888</td>
+		</tr>
+		<tr>
+			<td>무궁화</td>
+			<td>대구</td>
+			<td>010-555-999</td>
+		</tr>
+	</table>
+	
+	<br>
+	<br>
+	
+	<table border="1" id='tab2'>
+		<tr>
+			<td>이름</td>
+			<td>주소</td>
+			<td>전화번호</td>
+		</tr>
+		<tr>
+			<td>홍길동</td>
+			<td>대전</td>
+			<td>010-222-333</td>
+		</tr>
+		<tr>
+			<td>진달래</td>
+			<td>서울</td>
+			<td>010-444-555</td>
+		</tr>
+		<tr>
+			<td>개나리</td>
+			<td>부산</td>
+			<td>010-777-888</td>
+		</tr>
+		<tr>
+			<td>무궁화</td>
+			<td>대구</td>
+			<td>010-555-999</td>
+		</tr>
+	</table>
+</body>
+</html>

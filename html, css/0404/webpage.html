@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 700px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+    
+    .navlogo{
+    	background: beige;
+    }
+    .navlogo .nav li a{
+    	font-size: 1.3em;
+    }
+     .navlogo .nav li a:hover{
+     	font-size: 1.6em;
+     }
+     #ilogo{
+     	width : 60px;
+     	height : 40px;
+     	margin-top: -10px;
+     }
+     iframe{
+     	width : 80%;
+     	height : 400px;
+     	padding : 10px;
+     	border : 1px solid black;
+     }
+/*      .text-center{ */
+/*      	height : 1000px; */
+/*      } */
+  </style>
+  <script>
+  	window.onload = function(){
+  		
+  		//최초 실행 시 list-group에 이벤트를 등록
+  		listItems = document.getElementsByClassName('list-group-item');
+  		
+  		//이벤트를 미리 등록시킨다
+  		for(i=1 ; i<listItems.length ; i++){// 맨 윗 칸의 클릭방지
+  		//click : 이벤트의 종류
+		//subMenuPrint : 실행 함수. 함수호출 형식(())이 아니고 매개변수 형식이다.
+		//subMenuPrint함수 안에서 이벤트 대상을 this로 사용한다.
+  			listItems[i].addEventListener('click', subMenuPrint);
+  		}
+  		
+  		// 로그인과 회원가입 이벤트 등록
+  		menu = "nav";
+  		navmenu = document.getElementsByClassName('navmenu');
+  		
+  		for(i=0 ; i< navmenu.length ; i++){
+  			navmenu[i].addEventListener('click', subMenuPrint);
+  		}
+  		
+  	}
+  	
+  	function subMenuPrint(){ // 처음 실행시, dropdown메뉴 클릭시, dropdown 서브메뉴 클릭시 여기로 온다
+  		h3 = document.getElementsByTagName('h3')[0];
+  		h3.innerHTML = this.textContent; // this : 이벤트 대상 - 서브메뉴
+  		
+  		//alert(event.target + ", " + this);
+  		//iframe에 ~~~~.html을 실행
+  		this.setAttribute('target', 'ifr'); // target을 ifr에 설정한다
+  		this.setAttribute('href', './' + menu.trim() + '/' + this.textContent.trim() + ".html");
+//   		href = './이벤트/할인 이벤트.html'; 식으로 만들어진다
+  		
+  	}
+  	
+  	// dropdown메뉴를 클릭했을 때 ------------------------------------------
+  	function pro(litag){ // 매개변수는 클릭한 li
+  		mainMenu = litag.getElementsByClassName("dropdown-toggle")[0];
+//   	alert(mainMenu.firstChild.data);
+		menu = mainMenu.firstChild.data; // firstChild.data 대신 textContent로도 가능하다
+		
+  		item = '<a href="#" class="list-group-item active disabled">' + menu + '</a>';
+  		
+  		subMenu = litag.getElementsByClassName('dropdown-menu')[0];
+  		sub = subMenu.getElementsByTagName('a'); // 부메뉴
+  		
+  		textLeft = document.getElementsByClassName('text-left')[0];
+  		h1 = textLeft.getElementsByTagName('h1')[0];
+  		h3 = textLeft.getElementsByTagName('h3')[0];
+  		
+  		h1.innerHTML = menu;
+  		
+  		
+  	// 서브메뉴를 구성하는 곳 - listGroup에 출력
+  		for(i=0 ; i<sub.length ; i++) {
+  			item += '<a href="#" class="list-group-item">' + sub[i].textContent + '</a>';
+//   		html이 포함되어 있지 않으므로 innerHTML이 아닌 textContent로 가져온다
+// 			h3.innerHTML = sub[i].textContent; //이대로 주면 for문 마지막 것밖에 안 나온다. 해결을 위해 위쪽에 새 함수 생성
+			//alert(sub[i].textContent);
+			
+			//dropdown의 sub메뉴 클릭 이벤트를 등록
+			sub[i].addEventListener('click', subMenuPrint); // sub[i]가 위의 this가 된다
+  		}
+  		
+  		listGroup = document.getElementsByClassName('list-group')[0];
+  		listGroup.innerHTML = item;
+  		
+  		// 새로 구성된 sidenav의 list-group에서 서브메뉴 클릭 이벤트 등록
+  		itemgroup = listGroup.getElementsByClassName('list-group-item');
+  		for( i=1 ; i<itemgroup.length ; i++){ // 맨 윗 칸의 클릭방지
+  			itemgroup[i].addEventListener('click', subMenuPrint);
+  		}
+  		
+  	} // end of pro()
+  </script>
+</head>
+<body>
+
+<nav class="navlogo navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">
+      	<img id="ilogo" src="../images/racoon.jpeg">
+      </a>
+    </div>
+   
+      <ul class="nav navbar-nav navbar-right">
+        <li><a class="navmenu" href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a class="navmenu" href="#"><span class="glyphicon glyphicon-user"></span> 회원가입</a></li>
+      </ul>
+   
+  </div>
+</nav>
+ 
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+     
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" onclick="pro(this)">
+		    <a class="dropdown-toggle" data-toggle="dropdown">마이페이지
+		    <span class="caret"></span></a>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">HTML</a></li>
+		      <li><a href="#">CSS</a></li>
+		      <li><a href="#">JavaScript</a></li>
+		      <li><a href="#">JQuery</a></li>
+		    </ul>
+		  </li>
+		  
+		  <li class="dropdown" onclick="pro(this)">
+		    <a class="dropdown-toggle" data-toggle="dropdown">게시판
+		    <span class="caret"></span></a>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">공지게시판</a></li>
+		      <li><a href="#">자유게시판</a></li>
+		      <li><a href="#">QnA게시판</a></li>
+		      <li><a href="#">자료게시판</a></li>
+		    </ul>
+		  </li>
+		  
+		  <li class="dropdown" onclick="pro(this)">
+		    <a class="dropdown-toggle" data-toggle="dropdown">이벤트
+		    <span class="caret"></span></a>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">진행중인 이벤트</a></li>
+		      <li><a href="#">할인 이벤트</a></li>
+		      <li><a href="#">1+1</a></li>
+		    </ul>
+		  </li>
+      </ul>
+     
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <div class="list-group">
+		  <a href="#" class="list-group-item active disabled">게시판</a>
+		  <a href="#" class="list-group-item">공지게시판</a>
+		  <a href="#" class="list-group-item">자유게시판</a>
+		  <a href="#" class="list-group-item">QnA게시판</a>
+		  <a href="#" class="list-group-item">자료게시판</a>
+	  </div>
+    </div>
+    <div class="col-sm-9 text-left"> 
+      <h1>Welcome</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <hr>
+      <h3>Test</h3>
+      <p>Lorem ipsum...</p>
+      <iframe id="ifr" name="ifr" src="../0402/dragdrop.html"></iframe>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Context Test</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			$('p').css('color', 'blue');
+			
+			//컨텍스트지정
+			$('p', document.forms[1]).css('font-size', '1.5em');
+			$('div').click(function(){
+				r = Math.floor(Math.random()*256);
+				g = Math.floor(Math.random()*256);
+				b = Math.floor(Math.random()*256);
+				
+				r = r.toString(16);
+				g = g.toString(16);
+				b = b.toString(16);
+				
+				$('p', this).css('color', '#'+r+g+b);
+				// this(부모, 클릭하고 있는 div)범위 내의 p를 선택한다.	기억!
+				
+			})
+		})
+	</script>
+</head>
+<body>
+	<form>
+		<div>
+			<p>무궁화 꽃이 피었습니다</p>
+		</div>
+	</form>
+	
+	<form>
+		<p>진달래 꽃이 피었습니다</p>
+	</form>
+	
+	<form>
+		<div>
+			<p>개나리 꽃이 피었습니다</p>
+		</div>
+	</form>
+</body>
+</html>

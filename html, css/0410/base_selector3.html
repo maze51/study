@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Base Filter3</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			//id가 list인 요소의 테두리지정 2px solid orange 
+			//글자크기 30px ,  가로 길이지정 
+			$('#list').css('border', '2px solid orange').css('font-size', '30px')
+			.css('width', '400px');
+			//p요소의 테두리 2px solid red 변경
+			$('p').css('border', '2px solid red');
+			//span 요소의 배경색 핑크, 글자색 레드  
+			$('span').css('background-color', 'pink').css('color', 'red');
+			//span 요소의 후손  a 요소 overline   
+			$('span a').css('text-decoration', 'overline');
+			//class가 detail 요소의 글자색을 blue
+			$('.detail').css('color', 'blue');
+			// div의 다음의 모든  형제인 span 요소의 배경색 lightgreen
+			$('div~span').css('background-color', 'lightgreen');
+			//div 의 자식인 span 요소의 테두리 1px solid red
+			$('div>span').css('border', '1px solid red');
+			//div 형제인 모든 b 요소의 테두리 2px solid blue 
+			$('div~b').css('border', '2px solid blue');
+		})
+	</script>
+</head>
+<body>
+	<div>
+		<span>It교육의 요람 <a href="http://www.ddit.or.kr"> (재)대덕인재개발원</a>으로
+			오세요</span><br> 
+			<a href="mailto:power2c@ddit.or.kr">빠워에게 메일보내기</a>
+
+		<p>
+			RIA기술 : <input type="checkbox" name="ria" value="플렉스" />플렉스 
+			<input type="checkbox" name="ria" value="실버라이트" />실버라이트
+			<input type="checkbox" name="ria" value="HTML5" />HTML5<br> 성 별 :
+			<input type="radio" name="gender" value="남자" />남자 
+			<input type="radio" name="gender" value="여자" />여자<br> 
+			<input type="button" value="클릭~" /><br>
+		</p>
+		<div id="list">selector의 종류들입니다.</div>
+		
+		<b>엘리먼트 : </b> 
+		<span class="detail"><b>태그명, ID속성값, CLASS속성값 이용</b></span><br>
+		
+		<br> <b>속성 : </b> 
+		<span class="detail">각 요소에 설정된 속성명과 속성값을 이용</span><br>
+		
+		<br> <b>form : </b> 
+		<span>input, select, textarea등의 특성을 이용</span>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>진행중인 이벤트</title>
+	<style>
+	.ig{
+		width : 100px;
+		height : 100px;
+		margin : 2px;
+	}
+	</style>
+	<script type="text/javascript">
+		window.onload = function(){
+			vimg = document.getElementsByClassName('ig')[0]; // 단지 처음에 vimg변수를 만들기 위한 것
+		}
+		function start(){
+			
+			vimg.style.border = "";
+			
+			event.target.setAttribute('disabled', true); // event는 내장객체
+			document.getElementById('stop').removeAttribute('disabled');
+			
+			a = setInterval(function() {
+				parent = document.getElementById('d1');
+				child = document.getElementsByClassName('ig');
+				
+				//parent.removeChild(child[0]);
+				parent.appendChild(child[0]); // 기존 있던걸 appendChild할 경우, 자동으로 잘라내기 붙여넣기 동작
+				
+			}, 100);
+		}
+		function stop(){
+			
+			document.getElementById('start').removeAttribute('disabled');
+			event.target.setAttribute('disabled', true);
+			
+			rand = Math.floor(Math.random()*child.length);
+			
+			vimg = child[rand];
+			vimg.style.border = "5px solid gold";
+			
+			clearInterval(a);
+		}
+	</script>
+</head>
+<body>
+<div id="d1">
+	<img class="ig" src="../../images/tigergif.gif">
+	<img class="ig" src="../../images/nyanggif9.gif">
+	<img class="ig" src="../../images/nyanggif7.gif">
+	<img class="ig" src="../../images/racoon.jpeg">
+	<img class="ig" src="../../images/dogg.jpg">
+	<img class="ig" src="../../images/nyang.jpg">
+	<img class="ig" src="../../images/dog.png">
+	<img class="ig" src="../../images/doggif2.gif">
+</div>
+<br>
+<button type="button" id="start" onclick="start()">시작</button>
+<button type="button" id="stop" onclick="stop()" disabled>종료</button>
+</body>
+</html>

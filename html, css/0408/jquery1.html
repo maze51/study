@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery #1</title>
+<!-- jQuery 코드를 위한 라이브러리 추가 -->
+<script src="../js/jquery-3.3.1.min.js"></script>
+	<style>
+		p{
+			color : red;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			
+			// javascript 코드
+			plist = document.getElementsByTagName("p");
+// 			plist.style.color = "orange"; 배열에서 이렇게 지정하면 오류 발생
+			plist[0].style.color="blue";
+			plist[1].style.color="green";
+			
+			// jQuery 코드
+			plist = $("p");
+			plist.css("color", "orange");
+			$(plist.eq(0)).css("color", "lightgreen"); // 메서드 eq0번째
+			$("p:eq(0)").css("color", "red");
+		}
+	</script>
+</head>
+<body>
+	jquery : javascript의 라이브러리 입니다. <br>
+	javascript를 좀 더 간편하게 사용할 수 있습니다. <br>
+	javascript를 대체하는 것은 아닙니다. <br>
+	<br>
+	다운르도 방식 : jQuery.com에서 다운로드<br>
+	&lt;script src="../js/jquery-3.3.1.min.js"&gt;&lt;/script&gt;
+	CDN방식 : 직접 다운받지 않고 실행시마다 네트워크를 통해서
+	공개서버로부터 자동으로 다운받아 html파일에 include한다<br>
+	
+	P태그를 선택하는 방법<br>
+	javascript: document.getElementsByTagName('p')<br>
+	jQuery: $('p')<br>
+	
+	
+	<br>
+	<p>무궁화 꽃이 피었습니다 </p>
+	<p>천주산 진달래가 엄청 빨갛습니다 </p>
+</body>
+</html>

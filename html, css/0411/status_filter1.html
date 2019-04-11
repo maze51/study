@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>status filter 1</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$(':disabled').css('border', '2px solid red');
+				$(':enabled').css('border', '2px dotted dodgerblue');
+			})
+		</script>
+	</head>
+<body>
+	<form action="../0410/formtest.jsp" method="post"> 
+		<input type="button" name="disButton" value="Input Button" disabled><br>
+		<input type="checkbox" name="enCheckbox" >체크<br>
+		
+		<input type="file" name="disFile"  ><br>
+		<input type="hidden" name="enHidden"  value=“”> <br>
+		
+		<input type="image" src="../images/image.1.jpg" alt="Submit"><br>
+		
+		<input type="password"  value="1111" name="enPassword"> <br>
+		<input type="radio" name="disRadio"  value="남" disabled> 남
+		<input type="radio" name="disRadio"  value="여" disabled> 여<br>
+		
+		<input type="reset" name="enReset" value="취소"><br>
+		<input type="submit" name="disSubmit" value="제출" disabled> <br>
+		
+		<input type="text" name="enText" value="input text" disabled > <br>
+		<select name="disSelect">
+			<option>Option1</option>
+			<option>Option2</option>
+			<option>Option3</option>
+			<option>Option4</option>
+			<option>Option5</option>
+			<option>Option6</option>
+		</select><br>
+		
+		<textarea name="enTextarea" rows=10 cols=20 >text</textarea><br>
+		
+		<button name="disButton2" onclick="javascript:alert('aaaaa');" disabled>Button</button><br>
+	</form>
+
+</body>
+</html>

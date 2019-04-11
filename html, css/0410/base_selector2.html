@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Base Filter2</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		jQuery(function(){
+			//h3 다음의 모든 형제의 배경색을 변경, 길이지정, 가운데정렬
+			$('h3~p').css('width', '350px').css('background-color', 'yellow')
+				.css('text-align','center');
+			
+			//h3 다음의 첫번째 형제의 글자를 굵게 :font-weight
+			$('h3+p').css('font-weight', 'bold').css('font-size','1.5em');
+			
+			//$('button').click(proc1);
+			$('button').on('click', proc1);
+			//실행 전에 body태그에 button이 만들어져 있다 - 이 때는 같다
+			//실행 도중 script에 의해 새 요소(버튼)이 만들어져 있다 
+			//						- .click(함수명); 처럼 쓸 수 없다
+			
+			//document.getElementsByTagName('button')[0].addEventListener('click', proc1);
+		})
+		
+		function proc1(){
+			//h3 다음의 모든 형제의 배경색을 변경, 길이지정, 가운데정렬
+			$('h3~p').css('width', '400px').css('background-color', 'crimson')
+				.css('text-align','right');
+			
+			//h3 다음의 첫번째 형제의 글자를 굵게 :font-weight
+			$('h3+p').css('font-weight', 'bold').css('font-size','1.5em')
+				.css('font-style', 'italic');
+		}
+	</script>
+</head>
+<body>
+<p>형제 선택자 에 대하여</p>
+ <h3> 텔레토비 가족을 소개 합니다</h3>
+ <p> 보라돌이</p>
+ <p> 뚜비</p>
+ <p> 나나 </p>
+ <p>뽀~ </p>
+
+ <br>
+ <button type="button">실행</button>
+</body>
+</html>

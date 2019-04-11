@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Array 연습</title>
+<link rel="stylesheet" type="text/css" href="../css/public.css">
+	<script>
+	function proc1(){
+		arr = new Array();
+		
+		i=0;
+		while(true){
+			//입력하기
+			input = prompt("이름을 입력하세요");
+			if(input==null || input==""){
+				break;
+			}
+			arr[i] = input;
+			i++;
+		}
+		res = "입력받은 이름" + "<br>";
+		for(i=0;i<arr.length;i++){
+			res += arr[i] + "<br>";
+		}
+		document.getElementById('result1').innerHTML = res;
+	}
+	
+	function proc2(){
+		arr = new Array();
+		
+		for(i=0;i<5;i++){
+			//입력
+			input = prompt((i+1) + "번째 정수를 입력하세요");
+			
+			if(arr.indexOf(input) >= 0){ // 같은 값이 있는 경우
+				alert("중복된 값입니다");
+				i--;
+			} else { // 없는 경우
+				arr.push(input);
+			}
+		}
+		document.getElementById('result2').innerHTML = arr;
+		
+		
+	}
+	</script>
+</head>
+<body>
+1. 사람 이름을 계속 입력 받아 배열에 저장하고 그 저장된 이름을<br>
+출력하는 프로그램을 작성하시오.(단, 입력은 prompt 명령을 이용하고, <br>
+입력의 마지막은 공백문자를 입력하거나 "취소" 버튼을 눌렀을 때로 한다. <br>
+<br>
+<button type="button" onclick="proc1()">실행</button>
+<div id="result1"></div>
+<br>
+<hr>
+<br>
+2. 서로 중복되지 않은 정수 5개를 입력 받아 출력하는 프로그램을 작성하시오. <br>
+<br>
+<button type="button" onclick="proc2()">실행</button>
+<div id="result2"></div>
+
+
+</body>
+</html>

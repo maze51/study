@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Base Filter Span</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			$('span').css('background-color', 'yellow');
+			$('div span').css('border', '3px solid red');
+			$('div>span').css('border', '3px solid blue');
+		})
+	</script>
+</head>
+<body>
+<p>이 문단에는 <span>스팬</span> 엘리먼트가 있다</p>
+ 
+ <div>
+    이 디비젼에도  <span>스팬</span> 엘리먼트가 있다 
+    <p>디비젼의  내부 문단의 <span>스팬</span> 엘리먼트이다 </p>
+ 
+    <div>  
+        <p> 내부 디비젼의   다시 문단 속 아주
+           	  <strong>깊은곳에 </strong>
+                    <em> 숨어있는 </em>
+                    <span>스팬</span>
+	엘리먼트도 있다 
+        </p>
+    </div>
+ </div> 
+
+</body>
+</html>

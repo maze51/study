@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<title>파일 API</title>
+	<style>
+		img{
+			display : none;
+		}
+		div{
+			border : 1px dotted orange;
+			width : 50%;
+			height : 150px;
+			padding : 10px;
+		}
+	</style>
+	<script>
+		function fileRead(){
+		// File 객체 : 파일의 정보를 얻는다
+		//		-name, size, type, lastModifiedDate
+		// FileReader 객체 : 파일을 읽어 내용을 가져온다
+		//		readAsText(file객체변수, 인코딩) ==> 파일의 내용을 문자열로 변환
+		//		readAsDataURL(file객체변수) ==> 파일의 내용을 DataURL의 형식문자열로 변환
+		// 속성 - result : 읽은 파일의 결과 내용을 저장하는 속성
+		// 			-error : 오류 발생 시 오류 정보를 저장하는 속성
+		
+		// files는 File객체를 리턴한다. f변수는 File객체 변수이다.
+		f= document.getElementById("file").files[0];
+		
+		res = "이름 : " + f.name + "<br>";
+		res += "크기 : " + f.size + "<br>";
+		res += "유형 : " + f.type + "<br>";
+		res += "수정일 : " + f.lastModifiedDate.toLocaleString() + "<br>";
+		
+		document.getElementById("info").innerHTML = res;
+		
+		reader = new FileReader();
+		
+		//reader.readAsText(f, "UTF-8"); // 결과값은 result속성이 가지고 있다
+		reader.readAsDataURL(f); // data:image
+		
+		reader.onload = function(){
+			document.getElementById("area").value = reader.result;
+			img1 = document.getElementById("img1");
+			
+			// 이미지인지 아닌지 비교 - 이미지이면 display = "block" 으로 바꾼다
+			if(reader.result.match("image")){
+				img1.src = reader.result;
+				img1.style.display = "block";
+			} else {
+				img1.style.display = "none";
+			}
+		}
+		
+		
+		}
+	</script>
+</head>
+<body>
+	<h1>HTML5 File API</h1>
+	<br>
+	<form action="" method="post" encType="">
+<!-- 	전송한다면 이런 식으로 작성해야 한다 -->
+	<input type="file" id="file" multiple> <!-- multiple속성을 주면 한 번에 여러개 처리 가능 -->
+	<input type="button" value="읽기" onclick="fileRead()">
+	<br>
+	<br>
+	<textarea id="area" rows="10" cols="50" readonly></textarea>
+	<br>
+	<br>
+	<h2>파일정보</h2>
+	<p> <!-- <p>의 내용이 없으면 <br><br>의 역할을 한다 -->
+	<img id="img1" src="../images/racoon.jpeg">
+	<p>
+	<div id="info"></div>
+	<br>
+	<button type="button" class="btn btn-default btn-lg">확인</button><br>
+	<button type="button" class="btn btn-primary btn-lg">Primary</button>
+	</form>
+</body>
+</html>

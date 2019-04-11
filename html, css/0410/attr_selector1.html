@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>attr1</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+	$(function(){
+		//title 속성을 가진 p요소의 배경색 변경
+		$('p[title]').css('background-color', 'yellow');
+		
+		//type 속성이 password 인 요소의 테두리 변경
+		$('input[type=password]').css('border', '2px solid red');
+	})
+		
+		
+	</script>
+</head>
+<body>
+<p> 일반 문단입니다 </p>
+  <p title="툴팁으로 보입니다"> 타이틀을 가지고 있는 문단입니다 </p>
+  <input type="text"> 회원번호 <br>
+  <input type="password"> 비밀번호 <br>
+
+</body>
+</html>

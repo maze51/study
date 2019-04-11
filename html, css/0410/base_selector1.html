@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Base Filter1</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){ // window.onload = function(){} 과 같은 의미
+			// h2의 자식 a태그의 스타일에 테두리 설정 - solid
+			$('h2 > a').css('border', '1px solid black');
+			
+			// h2의 후손 a태그의 스타일 배경색을 노란색으로 변경
+			$('h2 a').css('background-color', 'yellow');
+			
+// 			document.getElementsByTagName('button')[0].addEventListener('click', sdf);
+// 			$('button').click(function(){ })
+			// 이렇게도 가능하고 함수 이름을 줘서 
+			// 아래처럼 별도로 만들 수도 있다.
+// 			$('button').click(sdf)
+
+			// @@함수 호출은 이름을 가진 함수로 할 수도 있고, 
+			// 익명의 콜백함수를 쓸 수도 있다
+			
+			
+			// jQuery방식
+// 			$('#but').click(function(){
+// 				$('h2 > a').css('border', '5px solid orange');
+// 				$('h2 a').css('background-color', 'cyan');
+// 			})
+			// 같은 기능의 dom방식
+			document.getElementById('but').addEventListener('click', function(){
+				// 내용은 jQuery식 선택자를 이용
+				$('h2 > a').css('border', '5px solid orange');
+				$('h2 a').css('background-color', 'cyan');
+			})
+		})
+		
+// 		function sdf(){
+			
+// 		}
+		
+		function proc1(){
+			// h2의 자식 a태그의 스타일에 테두리 설정 - solid
+			$('h2 > a').css('border', '10px solid cyan');
+			
+			// h2의 후손 a태그의 스타일 배경색을 노란색으로 변경
+			$('h2 a').css('background-color', 'silver');
+		}
+	</script>
+</head>
+<body>
+<h2> 문단 안에 <a>링크</a> 태그가 있다
+두번째  <span><a>링크</a></span> 은 손자이다 
+</h2>
+
+<button type="button" onclick="proc1()">실행onclick</button>
+<button type="button" id="but">실행</button>
+</body>
+</html>

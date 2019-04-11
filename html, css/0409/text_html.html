@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Text Html</title>
+	<script src="../js/jquery-3.3.1.min.js"></script>
+	<script>
+		$(function(){
+			//alert($('body').html());
+			//alert($('body').text());
+			//alert($('p').text());
+			//alert($('p').html());
+			
+// 			leng = $('p').length;
+// 			res = "";
+// 			for(i=0 ; i<leng ; i++){
+// 				alert($('p').html());
+// 			}
+			
+// 			$.each($('p'), function(i){
+// 				alert($(this).html());
+// 			})
+			
+			res='';
+			
+			$('p').each(function(i){
+				res += i + "번째 요소 : " + $(this).html() + "\n";
+			})
+			
+			alert(res);
+		})
+	</script>
+</head>
+<body>
+html메소드와 text메소드<br>
+html메소드 : 태그를 포함<br>
+text메소드 : 태그를 포함하지 않는다<br><br>
+alert($("body").html());  // body 태그 안의 모든 태그를 포함한 문장<br>
+alert($("body").text());  // body 태그안의 모든 문자만<br>
+alert($("p").text());  //여러개인경우 모든 p태그의 문자만<br> 
+alert($("p").html());  //p가  여러개인경우  첫번째 인거만 태그를 포함한 문장<br> 
+전체를 가져 오려면 반복문을 실행하고 반복문 안에서 대상을 this로 받는다<br><br>
+
+
+  <p>1<a>홍길동</a></p>
+  <p>2<a>개나리</a></p>
+  <p>3<a>진달래</a></p>
+</body>
+</html>
