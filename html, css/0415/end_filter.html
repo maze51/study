@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>end filter</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+// 				$('div:odd')
+				
+// 				$('div').filter('odd').eq(0).css('background', 'green')
+// 				.eq(1).css('background', 'blue')
+// 				.eq(2).css('background', 'yellow');
+				
+// 				$('div').filter('odd').eq(0).css('background', 'green');
+// 				$('div').filter('odd').eq(1).css('background', 'blue');
+// 				$('div').filter('odd').eq(2).css('background', 'yellow');
+				
+				$('div').filter('odd').eq(0).css('background', 'green')
+									.end().eq(1).css('background', 'blue')
+									.end().eq(2).css('background', 'yellow');
+				
+			})
+		</script>
+		<style>
+			div{
+				width : 60px;
+				height : 60px;
+				float : left;
+				border : 3px solid blue;
+				margin : 5px;
+				padding : 10px;
+			}
+		</style>
+	</head>
+<body>
+	<div>a</div> 
+	<div>b</div> 
+	<div>c</div> 
+	<div>d</div> 
+	<div>e</div> 
+	<div class="orange">f</div> 
+	<div>g</div>
+		
+</body>
+</html>

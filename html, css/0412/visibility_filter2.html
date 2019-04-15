@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>visibility filter 2</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#visible').click(function(){
+					res = "보이는 것들 <br>";
+					res2 = "";
+					$('#testForm :visible').each(function(i){
+						if(this.tagName=='INPUT'){
+							res += "input visible객체 : [" + $(this).attr('name') + " : " +
+							$(this).val() + "] <br>";
+						} else {
+							res2 += $(this).text() + "<br>";
+						}
+					})
+						$('#result1').html(res+res2);
+				})
+				
+				$('#hidden').click(function(){
+					res = "안보이는 것들 <br>";
+					res2 = "";
+					$('#testForm :hidden').each(function(i){
+						if(this.tagName=='INPUT'){
+							res += "input hidden객체 : [" + $(this).attr('name') + " : " +
+							$(this).val() + "] <br>";
+						} else {
+							res2 += $(this).text() + "<br>";
+						}
+					})
+						$('#result2').html(res+res2);
+					
+				})
+				
+				
+			})
+		</script>
+	</head>
+<body>
+	<form id="testForm"> 
+		<input type="hidden" name="userAge" value="33">
+		<input type="hidden" name="userCity" value="대전">
+		I D : <input type="text" name="userID" value="hong">
+		<span style="display:none">ID가 중복됩니다. </span> <br>
+		이름 : <input type="text" name="userName" value="홍길동">
+		<span style="visibility:hidden">이름을 입력하세요</span><br>
+		성별 : <input type="radio" name="sung" value="남" checked>남자
+		<input type="radio" name="sung" value="여">여자
+	</form>
+	
+	<br><br>
+	<button type="button" id="visible">보이는 것</button><br>
+	<div id="result1"></div>
+	<br><br>
+	<button type="button" id="hidden">안보이는 것</button><br>
+	<div id="result2"></div>
+	<br><br>
+</body>
+</html>

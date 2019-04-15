@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>append img</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#start').on('click', startPro);
+				$('#stop').on('click', stopPro);
+				
+				$('p').click(function(){
+					
+					nImg = $('<img/>', {
+						'width' : '200px',
+						'height' : '200px',
+						'src' : '../images/' + $(this).attr('title') + '.jpg'
+					})
+					$(this).after(nImg);
+				})
+			})
+			
+			function startPro(){
+				a = setInterval(function(){
+					$('img:first').appendTo('div')
+				}, 500)
+				$(this).attr('disabled', true);
+			}
+			
+			function stopPro(){
+				clearInterval(a);
+				
+				//document.getElementById('start').removeAttribute('disabled'); 아래와 같다
+				$('#start').attr('disabled', false);
+			}
+		</script>
+		<style>
+			img{
+				width : 150px;
+				height : 150px;
+			}
+		</style>
+	</head>
+<body>
+	<div>
+		<img src="../images/image.1.jpg">
+		<img src="../images/image.2.jpg">
+		<img src="../images/image.3.jpg">
+		<img src="../images/image.4.jpg">
+		<img src="../images/image.5.jpg">
+		<img src="../images/image.6.jpg">
+	</div>
+	<br>
+	<button type="button" id="start">시작</button>
+	<button type="button" id="stop">종료</button>
+	<hr>
+	<p title="Tulips">튜울립</p>
+  	<p title="Chrysanthemum">국화</p>
+  	<p title="Koala">코알라</p>
+  	<p title="Hydrangeas">수국</p>
+	
+	
+</body>
+</html>

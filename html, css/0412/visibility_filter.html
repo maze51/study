@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>visibility filter</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				res = "";
+				
+				$('#but1').on('click', function(){
+					res = "*:hidden 인 내용 <br>";
+					$('*:hidden').each(function(i){
+						res += i + "번째 : " + this.tagName + "<br>"
+					})
+					
+					$('#result1').html(res);
+				})
+				
+				$('#but2').on('click', function(){
+					res = "*:visible 인 내용 <br>";
+					$('*:visible').each(function(i, v){
+						res += i + "번째 : " + v.tagName + "<br>"
+					})
+					
+					$('#result2').html(res);
+				})
+				
+				$('#but3').on('click', function(){
+					res = "p:hidden 인 내용 <br>";
+					$('p:hidden').each(function(i){
+						res += i + "번째 : " + this.tagName + " " + $(this).text() +  "<br>"
+					})
+					
+					$('#result3').html(res);
+				})
+				
+				$('#but4').on('click', function(){
+					res = "p:visible 인 내용 <br>";
+					$('p:visible').each(function(i){
+						res += i + "번째 : " + this.tagName + " " + $(this).text() +  "<br>"
+					})
+					
+					$('#result4').html(res);
+				})
+				
+			})
+		</script>
+		<style>
+			div{
+				width : 100%;
+				height : auto;
+				border : 1px dotted red;
+			}
+		</style>
+	</head>
+<body>
+	<p> 보이는 문단</p>
+		<p style="visibility:hidden;">숨겨진 문단</p>
+		<p style="display:none;"> 자리를 차지 하지 못한 문단 </p>
+		<p style="opacity:0;"> 투명한 문단</p>
+		<br>
+		*:hidden => 안 보이는 모든 것<br>
+		<button type="button" id="but1">실행</button><br>
+		<div id="result1"></div>
+		<br><br>
+		*:visible => 보이는 모든 것<br>
+		<button type="button" id="but2">실행</button>
+		<div id="result2"></div>
+		<br><br>
+		p:hidden => 안 보이는 p요소<br>
+		<button type="button" id="but3">실행</button>
+		<div id="result3"></div>
+		<br><br>
+		p:visible => 보이는 p요소<br>
+		<button type="button" id="but4">실행</button>
+		<div id="result4"></div>
+</body>
+</html>

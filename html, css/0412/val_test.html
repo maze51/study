@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>val test</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<style>
+			div{
+				width : 400px;
+				height : 400px;
+				border : 1px solid blue;
+			}
+			span{
+				display : inline-block;
+				border : 2px solid pink;
+				width : 100%;
+				//margin-left : 50px;
+				word-wrap: break-word;
+			}
+			
+		</style>
+		<script>
+			$(function(){
+				//$('#btnview').on('click', function(){});
+				$('#btnview').on('click', viewPro);
+			
+			})
+			
+			function viewPro(){
+				res="";
+				res += "이름 : " + $('#user').val() + "<br>";
+				res += "성별 : " + $('#gend:checked').val() + "<br>";
+				res += "소개 : " + "<br>";
+				res += "<span>" + $('#intro').val().replace(/\n/g, "<br>") + "</span>" + "<br>";
+				// \n을 전부(g)찾아서 <br>로 바꿔라
+				res += "직업 : " + $('#work option:selected').val() + "<br>";
+				
+				
+				$('#result1').html(res);
+			}
+		</script>
+	</head>
+<body>
+	<form>
+		<label for="user">이름</label>
+		<input type="text" id="user" value="korea"><br>
+		
+		<label >성별</label> 
+		<input type="radio" id="gend" name="gend" value="남자" checked >남자
+		<input type="radio" id="gend" name="gend" value="여자">여자<br>
+		
+		<label for="intro">소개</label> 
+		<textarea id="intro" cols="40" rows="4"></textarea> <br>
+		
+		<label for="work">직업</label>
+		<select id="work">
+			<option value="programmer">프로그래머</option>
+			<option value="progammer">프로게이머</option>
+			<option value="whitehand">백수</option>
+		</select><br>
+		
+		<button type="button" id="btnview">조사하기 </button>
+		<button id="btnchange">이름변경 </button>
+	</form>
+	
+	<div id="result1"></div>
+</body>
+</html>

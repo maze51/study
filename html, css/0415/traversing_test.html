@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>traversing test</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#next').on('click', function(){
+					$('#d1 .start').next().css('border', '3px solid red');
+				})
+				$('#nextAll').on('click', function(){
+					$('#d1 .start').nextAll().css('border', '3px solid blue');
+				})
+				$('#nextUntil').on('click', function(){
+					$('#d1 .start').nextUntil('.stop').css('border', '3px solid green');
+				})
+				//-------------------------------------------------------------------
+				$('#prev').on('click', function(){
+					$('#d2 .start').prev().css('border', '3px solid red');
+				})
+				$('#prevAll').on('click', function(){
+					$('#d2 .start').prevAll().css('border', '3px solid blue');
+				})
+				$('#prevUntil').on('click', function(){
+					$('#d2 .start').prevUntil('.stop2').css('border', '3px solid green');
+				})
+				//-------------------------------------------------------------------
+				$('#parent').on('click', function(){
+					$('#d3 .start').parent().css('border', '3px solid red');
+				})
+				$('#parents').on('click', function(){
+					$('#d3 .start').parents().css('border', '3px solid blue');
+				})
+				$('#parentss').on('click', function(){
+					$('#d3 .start').parents('div').css('border', '3px solid green');
+				})
+				//-------------------------------------------------------------------
+				$('#siblings').on('click', function(){
+					$('#d4 .start').siblings().css('border', '3px solid red');
+				})
+			})
+		</script>
+	<style>
+		.siblings * { 
+			display: block;
+			border: 2px solid lightgrey;
+			color: lightgrey;
+			padding: 5px;
+			margin: 15px;
+		}
+		.start{
+			display: inline;
+			font-weight: bold;
+			background: pink;
+		}
+		hr{
+			color: lime;
+		}
+	</style>
+	</head>
+<body>
+	<div id="d1" style="width:500px;" class="siblings">
+		<ul>ul (parent)  
+		    <li>li (sibling)</li>
+		    <li>li (sibling)</li>
+		    <li class="start">li (sibling with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li class="stop">li (sibling with class name "stop")</li>
+		</ul>   
+	</div>
+	<button id="next">next</button>
+	<button id="nextAll">nextAll</button>
+	<button id="nextUntil">nextUntil(stop)</button>
+	<br>
+	<hr>
+	<br>
+	<div id="d2" style="width:500px;" class="siblings">
+		<ul>ul (parent)  
+		    <li>li (sibling)</li>
+		    <li>li (sibling)</li>
+		    <li class="stop2">li (sibling with class name "stop2")</li>
+		    <li>li (the next sibling of li with class name "start2")</li>
+		    <li>li (the next sibling of li with class name "start2")</li>
+		    <li>li (the next sibling of li with class name "start2")</li>
+		    <li class="start">li (sibling with class name "start2")</li>
+		</ul>   
+	</div>
+	<button id="prev">prev</button>
+	<button id="prevAll">prevAll</button>
+	<button id="prevUntil">prevUntil</button>
+	<br>
+	<hr>
+	<br>
+	<div id="d3" style="width:500px;" class="siblings">
+		<ul>ul (parent)  
+		    <li>li (sibling)</li>
+		    <li>li (sibling)</li>
+		    <li class="start">li (sibling with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li class="stop">li (sibling with class name "stop")</li>
+		</ul>   
+	</div>
+	<button id="parent">parent</button>
+	<button id="parents">parents</button>
+	<button id="parentss">parents('s')</button>
+	<br>
+	<hr>
+	<br>
+	<div id="d4" style="width:500px;" class="siblings">
+		<ul>ul (parent)  
+		    <li>li (sibling)</li>
+		    <li>li (sibling)</li>
+		    <li class="start">li (sibling with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li>li (the next sibling of li with class name "start")</li>
+		    <li class="stop">li (sibling with class name "stop")</li>
+		</ul>   
+	</div>
+	<button id="siblings">siblings</button>
+</body>
+</html>

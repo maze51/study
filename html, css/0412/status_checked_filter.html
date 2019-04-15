@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>status checked filter</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<style>
+			div{
+				width : 50%;
+				height : 50px;
+				border : 1px dotted orange;
+			}
+		</style>
+		<script>
+			$(function(){
+// 				document.getElementById('spring');
+				$('#spring').on('change', function(){
+					res = "";
+					$('option:selected').each(function(){
+						res += $(this).val() + " ";
+					})
+					
+					$('#result2').text(res);
+				})
+			})
+			function proc1(){
+				// 체크박스에서 체크되어 있는 상태의 값을 가져온다
+				
+				// 반복문
+				// $.each('선택자',function(i){})
+				// $('선택자').each(function(i){})
+				
+				// 방법은 둘 다 가능함(반복 방법도 둘 다 가능)
+// 				$('input[type=checkbox]:checked').each(checkPro);
+				
+				res = ""; // 출력용 변수
+				$(':checkbox:checked').each(function(i){
+					res += $(this).val() + " "; // this.value
+				})
+				
+				
+// 				document.getElementById('result').innerHTML = res;
+				$('#result').html(res); // 위와 같지만 단순
+				
+			}
+			
+// 			function checkPro(){
+				
+// 			}
+		</script>
+	</head>
+<body>
+	<form>
+		취 미 :
+		<input type="checkbox" name="hobby" value="여행" checked >여행
+		<input type="checkbox" name="hobby" value="장기">장기
+		<input type="checkbox" name="hobby" value="바둑">바둑
+		<input type="checkbox" name="hobby" value="독서">독서
+		<input type="checkbox" name="hobby" value="낚시">낚시<br><br>
+		<input type="button" value="전송" onclick="proc1()">
+	</form>
+	<br>
+	<div id="result"></div>
+	<hr>
+	<br>
+	<form>
+	봄소식 : <select name="spring" id="spring" multiple size="6">
+	<option>개나리</option>
+	<option selected>진달래</option>
+	<option>민들레</option>
+	<option selected>벚꽃</option>
+	<option>목련</option>
+	<option>철쭉</option>
+</select>
+</form>
+	<div id="result2"></div>
+	
+</body>
+</html>

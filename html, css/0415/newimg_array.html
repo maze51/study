@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>newImg Array</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			Tulips = ["튤립1.jpg", "튤립2.jpg", "튤립3.jpg", "튤립4.jpg", 
+			          "튤립5.jpg", "튤립6.jpg", "튤립7.jpg", "튤립8.jpg", 
+			          "튤립9.jpg", "튤립10.jpg"];
+			Chrysanthemum = ["국화1.jpg", "국화2.jpg", "국화3.jpg", "국화4.jpg", 
+			                 "국화5.jpg", "국화6.jpg", "국화7.jpg", "국화8.jpg", 
+			                 "국화9.jpg", "국화10.jpg"];
+			Koala = ["코알라1.jpg", "코알라2.jpg", "코알라3.jpg", "코알라4.jpg", 
+			         "코알라5.jpg", "코알라6.jpg", "코알라7.jpg", "코알라8.jpg", 
+			         "코알라9.jpg", "코알라10.jpg"];
+			Hydrangeas = ["수국1.jpg", "수국2.jpg", "수국3.jpg", "수국4.jpg", 
+			              "수국5.jpg", "수국6.jpg", "수국7.jpg", "수국8.jpg", 
+			              "수국9.jpg", "수국10.jpg"];
+			
+			imgarr = "";
+			$(function(){
+				// 클릭하면 imgarr에 들어가도록
+				$('p').on('click', function(){
+					title = $(this).attr('title');
+					
+					if(title == "Tulips"){
+						imgarr = Tulips;
+					} else if(title == "Chrysanthemum"){
+						imgarr = Chrysanthemum;
+					} else if(title == "Koala"){
+						imgarr = Koala;
+					} else if(title == "Hydrangeas"){
+						imgarr = Hydrangeas;
+					}
+					
+					rand = Math.floor(Math.random()*imgarr.length);
+					
+					nImg = $('<img/>', {
+						'width' : '120px',
+						'height' : '120px',
+						'src' : '../images/' + imgarr[rand]
+					})
+					$(this).after(nImg);
+					
+				});
+			})
+			
+		</script>
+	</head>
+<body>
+	<p title="Tulips">튤립</p>
+  	<p title="Chrysanthemum">국화</p>
+  	<p title="Koala">코알라</p>
+  	<p title="Hydrangeas">수국</p>
+</body>
+</html>

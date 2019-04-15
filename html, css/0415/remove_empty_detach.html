@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>remove empty detach</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#remove').on('click', function(){
+					$('div').remove();
+				})
+				
+				$('#empty').on('click', function(){
+					$('div').empty();
+				})
+				
+				$('.pp').on('click', function(){
+					$(this).css('font-size', '+=5px');
+				})
+				
+				$('#eventRemove').on('click', function(){
+					a = $('#p1').remove();
+					$('body').append(a);
+				})
+				
+				$('#detach').on('click', function(){
+					a = $('#p2').detach();
+					$('body').append(a);
+				})
+			})
+		</script>
+		<style>
+			div{
+				background : yellow;
+				width : 500px;
+				height : 300px;
+				border : 3px solid dodgerblue;
+			}
+		</style>
+	</head>
+<body>
+	<div>
+		무궁화 꽃이 피었습니다 <br>
+		진달래 꽃도 피었습니다 <br>
+		<p>고복저수지에 꽃비가 옵니다</p>
+	</div>
+	remove : 대상요소를 지운다<br>
+	empty : 대상요소는 지우지 않고 안의 자식내용들만 지운다<br>
+	
+	<button id="remove">remove</button>
+	<button id="empty">empty</button>
+	<br><br>
+	
+	<p id="p1" class="pp">무궁화 꽃이 피었습니다(remove)</p>
+	<p id="p2" class="pp">무궁화 꽃이 피었습니다(detach)</p>
+	
+	remove : 대상요소가 지워지면 이벤트도 함께 지워진다<br>
+	detach : 대상요소가 지워져도 이벤트는 지워지지 않는다<br>
+	
+	<button id="eventRemove">event remove(이벤트 삭제)</button>
+	<button id="detach">detach(이벤트 유지)</button>
+</body>
+</html>
