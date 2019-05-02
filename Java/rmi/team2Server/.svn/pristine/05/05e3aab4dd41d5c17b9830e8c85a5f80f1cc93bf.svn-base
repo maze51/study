@@ -1,0 +1,5 @@
+# 이 문서는 DB접속 정보를 저장한 파일입니다.
+driver=oracle.jdbc.driver.OracleDriver
+url=jdbc:oracle:thin:@localhost:1521:xe
+user=PC06
+pass=java

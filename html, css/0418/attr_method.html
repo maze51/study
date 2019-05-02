@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>attr method</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				
+				// 실행 시 포커스 얻기
+// 				$('input[type=text]').focus();
+// 				$('input:text').focus();
+				
+				// 포커스 이벤트 - 포커스를 얻을 때 어떤 기능을 수행한다
+				$('input:text').focus(function(){
+					$(this).val("Hello");
+				})
+				// 포커스를 잃을 때 어떤 기능을 수행한다
+				$('input:text').blur(function(){
+					$(this).val("");
+				})
+				
+				
+
+				//$('img').attr('title', '그림');
+				
+// 				$('img').each(function(i){
+// 					$(this).attr('title', '그림' + i);
+// 				})
+
+				$('img').each(function(i){
+					$(this).attr('title', function(){
+						a = $(this).attr("src");
+						
+						start = a.lastIndexOf('/');
+						dot = a.lastIndexOf('.');
+						
+						name = a.substring(start+1, dot);
+						return name;
+						
+					});
+				})
+			})
+		</script>
+		<style>
+			img{
+				width: 200px;
+				height: 200px;
+			}
+		</style>
+	</head>
+<body>
+	<img src="../images/nyanggif1.gif">
+	<img src="../images/nyanggif2.gif">
+	<img src="../images/nyanggif6.gif">
+	<img src="../images/nyanggif7.gif">
+	<img src="../images/nyanggif9.gif">
+	<br>
+	<input type="text">
+	<input type="password">
+</body>
+</html>

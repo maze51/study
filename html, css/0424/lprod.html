@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>lprod</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('button').on('click', function(){
+					
+					$.ajax({
+						url : 'lprodList.jsp',
+						type : 'get',
+						success : function(datas){
+							code = "";
+							$.each(datas, function(i, v){
+								code += "Lprod_ID : " + v.id + "<br>"
+								code += "Lprod_GU : " + v.gu + "<br>"
+								code += "Lprod_NM : " + v.nm + "<br><hr>"
+							})
+							$('#result').html(code);
+						},
+						error : function(status){
+							alert("상태 : " + status);
+						},
+						
+						dataType : 'json'
+					})
+				})
+			})
+		</script>
+	</head>
+<body>
+	<button type="button">상품분류리스트</button>
+	<br>
+	<hr>
+	<div id="result"></div>
+</body>
+</html>

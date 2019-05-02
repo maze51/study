@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>booklist</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('a').on('click', function(){
+					// 페이지 이동 설정을 없앤다
+					event.preventDefault();
+					// a태그의 href속성값을 가져와 저장한다
+					a = $(this).attr('href');
+					
+					$('img').fadeOut(100, function(){
+						// img의 src속성값을 저장된 값으로 바꾼다
+						$('img').attr('src', a);
+						// 이미지가 나타난다
+						$('img').fadeIn(100);
+					})
+				})
+			})
+		</script>
+		<style>
+			img{
+				width: 150px;
+				height: 200px;
+			}
+		</style>
+	</head>
+<body>
+	<h2>교재목록</h2>
+	<br>
+	<ul>
+		<li><a href="../images/jQuery.jpg">jQuery 교재</a></li>
+		<li><a href="../images/JSP2_1.jpg">JSP 교재</a></li>
+		<li><a href="../images/UML.jpg">UML 교재</a></li>
+	</ul>
+	<br><br>
+	<img src="../images/noImage.png">
+</body>
+</html>

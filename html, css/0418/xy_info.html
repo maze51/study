@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>xy info</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				// 마우스를 움직이면 좌표값을 얻어서 div에 출력하시오
+				$(document).mousemove(function(ee){
+					$('div').html("ee.pageX: " + ee.pageX + ", ee.pageY: " + ee.pageY);
+					
+					// 좌표값이 x=100, y=100이면 이미지를 추가
+					if(ee.pageX == 100 && ee.pageY == 100){
+						nImg = $('<img/>', {
+							'width' : '200px', 
+							'height' : '150px',
+							'src' : '../images/racoon.jpeg'
+							
+						});
+						$('body').append(nImg);
+					}
+				})
+			})
+		</script>
+		<style>
+			div{
+				height: 50px;
+				border: 2px dotted red;
+			}
+		</style>
+	</head>
+<body>
+	<div id="log"></div>
+</body>
+</html>

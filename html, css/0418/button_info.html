@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>button info</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				
+				// div에서 마우스의 왼쪽 버튼이 눌렸으면 배경색을 변경하고
+				// 오른쪽 버튼이 눌렸으면 테두리를 설정하고
+				// 가운데 버튼이 눌렸으면 Hello라는 글자를 출력
+				$('div').mousedown(function(ee){
+					if(ee.button==0){
+						$(this).css('background', 'dodgerblue');
+					} else if(ee.button==1){
+						$(this).css('border', '3px dotted red');
+					} else if(ee.button==2){
+						$(this).text('hello');
+					}
+				})
+				
+				
+				
+
+			})
+		</script>
+	</head>
+<body>
+<div style= "width:300px;height:200px; background-color:yellow;" > </div>
+ <br>
+</body>
+</html>

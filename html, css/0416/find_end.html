@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>find end</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('button').on('click', function(){
+					$('div').eq(1).css('border', '2px solid green')
+					.siblings('div').css('border', '2px solid blue')
+					.end().next().text('third') // end()가 없으면 border 파란색들이 전부 기준이 된다
+					.end().nextUntil('button').css('background', 'yellow')
+					.end().prev().css('background', 'green');
+				})
+			})
+		</script>
+		<style>
+			div{
+				width : 60px;
+				height : 60px;
+				float : left;
+				border : 2px solid gold;
+				margin : 5px;
+				padding : 10px;
+			}
+			br{
+				clear: both;
+			}
+		</style>
+	</head>
+<body>
+	<div>a</div> 
+	<div>b</div> 
+	<div>c</div> 
+	<div>d</div> 
+	<div>e</div> 
+	<div class="orange">f</div> 
+	<div>g</div>
+	
+	<br>
+	<button type="button">실행</button>
+</body>
+</html>

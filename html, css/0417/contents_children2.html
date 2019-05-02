@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>contents children 2</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#cont').on('click', function(){
+					$('.d1').contents().wrap('<strong>')
+					.end().css('color', 'dodgerblue');
+				})
+				
+				// 태그가 없는 자식을 대상으로 글자색: 빨강
+				$('#notag').on('click', function(){
+					$('.d2').contents().each(function(i){
+						if( typeof this.tagName == 'undefined'){
+							if($(this).text().trim().length > 0){
+								$(this).parent().css('color', 'crimson');
+							}
+						}
+					})
+				})
+				
+				// 태그가 있는 것을 대상으로 실행한다
+				$('#childem').on('click', function(){
+// 					$('.d3').children().each(function(){
+// 						if(this.tagName == 'EM'){ // 여기 this는 d3의 children
+// 							$(this).css('font-size', '1.5em');
+// 						}
+// 					})
+
+					$('.d3').children().filter('em').css('font-size', '1.5em');
+				})
+				
+				$('#find').on('click', function(){
+					$('.d3').find('em').css('color', 'red');
+				})
+				
+				$('#add').on('click', function(){
+// 					$('h1, h2')
+					$('h1').add('h2').css('color', 'green');
+				})
+				
+			}) // end of first
+		</script>
+	</head>
+<body>
+	<strong>태그가 있거나 없거나 모든 자식을 대상으로 실행</strong><br><br>
+	<div class="d1"><em>Hello World 아름다운 봄입니다 EM태그 포함</em></div>
+	<div class="d1">Hello World 아름다운 봄입니다 EM태그 없음</div>
+	<br>
+	버튼을 클릭하면 em태그 포함 여부에 상관없이 모든 문장을 strong태그로 감싸고<br>
+	글자색을 파랑색으로 변경하기<br>
+	<button id="cont">contents</button>
+	<br><br>
+	
+	<strong>태그가 없는 자식을 대상으로 글자색을 빨강으로 변경</strong><br><br>
+	<div class="d2"><em>Hello World 아름다운 봄입니다 EM태그 포함</em></div>
+	<div class="d2">Hello World 아름다운 봄입니다 EM태그 없음</div>
+	<button id="notag">contents(태그가 없는것만)</button>
+	
+	<br><br>
+	<strong>태그가 있는 자식만을 대상으로 실행</strong>
+	<br><br>
+	<div class="d3"><em>Hello EM 봄꽃이 EM으로 휘날리고 있습니다</em></div>
+	<div class="d3"><span>Hello SPAN 봄꽃이 SPAN으로 휘날리고 있습니다</span></div>
+	<div class="d3"><span>Hello SPAN <em>봄꽃이 SPAN의 EM으로 휘날리고 있습니다</em></span></div>
+	<br><br>
+	<button type="button" id="childem">children(em태그 포함된 자식)</button>
+	<button type="button" id="find">find(em태그 포함된 후손)</button>
+	
+	<br><br>
+	add() : 여러개의 요소를 동시에 선택한다<br>
+	$('h1, h2') : h1과 h2를 동시에 선택<br>
+	$('h1').add('h2')<br>
+	<h1>HELLO</h1>
+	<h2>Hello</h2>
+	<button type="button" id="add">동시선택</button>
+</body>
+</html>

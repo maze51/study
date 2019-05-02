@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>stop Propagation</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#sp').click(function(){
+					$(this).css('background', 'crimson');
+					event.stopPropagation(); // 자식 요소에 준다
+				})
+				
+				$('h1').click(function(){
+					$(this).css('background', 'green');
+				})
+				
+				$('a').click(function(){
+					event.preventDefault();
+				})
+				
+				$('div').click(function(){
+					alert('div클릭');
+				})
+				
+				$('#sp1').click(function(){
+					alert('span클릭');
+					event.stopPropagation();
+				})
+				
+				$('button').click(function(){
+					alert('button클릭');
+					event.stopPropagation();
+				})
+				
+
+			})
+		</script>
+		<style>
+			div{
+				width: 250px;
+				height: 150px;
+				background-color: pink;
+				padding: 30px;
+			}
+			#sp1{
+				width: 130px;
+				height: 80px;
+				background-color: yellow;
+				margin: 20px;
+				padding: 20px;
+/* 				padding만 줘도 영역이 따로 잡힌다 */
+			}
+			button{
+ 				margin: 20px;
+			}
+			
+		</style>
+	</head>
+<body>
+	<h1> 큰제목안에 <span id="sp"> 작은 영역</span>이 있다</h1>
+	
+	<br> 
+		<div> <span id="sp1">  <button> 클릭하세요</button>  </span></div>
+		<br><hr color="red"><br>
+		<a href="http://www.daum.net">Daum사이트 가기</a>
+	
+</body>
+</html>

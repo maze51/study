@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>dblclick</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('img').dblclick(function(){
+					$(this).css('display', 'none');
+					if($('img:visible').length == 0){
+						$('button').show();
+					}
+				})
+				
+				$('button').click(function(){
+					$('img').show();
+					$(this).hide();
+				})
+				
+				$('img').hover(function(){
+					//현재 이미지의 src 속성값을 가져와서 변수에 대입
+					temp = $(this).attr('src');
+					
+					//현재 이미지의 src2 속성값을 가져와서
+					//src 속성값으로 대입한다
+					a = $(this).attr('src2');
+					$(this).attr('src', a);
+				}, function(){
+					//임시변수에 대입되어 있는 원래 그림을 가져다가
+					//현재 이미지의 src 속성값으로 대입한다
+					$(this).attr('src', temp);
+				})
+				
+// 				hover는 이렇게 따로따로 줄 수도 있다
+// 				$('img').mouserover(function(){})
+// 				$('img').mouserout(function(){})
+				
+			})
+		</script>
+		<style>
+			img{
+				width: 100px;
+				height: 100px;
+			}
+			button{
+				display: none;
+			}
+		</style>
+	</head>
+<body>
+<!-- 	여기서 src2는 유효한 속성은 아니지만 변수처럼 활용할 수 있다 -->
+	<img src="../images/image.1.jpg" src2="../images/favicon1.jpg">
+	<img src="../images/image.2.jpg" src2="../images/favicon1.jpg">
+	<img src="../images/image.3.jpg" src2="../images/favicon1.jpg">
+	<img src="../images/image.4.jpg" src2="../images/favicon1.jpg">
+	<img src="../images/image.5.jpg" src2="../images/favicon1.jpg">
+	
+	
+	<button type="button">보이기</button>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>contents children</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				
+				$('#contents').bind('click', function(){
+					
+					res = " Contents : 태그가 있거나 없거나 자식의 내용을 태그와 함께 가져온다\n";
+					
+					$('div').contents().each(function(i){
+//	 					res += this.tagName + "\n";
+//	 					res +=  i + "번째 : " + $(this).html() + "\n";
+						if( typeof this.tagName == 'undefined' ){
+							if($(this).text().trim().length > 0)
+								res += i + "번째 : " + $(this).text() + "\n";
+						} else {
+							res += i + "번째 tagname: " + this.tagName + " " + $(this).html() + "\n"; 
+						}
+					})
+					alert(res);
+				})
+				
+				$('#child').on('click', function(){
+					res = "children : 태그가 있는 자식들의 내용 가져오기 \n";
+					$('div').children().each(function(i){
+						// 태그가 있는 것만 가져오므로 있냐 없냐 비교할 필요 없음
+						res += i + "번째 tagname: " + this.tagName + " " + $(this).html() + "\n";
+					})
+					alert(res);
+				})
+			})
+		</script>
+	</head>
+<body>
+	<div>A
+		<p>무궁화 </p>
+		<span>진달래
+			<span>개나리</span>
+		</span>
+	</div>
+	
+	<br>
+	<br>
+	<button type="button" id="contents">contents(모든 자식)</button>
+	<button type="button" id="child">child(tag가 있는 자식)</button>
+</body>
+</html>
+<!-- undefined: 태그가 없는 경우(줄바꾸면서 생기는 공백 등) 
+undefined가 아닐 때만 수행하도록 ~~~-->

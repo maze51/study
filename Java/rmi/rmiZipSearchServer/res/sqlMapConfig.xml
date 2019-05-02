@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<!-- 
+		DB와 연결하는 정보를 properties파일에 설정해 놓고
+		이 properties파일의 내용을 읽어와 설정한다.
+		properties는 클래스패스나 어떤 유효한 url로부터 로드될 수 있다. 아래는 클래스패스
+	-->
+	<properties resource="db.properties"/>
+	
+	<!-- 트랜잭션 관련 환경 설정 (모든 옵션은 선택사항이다)-->
+	<settings
+		cacheModelsEnabled="true"
+		maxRequests ="32" maxSessions="10" maxTransactions="5"
+		useStatementNamespaces="true"
+	/>
+	<!-- 
+	cacheModelsEnabled : SqlMapClient의 캐시모델을 설정한다
+	maxRequests : 동시에 SQL문을 수행할 수 있는 thread의 개수
+	maxSessions : 주어진 시간동안 활성화될 수 있는 session 수
+	maxTransactions : 한꺼번에 startTransaction()에 들어갈 수 있는 thread의 최대 개수
+	-->
+	
+	<!-- 
+		사용할 VO의 이름은 패키지명(basic.MemberVO)까지 사용해야 되는데
+		이 전체 이름이 너무 길면 전체 VO이름을 대신해서 사용할 alias를
+		지정할 수 있다.
+		형식) ==> <typeAlias alias="앨리어스명" type="클래스의 풀네임"/>
+	 -->
+	 
+	 <!-- 위에서 읽어온 properties파일의 내용을 이용하여 DB에 연결하기 -->
+	  
+	  <transactionManager type="JDBC">
+	  	<dataSource type="SIMPLE">
+	  		<property name="JDBC.Driver" value="${driver}"/>
+	  		<property name="JDBC.ConnectionURL" value="${url}"/>
+	  		<property name="JDBC.Username" value="${user}"/>
+	  		<property name="JDBC.Password" value="${pass}"/>
+	  	</dataSource>
+	  </transactionManager>
+	  
+	  <!-- 
+	  	실제 처리할 SQL문은 xml파일로 따로 작성해서 그 xml문서를 아래와 같이 연결해서 사용한다.
+	  	프로젝트 진행 시, 일처리를 분할해서 하게 되는데, 작업 영역마다 사람이 다르니 xml문서(파일)도 분할해서 하는 것이 좋다.
+	  	단, alias지정 시 이곳의 모든 하위 문서에서 중복 불가(중복시 오류 발생).
+	  	형식) <sqlMap resource="경로명/파일명.xml"/>
+	   -->
+	
+		<sqlMap resource="zipSearch/ibatis/zipSearch.xml"/>
+	
+</sqlMapConfig>

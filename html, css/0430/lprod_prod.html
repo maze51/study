@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>lprod - prod</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script>
+			$(function(){
+				$.ajax({
+					url : '../0424/lprodList.jsp',
+					type : 'get',
+					success : function(datas){
+						code = "";
+						$.each(datas, function(i, v){
+							code += "<option value='" + v.gu + "'>" + v.nm + "</option>";
+						})
+						$('#lprod').html(code);
+						$('#lprod').trigger('change');
+					},
+					error : function(xhr){
+						alert("상태 : " + xhr.status)
+					},
+					dataType : 'json'
+				})
+				
+				// lprod의 항목을 선택하면 prod 이름과 아이디 출력
+				// lprod_gu를 파라미터로 해서 prod_lgu와 같은 값을 가지는 레코드를 검색한다 
+				$('#lprod').change(function(){
+					
+					lprodGu = $(this).val();
+					
+					$.ajax({
+						url : 'prodName.jsp',
+						type : 'post',
+						data : { "gu" : lprodGu },
+						success : function(datas){
+							code = "";
+							if(datas.sw == "OK") {
+								$.each(datas.data, function(i, v){
+									code += "<option value='" + datas.data[i].id + "'>" + datas.data[i].name + "</option>";
+								})
+								$('#prod').html(code);
+								$('#prod').trigger('change');
+								
+							} else {
+								code = "<option value=0>데이터 없음</option>";
+								$('#prod').html(code);
+								//새로운 이미지 생성
+ 								//newImg = "<img src='../images/nyanggif9.gif'>";
+								newImg = $('<img/>', {
+									'width' : '200px',
+									'height' : '200px',
+									'src' : '../images/nyanggif9.gif'
+								})
+								//detail에 표시
+								$('#detail').empty(); // detail은 그대로 두고 이미지만 지운다
+								$('#detail').append(newImg);
+							}
+						},
+						error : function(xhr){
+							alert("상태 : " + xhr.status);
+						},
+						dataType : 'json'
+					})
+				})
+				
+				//prod항목을 선택하면 prod상세보기 출력
+				//prod_id를 파라미터로 해서 prod테이블의 레코드를 검색한다
+				$('#prod').change(function(){
+					prodId = $(this).val();
+					
+					$.ajax({
+						url : 'prodDetail.jsp',
+						type : 'post',
+						data : { "id" : prodId },
+						success : function(datas){
+							code = "<table class='table table-striped' border='1'>";
+							
+							code += "<tr><td>항목</td>";
+							code += "<td>내용</td></tr>";
+							
+							code += "<tr><td>PROD_ID</td>";
+							code += "<td>" + datas.id + "</td></tr>";
+							
+							code += "<tr><td>PROD_NAME</td>";
+							code += "<td>" + datas.name + "</td></tr>";
+							
+							code += "<tr><td>PROD_LGU</td>";
+							code += "<td>" + datas.lgu + "</td></tr>";
+							
+							code += "<tr><td>PROD_BUYER</td>";
+							code += "<td>" + datas.buyer + "</td></tr>";
+							
+							code += "<tr><td>PROD_COST</td>";
+							code += "<td>" + datas.cost + "</td></tr>";
+							
+							code += "<tr><td>PROD_PRICE</td>";
+							code += "<td>" + datas.price + "</td></tr>";
+							
+							code += "<tr><td>PROD_SALE</td>";
+							code += "<td>" + datas.sale + "</td></tr>";
+							
+							code += "<tr><td>PROD_OUTLINE</td>";
+							code += "<td>" + datas.outline + "</td></tr>";
+							
+							code += "<tr><td>PROD_DETAIL</td>";
+							code += "<td>" + datas.detail + "</td></tr>";
+							
+							code += "</table>";
+							
+							$('#detail').html(code);
+						},
+						error : function(xhr){
+							alert("상태 : " + xhr.status);
+						},
+						dataType : 'json'
+					})
+					
+				})
+			})
+		</script>
+	</head>
+<body>
+	<div class="container">
+	  <h2>Select List</h2>
+	  <form>
+	    <div class="form-group">
+	      <label for="lprod">LPROD 선택</label>
+	      <select class="form-control" id="lprod">
+	       
+	      </select>
+	      <br>
+	      
+	      <label for="prod">PROD 선택</label>
+	      <select class="form-control" id="prod">
+	       
+	      </select>
+	      <br>
+	    </div>
+	  </form>
+	  
+	  <div id="detail">상세보기</div>
+	  
+	</div>
+	<br>
+	
+<!-- 	<table> -->
+<!-- 		<tr> -->
+<!-- 			<td> -->
+<!-- 				<select name="lprod" id="lprod"> -->
+<!-- 				</select> -->
+<!-- 			</td> -->
+			
+<!-- 			<td> -->
+<!-- 				<select name="prod" id="prod"> -->
+<!-- 				</select> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
+		
+<!-- 		<tr> -->
+<!-- 			<td colspan="2" id="detail">상세보기</td> -->
+<!-- 		</tr> -->
+<!-- 	</table> -->
+</body>
+</html>

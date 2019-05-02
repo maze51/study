@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>toggle event</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('a').click(function(){
+					// a태그의 원래 기능은 페이지 이동 기능
+					// 페이지 이동 기능의 수행을 막는다
+					event.preventDefault();
+					
+					$('div').toggle(); // ppt 98p 설명과 다르게 이렇게만 해도 실행된다
+				})
+
+			})
+		</script>
+		<style>
+			div{
+				display: none;
+			}
+		</style>
+	</head>
+<body>
+	<h1>이순신</h1>
+	<a href="http://www.naver.com">자세히 보기</a>
+	<br>
+	<div>
+	이순신(李舜臣, 1545년 4월 28일 ~ 1598년 12월 16일 (음력 11월 19일))은 <br>
+	조선 중기의 무신이다. 본관은 덕수(德水), 자는 여해(汝諧), 시호는 <br>
+	충무(忠武)이며, 한성 출신이다. 문반 가문 출신으로 1576년(선조 9년) <br>
+	무과(武科)에 급제하여 그 관직이 동구비보 권관, 훈련원 봉사, 발포진 <br>
+	수군만호, 조산보 만호, 전라좌도 수군절도사를 거쳐 정헌대부 <br>
+	삼도수군통제사에 이르렀다.<br>
+	</div>
+</body>
+</html>

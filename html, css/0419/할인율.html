@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>할인율</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			ptag = null;
+			$(function(){
+				$('img').hover(function(){
+					$(this).addClass('imgborder');
+				}, function(){
+					$(this).removeClass('imgborder');
+				})
+
+				$('.guess_box').one('click', function(){
+					$('#pg').remove();
+					
+					rand = Math.floor(Math.random()*6+5);
+					ptag = $('<p>', {
+						'id' : 'pg',
+						'text' : "할인율 : " + rand + "%"
+						})
+					$(this).append(ptag);
+				})
+			})
+
+		</script>
+		<style>
+			.guess_box{
+				float: left;
+				margin: 2px;
+				width: 110px;
+			}
+			img{
+				width: 100px;
+				height: 100px;
+			}
+			.imgborder{
+				border: 3px solid blue;
+			}
+			
+		</style>
+	</head>
+<body>
+<div id="header">
+   <h2> Jump for Joy Sale </h2>
+   
+</div>
+<div id="main">
+   <div class="guess_box"><img src="../images/풍차.jpg" /></div>
+   <div class="guess_box"><img src="../images/대나무숲.jpg" /></div>
+   <div class="guess_box"><img src="../images/산.png" /></div>
+   <div class="guess_box"><img src="../images/셔틀콕.jpg" /></div>
+</div>
+
+</body>
+</html>

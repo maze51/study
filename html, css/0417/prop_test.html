@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>prop test</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+// 		설정하기 : $('#checkTest').prop('checked', true);
+			$(function(){
+				res = "";
+				$('#runBtn').on('click', function(){
+// 					$('#checkTest').attr('checked')
+					res = "체크박스(checked) : " + $('#checkTest').prop('checked') + "\n";
+					res += "select(selected) : " + $('#selTest option:eq(1)').prop('selected') + "\n";
+					res += "text(readonly) : " + $('#txtTest').prop('readonly') + "\n";
+					res += "button(disabled) : " + $('#btnTest').prop('disabled') + "\n";
+// 					alert(res);
+					
+					// 버튼을 클릭할 때 마다 상태값을 변경(반대로 바꾸기)
+					res = "체크박스(checked) : " + $('#checkTest').prop('checked', !$('#checkTest').prop('checked')) + "\n";
+					res += "select(selected) : " + $('#selTest option:eq(1)').prop('selected', !$('#selTest option:eq(1)').prop('selected')) + "\n";
+					res += "text(readonly) : " + $('#txtTest').prop('readonly', !$('#txtTest').prop('readonly')) + "\n";
+					res += "button(disabled) : " + $('#btnTest').prop('disabled', !$('#btnTest').prop('disabled')) + "\n";
+// 					alert(res);
+				})
+				
+				$('#checkall').on('change', function(){
+					// checkall의 상태값(checked)을 가져온다 - getter
+					a = $('#checkall').prop('checked');
+					// checkall의 상태값으로 check의 값을 변경한다 - setter
+					$('.check').prop('checked', a);
+				})
+				
+				$('.check').on('change', function(){
+					if($(this).prop('checked')){
+						
+						checkval = $(this).val();
+						propPro();
+					}
+				})
+				
+				function propPro(){
+					alert(checkval + "반 출결정보를 수집합니다");
+				}
+				
+			}) // end of first
+		</script>
+	</head>
+<body>
+prop : 속성 중에서 상태를 나타내는 속성값을 가져오거나 설정한다<br>
+결과값은 true, false이고 설정시에도 true, false로 한다<br>
+ - checked, disabled, readonly, selected, multiple,...<br>
+<form>
+체크박스 (라디오버튼) : 
+		<input type="checkbox" id="checkTest" checked><br><br>
+		<br>
+		<input type="checkbox" id="checkall">전체선택/해제
+		<input type="checkbox" value="1" class="check">1반
+		<input type="checkbox" value="2" class="check">2반
+		<input type="checkbox" value="3" class="check">3반
+		<input type="checkbox" value="4" class="check">4반
+		<input type="checkbox" value="5" class="check">5반
+		<input type="checkbox" value="6" class="check">6반
+		<input type="checkbox" value="7" class="check">7반
+		
+		<br><br>
+리스트박스 (select객체) : 
+		<select id="selTest">
+			<option value="1">하나</option>
+			<option value="2">둘</option>
+			<option value="3">셋</option>
+			<option value="4">넷</option>
+		</select><br><br>
+text객체 (readonly) : 
+		<input type="text" value="가나다" id="txtTest" readonly><br><br>
+button객체 (disabled) : 
+		<input type="button" onclick="alert('hello')" value="연습용" id="btnTest"><br><br>
+		<input type="button" value="실행" id="runBtn">
+</form>
+</body>
+</html>

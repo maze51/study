@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>Insert title here</title>
+      <script src="../js/jquery-3.3.1.min.js"></script>
+      <script>
+         $(function(){
+            $("button").on("click", function() {
+            	
+            	setInterval(function(){
+               $("div").animate({"left" : "+=300px", "width" : "160px", "height" : "160px"}, 500)
+               .delay(500)
+               .queue(function() {
+            	   r1=Math.floor(Math.random()*256);
+            	   r2=Math.floor(Math.random()*256);
+            	   r3=Math.floor(Math.random()*256);
+            	   
+            	   r=r1.toString(16);
+            	   g=r2.toString(16);
+            	   b=r3.toString(16);
+                  $(this).css("background", '#'+r+g+b);
+                  $(this).dequeue();
+               })
+               .animate({"left" : "-=300px", "width" : "80px", "height" : "80px"}, 500)
+               .queue(function() {
+                  $(this).css("background", '#'+r+g+b);
+                  $(this).dequeue();
+               });
+            		
+            	}, 500)
+            });
+         });
+      </script>
+      <style type="text/css">
+         div{
+            width: 80px;
+            height: 80px;
+            background: green;
+            position: relative;
+         }
+      </style>
+   </head>
+   <body>
+      <button type="button">실행</button>
+      <br>
+      <hr>
+      <div></div>
+   </body>
+</html>

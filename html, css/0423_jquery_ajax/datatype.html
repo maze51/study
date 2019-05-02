@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>datatype</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#txt').on('click', function(){
+					$.ajax({ // 항목 순서는 바뀌어도 상관없다(여기서는. 단축형은 순서대로)
+						url : "../0423/textData.jsp",
+						type : "get",
+						// data :	서버로 보내는 데이터(지금은 생략)
+						success : function(datas){ // 매개변수명은 적당히
+							
+							datas = datas.split("/")
+							
+							code = "<ul>";
+							$.each(datas, function(i){
+								code += "<li>" + datas[i] + "</li>"
+							})
+							$('#txtdata').html(code);
+							
+						},
+						error : function(status){
+							alert("상태 : " + status); // 403인지? 404인지? 찍어라
+						},
+						dataType : "text"
+						
+					})
+				})
+				
+				$('#jsonArr').on('click', function(){
+					$.ajax({
+						url : '../0423/jsonArr.jsp',
+						type : 'get',
+						success : function(datas){
+							code = "<ol>";
+							$.each(datas, function(i){
+								code += "<li>" + datas[i] + "</li>";
+							})
+							$('#jarrdata').html(code);
+						},
+						error : function(status){
+							alert("상태 : " + status);
+						},
+						dataType : "json"
+					})
+					
+				})
+				
+				$('#jsonObj').on('click', function(){
+					$.ajax({
+						url : '../0423/jsonObj.jsp',
+						type : 'get',
+						success : function(datas){
+							
+							code = "이름 : " + datas.name + "<br>";
+							code += "주소 : " + datas.addr + "<br>";
+							code += "전화번호 : " + datas.tel + "<br>";
+							code += "이메일 : " + datas.email + "<br>";
+							
+							$('#jobjdata').html(code);
+						},
+						error : function(status){
+							alert("상태 : " + status);
+						},
+						dataType : "json"
+					})
+				})
+				
+				$('#jsonObjArr').on('click', function(){
+					$.ajax({
+						url : '../0423/jsonObjArr.jsp',
+						type : 'get',
+						success : function(datas){
+							code = "";
+							$.each(datas, function(i, x){
+								code += i+1 + "번째 회원 자료 <br>";
+								code += "이름 : " + x.name + "<br>";
+								code += "주소 : " + x.addr + "<br>";
+								code += "전화번호 : " + x.tel + "<br>";
+								code += "이메일 : " + x.email + "<br>" + "<br>";
+							})
+							
+							$('#joarrdata').html(code);
+						},
+						error : function(status){
+							alert("상태 : " + status);
+						},
+						dataType : "json"
+					})
+				})
+				
+			})
+		</script>
+		<style>
+			div{
+				width: 200px;
+				height: auto;
+				border: 2px solid crimson;
+				padding: 10px;
+				float: left;
+				margin: 5px;
+			}
+		</style>
+	</head>
+<body>
+	<button type="button" id="txt">TextData</button>
+	<button type="button" id="jsonArr">jsonArr</button>
+	<button type="button" id="jsonObj">jsonObj</button>
+	<button type="button" id="jsonObjArr">jsonObjArr</button>
+	
+	<br>
+	<hr>
+	<div id="txtdata"></div>
+	<div id="jarrdata"></div>
+	<div id="jobjdata"></div>
+	<div id="joarrdata"></div>
+</body>
+</html>

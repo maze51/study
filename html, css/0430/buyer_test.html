@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>buyer test</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				//ajax를 통해서 비동기 방식으로 처리한다
+				//버튼을 클릭하면 컨트롤러 파일로 데이터를 보낸다
+				$('button').on('click', function(){
+					
+					
+					$.ajax({
+						url : 'nameList.jsp',
+						type : 'get',
+						dataType : 'json',
+						success : function(datas){
+							code = "";
+							$.each(datas, function(i, v){
+								code += "<div id='" + v.id + "'>" + v.name + "</div>";
+							})
+							$('#names').html(code);
+						},
+						error : function(xhr){
+							alert("상태 : " + xhr.status);
+						}
+					})
+				})
+				
+				$('#names').on('click', 'div', function(){
+					
+					idvalue = $(this).attr('id');
+					
+					$.ajax({
+						url : 'detail.jsp',
+						type : 'post',
+						data : { "id" : idvalue },
+						success : function(datas){
+							code = "<table>";
+							
+							code += "<tr><td>BUYER_ID</td>";
+							code += "<td>" + datas.id + "</td></tr>";
+							
+							code += "<tr><td>BUYER_NAME</td>";
+							code += "<td>" + datas.name + "</td></tr>";
+							
+							code += "<tr><td>BUYER_BANK</td>";
+							code += "<td>" + datas.bank + "</td></tr>";
+							
+							code += "<tr><td>BUYER_BANKNAME</td>";
+							code += "<td>" + datas.bankname + "</td></tr>";
+							
+							code += "<tr><td>BUYER_LGU</td>";
+							code += "<td>" + datas.lgu + "</td></tr>";
+							
+							code += "<tr><td>BUYER_MAIL</td>";
+							code += "<td>" + datas.mail + "</td></tr>";
+							
+							code += "<tr><td>BUYER_ADDR</td>";
+							code += "<td>" + datas.addr + "</td></tr>";
+							
+							code += "<tr><td>BUYER_ZIP</td>";
+							code += "<td>" + datas.zip + "</td></tr>";
+							
+							code += "</table>";
+							
+							$('#detail').html(code);
+						},
+						error : function(xhr){
+							alert("상태 : " + xhr.status);
+						},
+						
+						dataType : 'json'
+					})
+				})
+			})
+		</script>
+		<style>
+			table{
+				text-align: center;
+				border-collapse: collapse;
+				border: 2px solid lime;
+			}
+			td{
+				height: 40px;
+			}
+			#names{
+				width: 230px;
+				height: auto;	
+			}
+			#detail{
+				width: 700px;
+			}
+		</style>
+	</head>
+<body>
+	<button type="button">buyer</button>
+	<br><br>
+	<table border="1">
+		<tr>
+			<td>거 래 처 이 름</td>
+			<td>거 래 처 상 세 정 보</td>
+		</tr>
+		
+		<tr>
+			<td id="names"></td>
+			<td id="detail"></td>
+		</tr>
+	</table>
+</body>
+</html>

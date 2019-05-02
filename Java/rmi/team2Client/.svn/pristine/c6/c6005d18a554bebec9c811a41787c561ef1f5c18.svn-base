@@ -1,0 +1,5 @@
+package prodInfo.client;
+
+public class ProdInfoController {
+
+}

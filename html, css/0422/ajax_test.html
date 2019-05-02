@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>ajax test</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('button').on('click',loadDoc);
+			})
+			
+			function loadDoc(){
+				
+				//request객체 생성
+				var xhttp = new XMLHttpRequest();
+				
+				//요청시 request객체의 상태값 : readyStatement, status
+				//응답
+				xhttp.onreadystatechange = function(){
+// 					alert(this.readyState);
+					if(this.readyState == 4 && this.status == 200){
+						// 응답받은 데이터 : this.responseText 를 #demo에 출력한다
+						$('#demo').html(this.responseText); // 결과값을 여기에 찍겠다
+					}
+				}
+								
+				//get방식 요청
+ 				//xhttp.open("get", "ajax_test.jsp?name=홍길동",true); 
+				// name=홍길동 은 쿼리스트링
+				// get으로 요청한다면 get방식이라고 앞에 써 준다 + 파일명 뒤에 ?붙여준다.
+				// 뒤에 true는 비동기로 처리하라
+// 				xhttp.send();
+				
+				//post방식 요청
+				data = "name=홍길동";
+				xhttp.open('post', 'ajax_test.jsp',true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhttp.send(data);
+			}
+		</script>
+	</head>
+<body>
+
+<div id="demo"></div>
+  <h2>Let AJAX change this text</h2>
+<!--   <button type="button" onclick="loadDoc()">Change Content</button> -->
+	<button type="button">Change Content</button>
+
+</body>
+</html>
+
+
+
+
+
+
+

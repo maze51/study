@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>member</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('button').on('click', function(){
+					
+					$.ajax({
+						url : 'memberList.jsp',
+						type : 'get',
+						success : function(datas){
+							code = "";
+							$.each(datas, function(i, v){
+								code += v.id + "&nbsp;&nbsp;"
+								code += v.name + "&nbsp;&nbsp;"
+								code += v.mail + "&nbsp;&nbsp;"
+								code += v.hp + "<br><br>"
+							})
+							$('#result').html(code);
+						},
+						error : function(status){
+							alert("상태 : " + status);
+						},
+						
+						dataType : 'json'
+					})
+				})
+			})
+		</script>
+	</head>
+<body>
+	<button type="button">멤버리스트</button>
+	<br>
+	<hr>
+	<div id="result"></div>
+</body>
+</html>

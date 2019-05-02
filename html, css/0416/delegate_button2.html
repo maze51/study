@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>delegate button 2</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				// bind 방식(새 요소에 이벤트핸들러 적용 x)
+// 				$('button').on('click', function(){
+// 					btag = $('<button>', {
+// 						'type' : 'button',
+// 						'class' : 'btn',
+// 						'text' : '새로운버튼'
+// 					})
+// 					$(btag).appendTo('body');
+// 				})
+				// delegate 방식(새 요소에 이벤트핸들러 적용 o)
+				$('body').on('click', '.btn', function(){
+					btag = $('<button>', {
+						'type' : 'button',
+						'class' : 'btn',
+						'text' : '새로운버튼'
+					})
+					btag.appendTo('body');
+				})
+				
+				
+				
+				
+			}) // end of function
+		</script>
+	</head>
+<body>
+
+<button type="button" class="btn">버튼1</button>
+<button type="button" class="btn">버튼2</button>
+<button type="button" class="btn">버튼3</button>
+	
+<button type="button" id="clear">해제</button>
+<hr color="red">
+	
+		
+	
+</body>
+</html>

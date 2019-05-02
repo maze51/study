@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>css method</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('img').click(function(){
+					//$(this).css('border', '3px solid blue');
+					$(this).toggleClass('blueborder');
+				})
+// 				//hover이벤트 : mouseover, mouseout
+// 				$('img').hover(function(){
+// 					//$(this).css('border', '5px dotted green'); // mouseover시
+// 					$(this).addClass('imgborder');
+// 				}, function(){
+// 					//$(this).css('border', ''); // mouseout시
+// 					$(this).removeClass('imgborder');
+// 				})
+				$('p').on('click', function(){
+					//$(this).toggleClass('fontsize');
+					if($(this).hasClass('fontsize')){ // toggle을 다른 방법으로 만든 것
+						$(this).removeClass('fontsize');
+					} else {
+						$(this).addClass('fontsize');
+					}
+				})
+				
+				$('p').hover(function(){
+					$(this).addClass('background');
+				}, function(){
+					$(this).removeClass('background');
+				})
+			})
+		</script>
+		<style>
+			img{
+				width: 150px;
+				height: 100px;
+			}
+			/* 클래스 정의*/
+			.imgborder{
+				border: 5px solid hotpink;
+			}
+			.blueborder{
+				border: 5px solid blue;
+			}
+			.fontsize{
+				font-size: 2.0em;
+			}
+			.background{
+				background-color: lime;
+			}
+/* 			img:hover{ */
+/* 				border: 3px dotted red; */
+/* 			} */
+		</style>
+	</head>
+<body>
+	<img src="../images/nyanggif1.gif">
+	<img src="../images/nyanggif2.gif">
+	<img src="../images/nyanggif6.gif">
+	<img src="../images/nyanggif7.gif">
+	<img src="../images/nyanggif9.gif">
+	
+	<br><br>
+	1. p태그의 문자를 클릭하면 글자 크기를 크게 변경하고<br>
+	다시 클릭하면 원래 크기로 돌아온다<br><br>
+	
+	2. p태그의 문자에 커서를 올려놓으면 배경색을 lime으로 변경하고<br>
+	커서를 내려놓으면 원래대로 돌아온다<br>
+	
+	<p>무궁화 꽃이 피었습니다</p>
+	<p>진달래 꽃이 바람에 날립니다</p>
+	<p>라일락 꽃의 향기가 바람에 날려 천리를 갑니다</p>
+	
+</body>
+</html>

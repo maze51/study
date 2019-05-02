@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>member</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<script>
+			$(function(){
+				//id 중복 검사
+				$('#idbtn').on('click', function(){
+					//공백검증
+					//입력한 값을 가져온다
+					idValue = $('#id').val();
+					//값이 입력됐는지 아닌지 비교(길이가 0인지 아닌지)
+					//입력되지 않았으면 다시 시작하고
+					if(idValue.trim().length<1){
+						alert('id를 입력하세요');
+						return false;
+					}
+					//입력됐으면
+					$.ajax({
+						url : 'idcheck.jsp',
+						type : 'post',
+						data : { "id" : idValue},
+						success : function(datas){
+							code = "";
+							if(datas.sw == "OK"){
+								code += datas.id + "은(는) 사용가능 아이디";
+							} else {
+								code += datas.id + "은(는) 사용불가 아이디";
+							}
+							
+							$('#idspan').html(code).css('color', 'crimson');
+						},
+						error : function(xhr){
+							alert("상태 : " + xhr.status);
+						},
+						dataType : 'json'
+					})
+				})
+				
+				//우편번호검색
+				$('#dongbtn').on('click', function(){
+					
+					//공백검증
+					dong = $('#dong').val();
+					if(dong.trim().length<1){
+						alert('주소를 입력하세요');
+						return false;
+					}
+					
+					$.ajax({
+						url : 'zipcode.jsp',
+						data : { "dong" : dong },
+						type : 'post',
+						success : function(datas){
+							code = "";
+							if(datas.sw == "OK"){
+								$.each(datas.data, function(i,v){
+									if(v.bunji=="null"){
+										code += v.zipcode +" "+ v.sido +" "+ v.gugun +" "+ v.dong + "<br>";
+									} else {
+										code += v.zipcode +" "+ v.sido +" "+ v.gugun +" "+ v.dong +" "+ v.bunji + "<br>";
+									}
+								})
+								$('#result').html(code);
+							} else {
+								code += "데이터 없음";
+								$('#result').html(code);
+							}
+							
+						},
+						error : function(xhr){
+							alert("상태 : " + xhr.status);
+						},
+						dataType : 'json'
+					})
+				})
+				
+				
+				
+			}) // end of first
+		</script>
+	</head>
+<body>
+
+<div class="container">
+<h2>회원가입</h2>
+<form class="form-horizontal" onsubmit="return false;" action="member.jsp">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="id">아이디:</label>
+    <div class="col-sm-4">
+      <input type="text" name="mem_id" class="form-control" id="id" placeholder="아이디 입력">
+    </div>
+    <button id="idbtn" type="button" class="btn btn-info btn-sm">중복검사</button>
+    <span id="idspan"></span>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="name">이름:</label>
+    <div class="col-sm-4">
+      <input type="text" name="mem_name" class="form-control" id="name" placeholder="이름 입력">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="email">email:</label>
+    <div class="col-sm-4">
+      <input type="text" name="mem_mail" class="form-control" id="email" placeholder="이메일 입력">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">패스워드:</label>
+    <div class="col-sm-4"> 
+      <input type="password" name="mem_pass" class="form-control" id="pwd" placeholder="비밀번호 입력">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="zip">우편번호:</label>
+    <div class="col-sm-4"> 
+      <input type="text" name="mem_zip" class="form-control" id="zip" placeholder="우편번호 입력">
+    </div>
+    <button id="sebtn" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">번호검색</button>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="addr">주소:</label>
+    <div class="col-sm-7"> 
+      <input type="text" name="mem_add1" class="form-control" id="addr" placeholder="주소 입력">
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="addr2">상세주소:</label>
+    <div class="col-sm-7"> 
+      <input type="text" name="mem_add2" class="form-control" id="addr2" placeholder="상세주소 입력">
+    </div>
+  </div>
+  
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary btn-lg">가입</button>
+      <span id="subspan"></span>
+    </div>
+  </div>
+</form>
+</div>
+
+<br>
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">우편번호검색</h4>
+        </div>
+        <div class="modal-body">
+          동입력
+          <input type="text" id="dong">
+          <input type="button" id="dongbtn" value="검색"><br><br>
+          <div id="result"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</html>

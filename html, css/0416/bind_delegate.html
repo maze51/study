@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>bind delegate</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				/*
+				// bind - 기존에 이미 만들어져 있는 요소에만 이벤트가 적용된다
+				//$('p').on('click', function(){})
+				//$('p').click(function(){})
+				$('p').bind('click', function(){
+					if( $(this).parent().is('div') ){
+						// 부모의 테두리 설정
+						$(this).parent().css('border', '2px solid blue');
+						// 부모의 형태를 복사
+						a = $(this).parent().clone();
+						$('body').append(a);
+					} else {
+						alert("작업 대상이 아닙니다.");
+					}
+					
+				})
+				*/
+				// delegate : 실행도중에 새롭게 생기는 요소에도 이벤트가 적용된다
+				//$('div').delegate($('p'), 'click', function(){ })
+				$(document).on('click','p', function(){
+					//여기서 this는 선택자(p)이다.
+					if( $(this).parent().is('div') ){
+						// 부모의 테두리 설정
+						$(this).parent().css('border', '2px solid blue');
+						// 부모의 형태를 복사
+						a = $(this).parent().clone();
+						$('body').append(a);
+					} else {
+						alert("작업 대상이 아닙니다.");
+					}
+					
+				})
+				
+			})
+		</script>
+	</head>
+<body>
+	<div>
+		<p>무궁화 꽃이 피었습니다</p>
+	</div>
+	
+	<p>진달래 꽃이 피었습니다</p>
+	
+	<div>
+		<p>철쭉꽃을 보러 갑시다</p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>datatype ajax</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				
+				xhr = new XMLHttpRequest();
+				
+				$('#txt').on('click', function(){
+					
+					//요청
+					xhr.open('GET', 'textData.jsp', true);
+					xhr.send();
+					
+					//응답
+					xhr.onreadystatechange = function(){
+						if(this.readyState == 4 && this.status == 200){ // 응답을 받을 수 있다
+// 							$('#txtdata').html(this.responseText);
+							datas = this.responseText.split("/");
+							
+							code = "<ul>";
+							$.each(datas, function(i){
+								code += "<li>" + datas[i] + "</li>";
+							})
+							code += "</ul>";
+							$('#txtdata').html(code);
+						}
+					}
+				})
+				
+				$('#jsonArr').on('click', function(){
+					//요청
+					xhr.open("GET", "jsonArr.jsp", true);
+					xhr.send();
+					
+					//응답
+					xhr.onreadystatechange = function(){
+						if(this.readyState == 4 && this.status == 200){
+							datas = JSON.parse(this.responseText); // JSON으로 바꾼다
+							
+							code = "<ol>";
+							$.each(datas, function(i){
+								code += "<li>" + datas[i] + "</li>";
+							})
+							code += "</ol>";
+							$('#jarrdata').html(code);
+						}
+					}
+				})
+				
+				$('#jsonObj').on('click', function(){
+					//요청
+					xhr.open("GET", "jsonObj.jsp", true);
+					xhr.send();
+					
+					//응답
+					xhr.onreadystatechange = function(){
+						if(this.readyState == 4 && this.status == 200){
+							datas = JSON.parse(this.responseText);
+							
+							code = "이름 : " + datas.name + "<br>";
+							code += "주소 : " + datas.addr + "<br>";
+							code += "전화번호 : " + datas.tel + "<br>";
+							code += "이메일 : " + datas.email + "<br>";
+							
+							$('#jobjdata').html(code);
+						}
+					}
+				})
+				
+				$('#jsonObjArr').on('click', function(){
+					xhr.open("GET", "jsonObjArr.jsp", true);
+					xhr.send();
+					
+					xhr.onreadystatechange = function(){
+						if(this.readyState == 4 && this.status == 200){
+							datas = JSON.parse(this.responseText);
+							
+							code = "";
+							$.each(datas, function(i, x){
+								//파라미터 변수를 하나 추가하면 더 간편. x = datas[i]
+								code += i+1 + "번째 회원 자료 <br>";
+								code += "이름 : " + x.name + "<br>";
+								code += "주소 : " + x.addr + "<br>";
+								code += "전화번호 : " + x.tel + "<br>";
+								code += "이메일 : " + x.email + "<br>" + "<br>";
+							})
+							
+							$('#joarrdata').html(code);
+						}
+					}
+				})
+				
+			}) // end of script
+		</script>
+		<style>
+			div{
+				width: 200px;
+				height: auto;
+				border: 2px solid crimson;
+				padding: 10px;
+				float: left;
+				margin: 5px;
+			}
+		</style>
+	</head>
+<body>
+	<button type="button" id="txt">TextData</button>
+	<!-- 	일반 배열 -->
+	<button type="button" id="jsonArr">jsonArr</button>
+	<button type="button" id="jsonObj">jsonObj</button>
+	<button type="button" id="jsonObjArr">jsonObjArr</button>
+	
+	<br>
+	<hr>
+	<div id="txtdata"></div>
+	<div id="jarrdata"></div>
+	<div id="jobjdata"></div>
+	<div id="joarrdata"></div>
+</body>
+</html>
+<!-- 보내는 데이터 없음, jsp에서 데이터를 만들어 그 응답 데이터만 가져온다 -->

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>wrap test</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#wrap').click(function(){
+					$('p').wrap('<div>');
+				})
+				$('#wrapAll').on('click', function(){
+					$('p').wrapAll('<div>');
+				})
+				$('#unwrap').on('click', function(){
+					$('p').unwrap();
+				})
+			})
+		</script>
+		<style>
+			div{
+				width: 80%;
+				height: 100px;
+				background: dodgerblue;
+			}
+		</style>
+	</head>
+<body>
+	<p>무궁화 꽃이 피었습니다</p>
+	<p>진달래 꽃이 피었습니다</p>
+	<br>
+	<button type="button" id="wrap">감싸기</button>
+<!-- 	전체 감싸기를 할 경우, 감쌀 대상인 태그들 사이에 다른 내용이 있다면 뒤로 밀려난다 -->
+	<button type="button" id="wrapAll">전체감싸기</button>
+	<button type="button" id="unwrap">해제</button>
+</body>
+</html>

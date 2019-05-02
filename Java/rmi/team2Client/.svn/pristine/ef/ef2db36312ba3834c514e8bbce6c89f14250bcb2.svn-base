@@ -1,0 +1,40 @@
+package prodInfo.client;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
+import prodInfo.vo.ProdVO;
+
+public class ProdInfoController {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private ComboBox<String> selectlprod;
+
+    @FXML
+    private ComboBox<String> selectprod;
+
+    @FXML
+    private TableView<ProdVO> table;
+
+    
+    
+   
+    
+    @FXML
+    void initialize() {
+        assert selectlprod != null : "fx:id=\"selectlprod\" was not injected: check your FXML file 'ProdInfo.fxml'.";
+        assert selectprod != null : "fx:id=\"selectprod\" was not injected: check your FXML file 'ProdInfo.fxml'.";
+        assert table != null : "fx:id=\"table\" was not injected: check your FXML file 'ProdInfo.fxml'.";
+
+    }
+
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>animation</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('img').click(function(){
+					$(this).animate({'left' : '+=300px'}, 1000)
+				})
+			})
+		</script>
+		<style>
+			img{
+				width : 200px;
+				height : 150px;
+				position : relative;
+			}
+		</style>
+	</head>
+<body>
+	<img src="../images/nyanggif9.gif">
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>keyup</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				$('#area').keyup(function(){
+					//입력한 값을 가져와서 길이를 구한다
+					length = $('#area').val().length;
+					//전체 길이에서 입력한 값의 길이를 뺀다
+					result = 100 - length;
+					//결과값이 0보다 작거나 같으면 더이상 입력할 수 없다
+					if(result <= 0){
+						$(this).prop('disabled', true);
+					}
+					//결과값을 span에 출력한다
+					$('span').text(result);
+				})
+				
+			})
+		</script>
+	</head>
+<body>
+남기고 싶은 글자를 입력하세요(100글자)<br><br>
+	<textarea id="area" rows="10" cols="50"></textarea>
+	<p>남은글자수: <span>100</span></p>
+</body>
+</html>

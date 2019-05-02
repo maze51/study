@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+		<title>delegate button</title>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script>
+			$(function(){
+				//delegate 방식 - 기존버튼, 새로운 버튼 둘 다 이벤트 실행
+// 				$(document).on('click','.btn', function(){
+// 					$(this).clone().appendTo('#d2');
+// 				})
+				
+				//bind 방식이지만 clone(true)이기 때문에 새로운 버튼도 이벤트 실행
+// 				$('.btn').on('click', function(){
+// 					$(this).clone(true).appendTo('#d2');
+// 				})
+				
+				//clone()사용하지 않고 새로운 버튼을 생성
+				
+				//bind 방식이라 새 버튼에는 이벤트 핸들러가 적용되지 않는다
+// 				$('.btn').on('click', function(){
+// 					text = $(this).text();
+// 					$('<button/>', {'type' : 'button',
+// 									'class' : 'btn',
+// 									'text' : text}).appendTo('#d2');
+// 				})
+
+				//delegate 방식 - 기존의 버튼과 새로운 버튼 모두 이벤트가 실행된다
+				count = 0;
+				$('div').on('click', '.btn', function(){ 
+					// delegate방식일 때 필요한 요소:
+					// 'div'는 .btn을 가지고 있는 부모. 경우에 따라 body 등 다른 것이 될 수도 있다 
+					count++;
+					btag = $('<button>', {
+						'type' : 'button',
+						'class' : 'btn',
+						'text' : '새로운버튼' + count
+					})
+					$(btag).appendTo('#d2');
+				})
+// 				$('#clear').on('click', function(){})
+// 				$('#clear').click(function(){})
+				$('#clear').bind('click', function(){
+					$('div').undelegate('click'); // 또는 off('click');
+					// 또는 .unbind();
+				})
+			})
+		</script>
+		<style>
+			div{
+				border : 2px solid blue;
+				margin : 10px;
+				padding : 15px;
+			}
+		</style>
+	</head>
+<body>
+	<div id="d1">
+		<button type="button" class="btn">버튼1</button>
+		<button type="button" class="btn">버튼2</button>
+		<button type="button" class="btn">버튼3</button>
+	</div>
+	<button type="button" id="clear">해제</button>
+	<hr color="red">
+	<div id="d2">
+		
+	</div>
+</body>
+</html>
